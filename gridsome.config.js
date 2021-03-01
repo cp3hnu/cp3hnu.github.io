@@ -5,7 +5,7 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: 'Gridsome',
+  siteName: 'joylearn',
   plugins: [],
-  siteUrl: 'https://cp3hnu.github.io'
+  siteUrl: 'https://cp3hnu.github.io/'
 }

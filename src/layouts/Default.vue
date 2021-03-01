@@ -1,12 +1,11 @@
 <template>
   <div class="layout">
     <header class="header">
-      <strong>
-        <g-link to="/">{{ $static.metadata.siteName }}</g-link>
-      </strong>
       <nav class="nav">
         <g-link class="nav__link" to="/">Home</g-link>
-        <g-link class="nav__link" to="/about/">About</g-link>
+        <g-link class="nav__link" to="/notebook">Notebook</g-link>
+        <a class="nav__link" href="https://github.com/cp3hnu" target="_blank">GitHub</a>
+        <g-link class="nav__link" to="/about">About</g-link>
       </nav>
     </header>
     <slot/>
@@ -30,21 +29,23 @@ body {
 }
 
 .layout {
-  max-width: 760px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 100%;
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 20px;
-  height: 80px;
+  padding: 20px 30px 20px 20px;
+  background-color: #153C47;
+}
+
+.nav {
+
 }
 
 .nav__link {
   margin-left: 20px;
+  color: white;
 }
 </style>

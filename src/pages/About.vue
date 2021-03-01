@@ -1,14 +1,17 @@
 <template>
   <Layout>
-    <h1>About us</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error doloremque omnis animi, eligendi magni a voluptatum, vitae, consequuntur rerum illum odit fugit assumenda rem dolores inventore iste reprehenderit maxime! Iusto.</p>
+    <div style="padding-left: 30px;">
+      <h1>联系我们</h1>
+      <p>如果您对我们的产品有什么建议，欢迎联系我们：</p>
+      <p>邮箱：<a href="mailto:befunninglearn@gmail.com">befunninglearn@gmail.com</a></p>
+    </div>
   </Layout>
 </template>
 
 <script>
 export default {
   metaInfo: {
-    title: 'About us'
+    title: 'About'
   }
 }
 </script>
