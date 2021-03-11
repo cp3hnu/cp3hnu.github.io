@@ -1,6 +1,7 @@
 ---
 sidebar: false
 pageClass: index-page
+lastUpdated: ""
 ---
 <template>
   <div>

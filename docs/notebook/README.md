@@ -1,6 +1,7 @@
 ---
 sidebar: false
 pageClass: index-page
+title: notebook
 ---
 <template>
   <div class="note-list">
@@ -19,7 +20,7 @@ pageClass: index-page
           {
             id: 1,
             name: 'WWDC',
-            link: '/notebook/wwdc/'
+            link: '/notebook/wwdc/2017/documents/220'
           },
           {
             id: 2,

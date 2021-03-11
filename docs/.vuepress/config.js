@@ -83,7 +83,7 @@ module.exports = {
     },
     //sidebar: 'auto',
     sidebarDepth: 1,
-    lastUpdated: 'Last Updated',
+    lastUpdated: false,
     smoothScroll: true
   },
   markdown: {

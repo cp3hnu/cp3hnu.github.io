@@ -1,6 +1,7 @@
 ---
 sidebar: false
 pageClass: about-page
+lastUpdated: false
 ---
 
 ### 联系我们
