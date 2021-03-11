@@ -1,0 +1,15 @@
+{
+  "name": "my-home-page",
+  "version": "1.0.0",
+  "description": "我的主页",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "author": "cp3hnu",
+  "license": "ISC",
+  "devDependencies": {
+    "vuepress": "^1.8.2"
+  }
+}
