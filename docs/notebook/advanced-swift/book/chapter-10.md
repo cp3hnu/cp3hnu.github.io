@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第10章 泛型
 
 [[toc]]

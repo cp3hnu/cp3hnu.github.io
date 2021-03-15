@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第4章 可选值
 [[toc]]
 ### 一些有意思的语法

@@ -1,25 +1,49 @@
-.index-page .theme-default-content {
-  padding: 0 !important;
-  max-width: none !important;
-}
+body
+  font-size 16px
+  line-height 1.5
+  color #000
 
-.page-container {
-  padding: 20px;
-}
+.index-page
+  padding 80px 0 40px
+  max-width none
+  min-height calc(100vh - 120px)
 
-.about-page .theme-default-content {
-  padding: 50px !important;
-  max-width: none !important;
-}
+  @media (max-width: $MQMobile)
+    padding 60px 0 40px
+    min-height calc(100vh - 100px)
 
-.about-page h3 {
-  font-size: 24px;
-  font-weight: 500;
-}
+.page-container
+  padding 40px 20px 0
 
-body {
-  font-family: Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #000;
-}
+.sidebar-group.is-sub-group > .sidebar-heading
+  opacity 1 !important
+  font-size 1.0rem !important
+
+.header-wrapper
+  .title
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+@media (min-width: $MQMobile+1px)
+  .vuepress-blog-theme-sidebar-content
+    padding-left $sidebarWidth + 2rem
+    padding-right 2rem
+
+  .sidebar
+    display block !important
+
+@media (min-width: 1200px)
+  .vuepress-blog-theme-sidebar-content
+    padding-right calc(220px + 2rem)
+
+  .vuepress-toc
+    display block !important
+
+@media (max-width: $MQMobile)
+  .vuepress-blog-theme-sidebar-content
+    padding 2.0rem 2.5rem
+
+  .description-div
+    padding-left 15px !important
+    padding-right 15px !important

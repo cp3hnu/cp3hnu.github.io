@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第2章 内建集合类型
 [[toc]]
 ## 数组

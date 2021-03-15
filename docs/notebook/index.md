@@ -1,7 +1,6 @@
 ---
-sidebar: false
 pageClass: index-page
-title: notebook
+title: Notebook
 ---
 <template>
   <div class="note-list">
@@ -33,31 +32,44 @@ title: notebook
   }
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
   .note-list {
-    padding: 30px;
+    padding: 60px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
   }
+  
   .card {
-    width: 400px;
-    height: 329px;
+    width: 300px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("/assets/img/board.png");
-    margin-right: 30px;
+    margin-right: 60px;
+    border: 1px solid $accentColor;
+    border-radius: 10px;
   }
   
    .card:last-child {
      margin-right: 0;
+     margin-bottom: 0;
    }
 
   .book-link {
     font-size: 22px;
-    color: white;
     font-weight: 500;
     text-decoration: none;
   }
+  
+  @media (max-width: $MQMobile)
+    .note-list
+      padding 40px 0
+      flex-direction column
+      
+    .card 
+      max-width 80%
+      margin-right 0
+      margin-bottom 50px
 </style>

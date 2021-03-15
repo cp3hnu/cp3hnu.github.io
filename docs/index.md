@@ -1,12 +1,11 @@
 ---
 sidebar: false
 pageClass: index-page
-lastUpdated: ""
 ---
 <template>
   <div>
     <div class="background-image-div">
-      <img class="background-image"src="/assets/img/background.jpg"/>
+      <img class="background-image" src="/assets/img/background.jpg"/>
       <div class="mask">
         <div class="aphorism">知之者不如好之者，好之者不如乐之者</div>
       </div>
@@ -53,7 +52,8 @@ lastUpdated: ""
 
   .background-image-div {
     width: 100%;
-    height: min(20rem, 40vw);
+    height: min(30rem, 40vh);
+    max-height: 50vw;
     overflow: hidden;
     position: relative;
     background-color: #153C47;
@@ -82,7 +82,6 @@ lastUpdated: ""
     color: white;
     padding: 0 50px;
     font-weight: 500;
-    font-family: STXingkai;
   }
 
   .product-list {

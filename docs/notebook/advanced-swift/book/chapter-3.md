@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第3章 集合类型协议
 [[toc]]
 ## 序列 (*Sequence*)

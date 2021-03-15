@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第9章 错误处理
 
 ```swift

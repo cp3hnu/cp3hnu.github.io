@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第8章 字符串
 [[toc]]
 ## Unicode
@@ -12,7 +16,7 @@ Unicode 编码点 (code point) 可以编码成许多不同宽度的编码单元 
 
 用户在屏幕上看到的单个字符可能有多个编码点组成的，在 Unicode 中，这种从用户视角看到的字符，叫做**扩展字符族 (extended grapheme cluster)**，在 Swift 中，字符族用 **Character** 类型来表示。
 
-Swift 5 内部使用了 **UTF-8** 作为非ASCII字符串的编码方式。[UTF-8 String]([https://swift.org/blog/utf8-string/](https://swift.org/blog/utf8-string/))
+Swift 5 内部使用了 **UTF-8** 作为非ASCII字符串的编码方式。[UTF-8 String](https://swift.org/blog/utf8-string/)
 
 é (U+00E9) 与 é (U+0065) + (U+0301) 在 Swift 是表示相同的字符，Unicode 规范将此称作**标准等价**。
 

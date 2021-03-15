@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第5章 结构体和类
 [[toc]]
 通过在结构体扩展中自定义初始化方法，我们就可以同时保留原来的初始化方法

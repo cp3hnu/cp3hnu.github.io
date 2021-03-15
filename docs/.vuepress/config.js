@@ -4,20 +4,31 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }]
   ],
+  evergreen: true,
+  plugins: ['@vuepress/back-to-top'],
   themeConfig: {
-    logo: '/favicon.png',
+    summary: true,
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'NoteBook', link: '/notebook/' },
-      { text: 'GitHub', link: 'https://github.com/cp3hnu' },
+      { text: 'Blog', link: '/blog/' },
+      { text: 'Notebook', link: '/notebook/' },
       { text: 'About', link: '/about/' },
+      { text: 'GitHub', link: 'https://github.com/cp3hnu' },
+    ],
+    directories: [
+      {
+        id: 'blog',
+        dirname: 'blog',
+        path: '/blog/',
+      },
     ],
     sidebar: {
       '/notebook/advanced-swift/': [
         {
           title: 'Advanced Swift',
+          path: '/notebook/advanced-swift/',
           collapsable: false,
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             'book/chapter-2',
             'book/chapter-3',
@@ -34,13 +45,14 @@ module.exports = {
       '/notebook/wwdc/': [
         {
           title: 'WWDC',
+          path: '/notebook/wwdc/',
           collapsable: false,
           sidebarDepth: 1,
           children: [
             {
               title: '2017',
               collapsable: true,
-              sidebarDepth: 1,
+              sidebarDepth: 0,
               children: [
                 '2017/documents/220',
                 '2017/documents/223',
@@ -51,7 +63,7 @@ module.exports = {
             {
               title: '2019',
               collapsable: true,
-              sidebarDepth: 1,
+              sidebarDepth: 0,
               children: [
                 '2019/documents/206',
                 '2019/documents/212',
@@ -81,9 +93,6 @@ module.exports = {
       // fallback
       '/': 'auto'
     },
-    //sidebar: 'auto',
-    sidebarDepth: 1,
-    lastUpdated: false,
     smoothScroll: true
   },
   markdown: {

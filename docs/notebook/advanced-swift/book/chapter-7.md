@@ -1,3 +1,7 @@
+---
+layout: NotebookLayout
+pageClass: index-page
+---
 # 第7章 函数
 [[toc]]
 函数可以被赋值给变量
