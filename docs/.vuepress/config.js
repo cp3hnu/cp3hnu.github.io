@@ -7,7 +7,6 @@ module.exports = {
   evergreen: true,
   plugins: ['@vuepress/back-to-top'],
   themeConfig: {
-    summary: true,
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Blog', link: '/blog/' },
@@ -22,6 +21,9 @@ module.exports = {
         path: '/blog/',
       },
     ],
+    sitemap: {
+      hostname: 'https://www.joylearn123.com/'
+    },
     sidebar: {
       '/notebook/advanced-swift/': [
         {
