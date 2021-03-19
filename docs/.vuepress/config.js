@@ -24,6 +24,7 @@ module.exports = {
     sitemap: {
       hostname: 'https://www.joylearn123.com/'
     },
+    dateFormat: 'YYYY-MM-DD',
     sidebar: {
       '/notebook/advanced-swift/': [
         {
