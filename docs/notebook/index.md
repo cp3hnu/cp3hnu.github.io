@@ -34,7 +34,7 @@ title: Notebook
 
 <style scoped lang="stylus">
   .note-list {
-    padding: 60px;
+    padding: 80px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -42,13 +42,13 @@ title: Notebook
   }
   
   .card {
-    width: 300px;
-    height: 180px;
+    width: 250px;
+    height: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 60px;
-    border: 1px solid $accentColor;
+    margin-right: 80px;
+    border: 1px solid #333;
     border-radius: 10px;
   }
   
@@ -56,11 +56,24 @@ title: Notebook
      margin-right: 0;
      margin-bottom: 0;
    }
+   
+   .card:hover {
+    transform: scale(1.1);
+    border: 1px solid $accentColor;
+    color: $accentColor;
+    box-shadow: 0 0 10px $accentColor;
+   }
 
   .book-link {
     font-size: 22px;
     font-weight: 500;
     text-decoration: none;
+    color: inherit;
+  }
+  
+  .book-link:hover {
+    text-decoration: none !important;
+    color: inherit;
   }
   
   @media (max-width: $MQMobile)
