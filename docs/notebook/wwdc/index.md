@@ -3,13 +3,13 @@ layout: NotebookIndexLayout
 ---
 # WWDC
 
-## WWDC 2017
+## WWDC 2017 (iOS 11 & macOS 10.13)
 -   [225-What's new in Safari View Controller](2017/documents/225)
 -   [220-Customized Loading in WKWebView](2017/documents/220)
 -   [401-Localizing with Xcode 9](2017/documents/401)
 -   [223-Drag and Drop with Collection and Table View](2017/documents/223)
 
-## WWDC 2019
+## WWDC 2019 (iOS 13 & macOS 10.15)
 
 -   [401-What's New in Xcode](2019/documents/401)
 -   [402-What's New in Swift](2019/documents/402)
@@ -30,4 +30,4 @@ layout: NotebookIndexLayout
 -   [511-Supporting Dark Mode in Your Web Content](2019/documents/511)
 
 
- 
+

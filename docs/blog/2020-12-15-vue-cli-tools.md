@@ -16,7 +16,7 @@ summary: 前段时间用 Vue-CLI@4 搭建了一个 admin 后台管理系统，�
 
 `css-loader` interprets `@import` and `url()` like `import/require()` and will resolve them.
 
-例如
+`css-loader` 解析 css 的 `@import` 和 `url()` ，就像 js 解析 `import/require()` 一样
 
 ```javascript
 url(image.png) => require('./image.png')
@@ -43,7 +43,7 @@ module.exports = {
 
 ##  [style-loader](https://github.com/webpack-contrib/style-loader)
 
-`style-loader` Inject CSS into the DOM, 即将样式通过 `<style>` tag 注入到 HTML DOM.
+`style-loader` Inject CSS into the DOM, 即将 vue 文件里面的样式通过 `<style>` 标签注入到 HTML head.
 
 ```javascript
 // style.css
@@ -71,7 +71,11 @@ module.exports = {
 
 This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS.
 
-一般 *development* 模式使用 `style-loader`, *production* 模式使用 `mini-css-extract-plugin`
+即将 vue 文件里面的样式提取到单独的 css 文件
+
+`development` 模式使用 `style-loader`
+
+`production` 模式使用 `mini-css-extract-plugin`
 
 ## [file-loader](https://github.com/webpack-contrib/file-loader)
 
@@ -133,7 +137,7 @@ module.exports = {
       .rule('images')
         .use('url-loader')
           .loader('url-loader')
-          .tap(options => Object.assign(options, { limit: 10240 }))
+          .tap(options => Object.assign(options, { limit: 4096 }))
   }
 }
 ```
@@ -299,9 +303,11 @@ function addStyleResource (rule) {
 
 也可以使用 [vue-cli-plugin-style-resources-loader](https://github.com/nguyenvanduocit/vue-cli-plugin-style-resources-loader/#readme)
 
+Sass 也可以使用 [sass-resources-loader](#sass-resources-loader)
+
 ## [webpack-chain](https://github.com/neutrinojs/webpack-chain)
 
-应用一个链式 API 来生成和简化 `webpack` 的配置的修改。
+使用一个链式 API 来生成和简化 `webpack` 的配置的修改。
 
 ## [Babel](https://babeljs.io/)
 
@@ -447,9 +453,28 @@ Babel plugin to transpile `import()` to a deferred `require()`, for node
 
 Load your SASS resources into every **required** SASS module. So you can use your shared variables, mixins and functions across all SASS styles without manually loading them in each file.
 
+```javascript
+// vue.config.js
+const oneOfsMap = config.module.rule('scss').oneOfs.store
+oneOfsMap.forEach(item => {
+  item
+    .use('sass-resources-loader')
+    .loader('sass-resources-loader')
+    .options({
+      // Provide path to the file with resources
+      resources: resolve('src/styles/variables.scss'),
+    })
+    .end()
+})
+```
+
 ## [lint-staged](https://github.com/okonet/lint-staged#readme)
 
-提交代码前进行 lint 检查
+提交代码前进行 lint 检查。
+
+`@vue/cli-service` 也会安装 [yorkie](https://github.com/yyx990803/yorkie)，它会让你在 `package.json` 的 `gitHooks` 字段中方便地指定 Git hook：
+
+> `yorkie` fork 自 [`husky`](https://github.com/typicode/husky) 并且与后者不兼容。
 
 ```json
 "gitHooks": {
@@ -457,7 +482,8 @@ Load your SASS resources into every **required** SASS module. So you can use you
 },
 "lint-staged": {
   "src/**/*.{js,vue}": [
-    "vue-cli-service lint"
+    "vue-cli-service lint",
+    "prettier --write"
   ]
 }
 ```
@@ -531,7 +557,7 @@ module.exports = {
 
 ## [prettier](https://github.com/prettier/prettier)
 
-代码格式化。也可以使用 [js-beautify](https://github.com/beautify-web/js-beautify).
+代码格式化。另一个是 [js-beautify](https://github.com/beautify-web/js-beautify).
 
 [官网](https://prettier.io/)
 
@@ -557,4 +583,4 @@ Turns off all rules that are unnecessary or might conflict with [Prettier](https
 
 postman, YAPI 和 微信小程序有支持 Mock
 
-没有好用的 Mock 服务网站?
+难道没有好用的 Mock 服务网站?
