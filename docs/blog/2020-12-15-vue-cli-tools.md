@@ -271,7 +271,7 @@ CSS Modules 必须通过向 `css-loader` 传入 `modules: true` 来开启，默�
 </style>
 ```
 
-Vue 模板可以使用 `<scope>`
+Vue 模板可以使用 `<scoped>`
 
 ## [style-resources-loader](https://github.com/yenshih/style-resources-loader)
 
@@ -567,7 +567,7 @@ module.exports = {
 npm install --save-dev --save-exact prettier
 ```
 
-`webstorm` 格式化快捷键 `Option-Shift-Command-P`
+可以设置 `webstorm` 用 `prettier` 格式化代码，setting 里面搜索 `pretter`.
 
 ### [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier#readme)
 
@@ -579,8 +579,17 @@ Turns off all rules that are unnecessary or might conflict with [Prettier](https
 
 是用于 Vue CLI 的 [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)
 
+### 问题
+
+`prettier` 相对于我的习惯来说有以下几个问题，可以持续关注一下 `prettier` 的更新
+
+1. 设置 `"jsxBracketSameLine": true`, 对 vue template 不起作用
+2. 对象数组导致行数太多
+3. then() 希望能换到新的一行去
+4. 需要注意，因为设置了 `"htmlWhitespaceSensitivity": "ignore"`, 可能导致 html 显示错误，这个时候就需要 `<!-- prettier-ignore -->`
+
 ## [Mock](https://github.com/nuysoft/Mock)
 
-postman, YAPI 和 微信小程序有支持 Mock
+postman, YAPI 和微信小程序有支持 Mock 的功能
 
 难道没有好用的 Mock 服务网站?
