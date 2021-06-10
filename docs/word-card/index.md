@@ -20,8 +20,7 @@ pageClass: index-page
     </div>
     <div class="download-container">
       <a target="_blank"
-        href="https://apps.apple.com/cn/app/%E8%8B%B1%E8%AF%AD%E5%8D%95%E8%AF%8D%E5%8D%A1-%E5%84%BF%E7%AB%A5%E8%8B%B1%E8
-        %AF%AD/id1514527241">
+        href="https://apps.apple.com/cn/app/%E8%8B%B1%E8%AF%AD%E5%8D%95%E8%AF%8D%E5%8D%A1-%E5%84%BF%E7%AB%A5%E8%8B%B1%E8%AF%AD/id1514527241">
         <img src="/assets/img/appstore.png" width="200"/>
       </a>
     </div>
