@@ -134,7 +134,7 @@ App search 包括两种类型：
 - Core Spotlight framework
 - Web markup
 
-这里主要讲今天的主角—NSUserActivity，其它的如果感兴趣，可以查看文档 [App Search Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/index.html)，这里面也讲到了 [Universal links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1) 和 [Smart App Banners](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html#//apple_ref/doc/uid/TP40002051-CH6).
+这里主要讲今天的主角—**NSUserActivity**，其它的如果感兴趣，可以查看文档 [App Search Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/index.html)，这里面也讲到了 [Universal links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1) 和 [Smart App Banners](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html#//apple_ref/doc/uid/TP40002051-CH6).
 
 ### Private On-Device Index
 
@@ -150,7 +150,7 @@ activity.contentAttributeSet = CSSearchableItemAttributeSet()
 activity.eligibleForSearch = true
 ```
 
-此外，调用 ` becomeCurrent()`, 将 activity 自动添加到 private on-device index.
+此外，调用 ` becomeCurrent()`, 将 `activity` 自动添加到 `private on-device index`.
 
 ### Apple’s Server-Side Index
 
@@ -162,7 +162,7 @@ var webpageURL: URL?
 var requiredUserInfoKeys: Set<String>?
 ```
 
-NSUserActivity 默认是添加 private on-device index. 通过设置 `isEligibleForPublicIndexing = true`，系统标记这个 activity 为公开的，但是这个不是实现 Apple’s Server-Side Index， 而是当 activity 内容可以在你的 web 访问时，通过这个能提高你网站的排名，从而能够把你的内容推广给其他的用户。
+NSUserActivity 默认是添加 private on-device index. 通过设置 `isEligibleForPublicIndexing = true`，系统标记这个 activity 为公开的，但是这个不是实现 Apple’s Server-Side Index， 而是当用户搜索 `activity` 内容时，向 Apple 表明你 web 上的内容很受欢迎，通过这个能提高你网站的排名，从而能够把你的内容推广给其它的用户。
 
 设置 `isEligibleForPublicIndexing` 后，也应该设置 `webpageURL` 避免重复，同时 `webpageURL` 还有一个作用就是如果你的另一台设备上没有安装 app, 可以用 safari 打开 `webpageURL`  (`webpageURL` 的 scheme 必须是http或者https) 。
 

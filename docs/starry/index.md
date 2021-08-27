@@ -1,5 +1,9 @@
 ---
 pageClass: index-page
+title: Starry
+meta:
+  - name: apple-itunes-app
+    content: app-id=1281893044, app-argument=https://www.joylearn123.com/starry/
 ---
 <template>
   <div class="page-container">
