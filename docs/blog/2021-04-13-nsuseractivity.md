@@ -5,10 +5,12 @@ tags:
 date: 2021-04-13
 author: cp3hnu
 location: ChangSha
-summary: NSUserActivity 是 iOS 里一个表示 app 某个瞬间状态的类，很多功能都需要用到它，包括 Handoff, App Search, SiriKit 以及 state restoration.
+summary: NSUserActivity 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.
 ---
 
 # NSUserActivity
+
+NSUserActivity 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.
 
 ## Handoff
 
@@ -175,6 +177,23 @@ NSUserActivity 默认是添加 private on-device index. 通过设置 `isEligible
 ### References
 
 - [App Search Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/index.html)
+
+## Universal Links
+
+```swift
+func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+  // 表示 Universal Links
+  if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+    // The webpageURL property contains the URL that the user is accessing
+    let webpageURL = userActivity.webpageURL
+  }
+  return true
+}
+```
+
+### References
+
+- [Support Universal Links](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1) 
 
 ## State Restoration
 

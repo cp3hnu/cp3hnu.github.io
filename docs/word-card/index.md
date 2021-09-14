@@ -1,6 +1,7 @@
 ---
 pageClass: index-page
 title: 英语单词卡
+summary: 英语单词卡
 meta:
   - name: apple-itunes-app
     content: app-id=1514527241, app-argument=https://www.joylearn123.com/word-card/

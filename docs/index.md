@@ -1,6 +1,7 @@
 ---
 sidebar: false
 pageClass: index-page
+summary: 知之者不如好之者，好之者不如乐之者
 ---
 <template>
   <div>
