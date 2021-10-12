@@ -71,6 +71,7 @@ module.exports = {
                 '2019/documents/206',
                 '2019/documents/212',
                 '2019/documents/214',
+                '2019/documents/215',
                 '2019/documents/220',
                 '2019/documents/224',
                 '2019/documents/227',
@@ -89,7 +90,15 @@ module.exports = {
                 '2019/documents/416',
                 '2019/documents/511',
               ]
-            }
+            },
+            {
+              title: '2020',
+              collapsable: true,
+              sidebarDepth: 0,
+              children: [
+                '2020/documents/10143'
+              ]
+            },
           ]
         }
       ],

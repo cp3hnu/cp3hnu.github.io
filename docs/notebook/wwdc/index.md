@@ -28,6 +28,9 @@ layout: NotebookIndexLayout
 -   [235-Taking iPad Apps for Mac to the Next Level](2019/documents/235)
 -   [227-Font Management and Text Scaling](2019/documents/227)
 -   [511-Supporting Dark Mode in Your Web Content](2019/documents/511)
+-   [215-Advances in Collection View Layout](2019/documents/215)
 
+## WWDC 2020 (iOS 14 & macOS 11.0)
 
+-   [10143-What's New in Mac Catalyst](2020/documents/10143)
 
