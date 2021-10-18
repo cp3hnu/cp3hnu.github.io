@@ -29,6 +29,7 @@ layout: NotebookIndexLayout
 -   [227-Font Management and Text Scaling](2019/documents/227)
 -   [511-Supporting Dark Mode in Your Web Content](2019/documents/511)
 -   [215-Advances in Collection View Layout](2019/documents/215)
+-   [220-Advances in UI Data Sources](2019/documents/220)
 
 ## WWDC 2020 (iOS 14 & macOS 11.0)
 

@@ -2,16 +2,16 @@
 title: Collection View Compositional Layout
 tags: 
   - iOS
-  - WWDC2020
-date: 2021-10-11
+  - WWDC2019
+date: 2021-08-11
 author: cp3hnu
 location: ChangSha
-summary: Collection view 组合布局
+summary: Collection view 组合布局，WWDC 2019 Session 215《Advances in Collection View Layout》
 ---
 
 # Collection View Compositional Layout
 
-iOS 6 引入了 `UICollectionView`，那个时候 collection view 的布局比较简单，基本上都是基于行列的(line-based)，称为 flow 布局 [UICollectionViewFlowLayout](https://developer.apple.com/documentation/uikit/uicollectionviewflowlayout#)，这能满足大部分的应用场景，但是随着布局越来越复杂(例如 iOS 13 更新之后的 App Store)，这个时候该怎么办呢？
+iOS 6 引入了 [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview#)，那个时候 collection view 的布局比较简单，基本上都是基于行列的(line-based)，称为 flow 布局 [UICollectionViewFlowLayout](https://developer.apple.com/documentation/uikit/uicollectionviewflowlayout#)，这能满足大部分的应用场景，但是随着布局越来越复杂(例如 iOS 13 更新之后的 App Store)，这个时候该怎么办呢？
 
 一个解决方案是自定义布局(custom layout)，但是自定义布局要面临几个的挑战
 
@@ -26,7 +26,7 @@ macOS 对应的是 [NSCollectionViewCompositionalLayout](https://developer.apple
 
 ## Compositional Layout
 
-Compositional layout 是一种组合的(composable)、灵活性的(flexible)、快速的(fast)布局方式，将开发者从自定义布局中释放出来
+Compositional Layout 是一种组合的(composable)、灵活性的(flexible)、快速的(fast)布局方式，将开发者从自定义布局中释放出来
 
 组合布局顾名思义，是将很多个小的布局组合在一起，形成一个完整的大布局，用组合的方式代替自定义布局，由以下四个部分组成：Item -> Group -> Section -> Layout
 
@@ -114,7 +114,7 @@ Item 的附属 items
 
 ### [NSCollectionLayoutGroup](https://developer.apple.com/documentation/uikit/nscollectionlayoutgroup)
 
-由一个或者多个 item 组成，有三种布局方式水平、垂直、自定义，通过 `NSCollectionLayoutSize` 确定这个 group 的大小
+Group 由一个或者多个 item 组成，有三种布局方式水平、垂直、自定义，通过 `NSCollectionLayoutSize` 确定这个 group 的大小
 
 ```swift
 class NSCollectionLayoutGroup: NSCollectionLayoutItem {
@@ -136,7 +136,7 @@ class NSCollectionLayoutGroup: NSCollectionLayoutItem {
 
 ### [NSCollectionLayoutSection](https://developer.apple.com/documentation/uikit/nscollectionlayoutsection)
 
-由一个或者多个 group (因为 group 可以嵌套)组成
+Section 由一个或者多个 group (因为 group 可以嵌套)组成
 
 ```swift
 class NSCollectionLayoutSection {
@@ -173,7 +173,7 @@ section 的装饰 items
 
 ### [UICollectionViewCompositionalLayout](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayout)
 
-由一个或者多个 section 组成，每个 section 的布局可以不一样
+Layout 由一个或者多个 section 组成，每个 section 的布局可以不一样
 
 ```swift
 class UICollectionViewCompositionalLayout: UICollectionViewLayout {
@@ -186,9 +186,9 @@ class UICollectionViewCompositionalLayout: UICollectionViewLayout {
 }
 ```
 
-#### UICollectionViewCompositionalLayoutConfiguration
+#### [UICollectionViewCompositionalLayoutConfiguration](https://developer.apple.com/documentation/uikit/uicollectionviewcompositionallayoutconfiguration#)
 
-配置 compositional layout
+配置 Compositional Layout
 
 ##### scrollDirection
 
@@ -215,7 +215,7 @@ layout 的附属 items
 
 section 还可以定义装饰 items
 
-### NSCollectionLayoutSupplementaryItem
+### [NSCollectionLayoutSupplementaryItem](https://developer.apple.com/documentation/uikit/nscollectionlayoutsupplementaryitem)
 
 这类附属 item，用于 item 和 group，通过 `NSCollectionLayoutSize ` 确定其大小
 
@@ -246,7 +246,7 @@ let item = NSCollectionLayoutItem(layoutSize: itemSize, supplementaryItems: [bad
 
 ![](../notebook/wwdc/2019/screenshots/215-3.png)
 
-### NSCollectionLayoutBoundarySupplementaryItem
+### [NSCollectionLayoutBoundarySupplementaryItem](https://developer.apple.com/documentation/uikit/nscollectionlayoutboundarysupplementaryitem)
 
 这类附属 item，用于 section 和 layout
 
@@ -278,7 +278,7 @@ section.boundarySupplementaryItems = [header, footer]
 
 
 
-### NSCollectionLayoutDecorationItem
+### [NSCollectionLayoutDecorationItem](https://developer.apple.com/documentation/uikit/nscollectionlayoutdecorationitem)
 
 装饰 items 用于 section，目前只有一个方法就是设置 section 的背景
 
@@ -343,11 +343,11 @@ func createLayout() -> UICollectionViewLayout {
 
 ## Reference
 
-Sample Code
+- Sample Code
 
 [Implementing Modern Collection Views](https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/implementing_modern_collection_views)
 
-WWDC 2020 Session 215
+- WWDC 2019 Session 215
 
 [Advances in Collection View Layout](https://wwdc.io/share/wwdc19/215)
 
