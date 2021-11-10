@@ -3,7 +3,7 @@ title: What's new in Mac Catalyst
 tags: 
   - iOS
   - WWDC2020
-date: 2021-10-05
+date: 2020-10-05
 author: cp3hnu
 location: ChangSha
 summary: Mac Catalyst的新特性，WWDC 2020 Session 10143《What's new in Mac Catalyst》

@@ -71,15 +71,17 @@ module.exports = {
 
 ## [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)
 
-This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS.
+将 vue 文件里面的样式提取到单独的 css 文件
 
-即将 vue 文件里面的样式提取到单独的 css 文件
+This plugin extracts CSS into separate files. It creates a CSS file per JS file which contains CSS.
 
 `development` 模式使用 `style-loader`
 
 `production` 模式使用 `mini-css-extract-plugin`
 
 ## [file-loader](https://github.com/webpack-contrib/file-loader)
+
+解析文件地址
 
 resolves `import`/`require()` on a file into a url and emits the file into the output directory.
 
@@ -106,6 +108,8 @@ module.exports = {
 
 ## [url-loader](https://github.com/webpack-contrib/url-loader)
 
+将 files 转换成 base64 数据，减少 HTTP 请求次数
+
 A loader for webpack which transforms files into base64 URIs.
 
 ```javascript
@@ -129,7 +133,7 @@ module.exports = {
 };
 ```
 
-Vue-CLI 通过 `file-loader` 用 **版本哈希值** 和正确的 **公共基础路径** 来决定最终的文件路径，再用 `url-loader` 将小于 4kb 的资源内联，以减少 HTTP 请求的数量。
+Vue-CLI 通过 `file-loader` 用 **版本哈希值** 和正确的 **公共基础路径** 来决定最终的文件路径，再用 `url-loader` 将小于 4kb 的资源内联，以减少 HTTP 请求次数。
 
 ```javascript
 // vue.config.js
@@ -206,7 +210,7 @@ module.exports = {
 
 A tool for transforming CSS with JavaScript. 
 
-是一个用 JavaScript 工具和插件转换 CSS 代码的工具，有很多插件可供使用，例如：Autoprefixer, postcss-preset-env, stylelint。
+是一个用 JavaScript 转换 CSS 的工具，有很多插件可供使用，例如：Autoprefixer, postcss-preset-env, stylelint。
 
 ### [postcss-loader](https://github.com/webpack-contrib/postcss-loader)
 
@@ -231,6 +235,8 @@ npm install postcss-loader postcss -D
 一个现代化 CSS 代码检查工具，[官网](https://stylelint.io/)
 
 ## [browserslist](https://github.com/browserslist/browserslist)
+
+确定项目支持的浏览器和Node.js的版本
 
 The config to share target browsers and Node.js versions between different front-end tools.
 
@@ -276,6 +282,8 @@ CSS Modules 必须通过向 `css-loader` 传入 `modules: true` 来开启，默�
 Vue 模板可以使用 `<scoped>`
 
 ## [style-resources-loader](https://github.com/yenshih/style-resources-loader)
+
+注入 css 共用的 `variables, mixins, functions` 
 
 This loader is a CSS processor resources loader for webpack, which injects your style resources (e.g. `variables, mixins`) into multiple imported `css, sass, scss, less, stylus` modules.
 

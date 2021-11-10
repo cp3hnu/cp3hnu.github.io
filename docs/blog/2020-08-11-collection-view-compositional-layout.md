@@ -3,7 +3,7 @@ title: Collection View Compositional Layout
 tags: 
   - iOS
   - WWDC2019
-date: 2021-08-11
+date: 2020-08-11
 author: cp3hnu
 location: ChangSha
 summary: Collection view 组合布局，WWDC 2019 Session 215《Advances in Collection View Layout》
@@ -106,7 +106,7 @@ let fractionalSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.2
 
 ##### edgeSpacing
 
-定义 item 与别的 item 的间距
+定义 item 与item, item与容器的间距
 
 ##### supplementaryItems
 

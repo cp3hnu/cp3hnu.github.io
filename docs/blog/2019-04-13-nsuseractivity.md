@@ -2,7 +2,7 @@
 title: NSUserActivity
 tags: 
   - iOS
-date: 2021-04-13
+date: 2019-04-13
 author: cp3hnu
 location: ChangSha
 summary: NSUserActivity 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.

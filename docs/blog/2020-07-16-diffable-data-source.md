@@ -3,7 +3,7 @@ title: Diffable Data Source
 tags: 
   - iOS
   - WWDC2019
-date: 2021-07-16
+date: 2020-07-16
 author: cp3hnu
 location: ChangSha
 summary: UITableView & UICollectionView 基于 Diffable 实现局部刷新，WWDC 2019 Session 220《Advances in UI Data Sources》
