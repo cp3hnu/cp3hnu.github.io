@@ -6,7 +6,7 @@ tags:
 date: 2021-04-15
 author: cp3hnu
 location: ChangSha
-summary: 详细介绍 Vue 3 新特性
+summary: 详细介绍 Vue 3 的新特性
 ---
 # Vue 3 新特性
 
@@ -16,11 +16,9 @@ Vue 3 响应性原理请点 **[这里](./2021-04-05-vue3-reactive-theory/)**
 
 ## 组合式 API
 
-**逻辑关注点**拆分，代码复用的新方式，这是 Vue 3 新增的最大一个新特性，这里的内容比较多，直接看[官方文档](https://v3.cn.vuejs.org/guide/composition-api-introduction.html)
+**逻辑关注点**拆分，代码复用的新方式，这是 Vue 3 新增的最大一个新特性，这里的内容比较多，直接看 **[官方文档](https://v3.cn.vuejs.org/guide/composition-api-introduction.html)**
 
-## 创建应用实例
-
-Vue 3 引入单独 **应用实例** 的概念，将 Vue 2 中的全局函数变成定义在 **应用实例** 上的"全局"函数。
+## 应用实例(app)
 
 每个 Vue 应用都是通过用 `createApp` 函数创建一个新的 **应用实例** 开始
 
@@ -30,7 +28,7 @@ const app = Vue.createApp({
 })
 ```
 
-该 **应用实例** 是用来在应用中注册"全局"组件、"全局"方法、"全局"指令、"全局"插件等。
+该 **应用实例** 是用来在应用中注册"全局"组件、"全局"方法、"全局"指令、"全局"插件等，取代 Vue 2 的全局函数
 
 ```js
 const app = Vue.createApp({})
@@ -40,16 +38,7 @@ app.directive('focus', FocusDirective)
 app.use(LocalePlugin)
 ```
 
-**应用实例** 暴露的大多数方法都会返回该同一实例，允许链式：
-
-```js
-Vue.createApp({})
-  .component('SearchInput', SearchInputComponent)
-  .directive('focus', FocusDirective)
-  .use(LocalePlugin)
-```
-
-以下是Vue2 全局 API 和 Vue3 应用实例(app) API的对比
+Vue2 全局 API 和 Vue3 应用实例 API的对比
 
 | 2.x 全局 API               | 3.x 实例 API (`app`)                       |
 | -------------------------- | ------------------------------------------ |
@@ -63,6 +52,15 @@ Vue.createApp({})
 | Vue.prototype              | app.config.globalProperties                |
 | Vue.extend                 | **移除**                                   |
 | Vue.filter                 | **移除**                                   |
+
+**应用实例** 暴露的大多数方法都会返回该同一实例，允许链式：
+
+```js
+Vue.createApp({})
+  .component('SearchInput', SearchInputComponent)
+  .directive('focus', FocusDirective)
+  .use(LocalePlugin)
+```
 
 传递给 `createApp` 的选项用于配置 **根组件**。当我们 **挂载** 应用时，该组件被用作渲染的起点。
 
@@ -80,9 +78,7 @@ const vm = app.mount('#app')
 
 ## 生命周期钩子
 
-`destroyed` 生命周期选项被重命名为 `unmounted`
-
-`beforeDestroy` 生命周期选项被重命名为 `beforeUnmount`
+`destroyed` 生命周期选项被重命名为 `unmounted`; `beforeDestroy` 生命周期选项被重命名为 `beforeUnmount`
 
 ![](./assets/vue3-lifecycle.png)
 
@@ -103,7 +99,7 @@ console.log(vm.$data.count) // => 4
 console.log(vm.count)       // => 4
 ```
 
-#  表单输入绑定
+##  表单输入绑定
 
 `v-model` 在内部为不同的输入元素使用不同的 property 并抛出不同的事件：
 
@@ -122,6 +118,8 @@ console.log(vm.count)       // => 4
 ```html
 <input :value="text" @input="text = $event.target.value" />
 ```
+
+### 组件 `v-model` 
 
 而自定义组件使用 `modelValue` prop 和 `update:modelValue` 事件，像这样
 
@@ -164,7 +162,7 @@ app.component('my-component', {
 ></user-name>
 ```
 
-从  `v-model` 新的语法糖中可以看出 Vue 2 中 `.sync` 语法糖已经没用了，所以 `.sync` 被 Vue 3 删除了
+从  `v-model` 新的语法糖中可以看出， Vue 2 中 `.sync` 语法已经没用了，所以  ~~`.sync` 被 Vue 3 删除了~~
 
 ```html
 // vue 2
@@ -239,7 +237,7 @@ app.component('my-component', {
 })
 ```
 
-# 自定义事件
+## 自定义事件
 
 ### 声明自定义事件
 
@@ -255,7 +253,7 @@ app.component('custom-form', {
 
 > 建议声明所有发出的事件，以便更好地记录组件应该如何工作
 >
-> `.native` 事件修饰符被删除，因为在 Vue 3 中当父组件监听子组件没有在 `emits` 选项里声明的原生事件时，自动转为监听根元素(单个根节点)的原生事件
+> ~~`.native` 事件修饰符被删除~~，因为对于子组件中**未**被定义为组件触发的所有事件监听器，Vue 3 现在将把它们作为原生事件监听器添加到子组件的根元素中 (除非在子组件的选项中设置了 `inheritAttrs: false`)
 
 ### 验证抛出的事件
 
@@ -287,11 +285,11 @@ app.component('custom-form', {
 
 ## Provide / Inject
 
-provide/inject，用来解决深度嵌套组件数据传递的问题
+用来解决深度嵌套组件数据传递的问题
 
 ### 基础数据
 
-provide是一个对象
+provide 是一个对象
 
 ```js
 app.component('todo-list', {
@@ -386,6 +384,7 @@ const asyncModalWithOptions = defineAsyncComponent({
 })
 ```
 
+> Vue Router 支持一个类似的机制来异步加载路由组件，也就是俗称的*懒加载*。尽管类似，但是这个功能和 Vue 所支持的异步组件是不同的。当用 Vue Router 配置路由组件时，你**不**应该使用 `defineAsyncComponent`。你可以在 Vue Router 文档的[懒加载路由](https://next.router.vuejs.org/guide/advanced/lazy-loading.html)章节阅读更多相关内容。
 
 ## 自定义指令
 
@@ -450,7 +449,7 @@ Vue 3 现在正式支持了多根节点的组件，也就是 **片段**。但是
 </template>
 ```
 
-# 单文件组件样式特性 
+## 单文件组件样式特性 
 
 ### 深度选择器
 
@@ -680,6 +679,12 @@ export default {
 }
 ```
 
+## 过渡
+
+过渡类名 `v-enter` 修改为 `v-enter-from`、过渡类名 `v-leave` 修改为 `v-leave-from`
+
+![](./assets/vue3-transition.png)
+
 ## 其它
 
 - 当 `v-if` 与 `v-for` 一起使用时，`v-if` 具有比 `v-for` 更高的优先级，与 Vue 2 刚好相反
@@ -732,10 +737,6 @@ export default {
   </template>
   ```
 
-- ~~`.native` 事件修饰符被删除~~，对于子组件中 **未** 被定义为组件触发的所有事件监听器，Vue 现在将把它们作为原生事件监听器添加到子组件的根元素中 (除非在子组件的选项中设置了 `inheritAttrs: false`)
-
-- ~~.sync被删除~~，用 `v-model` 代替
-
 - ~~`keyCode` 作为 `v-on` 修饰符被删除~~，使用按键的名字
 
 - ~~$on、$off 和 $once 实例方法被删除~~，使用外部的、实现了事件触发器接口的库，例如 [mitt](https://github.com/developit/mitt) 或 [tiny-emitter](https://github.com/scottcorgan/tiny-emitter)
@@ -744,5 +745,5 @@ export default {
 
 - ~~`$children` 实例 property被删除~~，使用$refs
 
-- ~~全局函数 `set` 和 `delete` 以及实例方法 `$set` 和 `$delete`被删除~~。基于代理的变化检测已经不再需要它们了。
+- ~~全局函数 `set` 和 `delete` 以及实例方法 `$set` 和 `$delete`被删除~~。基于代理的变化检测已经不再需要它们了
 
