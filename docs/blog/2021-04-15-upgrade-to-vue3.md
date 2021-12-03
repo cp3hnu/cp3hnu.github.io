@@ -1,4 +1,5 @@
 ---
+pageClass: blog-page
 title: Vue 3 新特性
 tags: 
   - web
