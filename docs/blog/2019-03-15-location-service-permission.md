@@ -59,9 +59,9 @@ App 一般都是在前台使用定位服务，如果 app 想要在后台接收�
 
  `always` 应用于任何情况下使用定位服务，即使 app 没有在运行，且用户无感知 app 是否在运行。同时一些后台定位服务需要 `always` 权限才能运行，比如 Significant-change location service、Visits service、Region monitoring，而且这些定位服务在 app 没有运行时会重启 app。
 
-但是 `always` 并不是意味只要用户授权了 `always` 权限就能在后台使用定位服务, app 能否在后台使用定位服务完全取决于 Background Modes 设置为 `Location updates` 。只是 Significant-change location service、Visits service、Region monitoring 这些定位服务要想在后台运行，即要求 `Location updates` 的后台服务，也要  `always`  权限，**这是另一个误区**。
+但是 `always` 并不是意味只要用户授权了 `always` 权限就能在后台使用定位服务, app 能否在后台使用定位服务完全取决于 Background Modes 是否设置为 `Location updates` 。只是 Significant-change location service、Visits service、Region monitoring 这些定位服务要想在后台运行，即要求 `Location updates` 的后台服务，也要  `always`  权限，**这是另一个误区**。
 
-详情请参考 [Choosing the Location Services Authorization to Request](https://developer.apple.com/documentation/corelocation/choosing_the_location_services_authorization_to_request)
+详情请参考 [Choosing the Location Services Authorization to Request](https://developer.apple.com/documentation/corelocation/choosing_the_location_services_authorization_to_request).
 
 ## 怎样请求 `always` 权限
 
@@ -115,11 +115,9 @@ Core Location 一般会在 app 没有运行时提示用户。经测试一般会�
 讲了这么多，回到我们的正题，怎样实现后台位置更新？
 
 1. 设置 Background Modes 为 `Location updates` 
-2. 请求 `whenInUse` 的定位服务权限
+2. 请求 `whenInUse` 的定位服务权限；或者请求 `always` 的定位服务权限，可以设置 `showsBackgroundLocationIndicator = true`
 
-那   `always`  权限的用处呢？待更新
-
-## 题外话—showsBackgroundLocationIndicator
+## showsBackgroundLocationIndicator
 
 看文档经常提到 the background location usage indicator，这是  `CLLocationManager` 的一个属性 [showsBackgroundLocationIndicator](https://developer.apple.com/documentation/corelocation/cllocationmanager/2923541-showsbackgroundlocationindicator#)，控制是否通过改变 status bar 的样式（在左上角有一个蓝色的小块），表示 app 正在后台使用定位服务。
 

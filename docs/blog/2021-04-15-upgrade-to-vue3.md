@@ -7,7 +7,7 @@ tags:
 date: 2021-04-15
 author: cp3hnu
 location: ChangSha
-summary: 详细介绍 Vue 3 的新特性
+summary: Vue 3 的新特性一网打尽
 ---
 # Vue 3 新特性
 

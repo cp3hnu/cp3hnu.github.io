@@ -162,7 +162,7 @@ Vue 3 使用下面的数据结构存储 effect。
 
 下面是 Vue 3 的 [源码](https://github.com/vuejs/vue-next/blob/2d4f4554349db6b07027d0c626f56c48d0233f67/packages/reactivity/src/effect.ts#L212)
 > 删除了一些调试相关的代码，只保留主体
-```typescript {25,31}
+```typescript {20,25,31}
 // 存储 effect 的数据结构
 type Dep = Set<ReactiveEffect> & TrackedMarkers
 type KeyToDepMap = Map<any, Dep>
@@ -259,7 +259,7 @@ export class ReactiveEffect<T = any> {
 
 `trigger()` 函数就是找到之前 `track()` 保存的 `effect`，执行响应函数 `fn` ，得到更新的结果。
 
-```typescript {45}
+```typescript {19,28,44}
 export function trigger(
   target: object,
   type: TriggerOpTypes,
@@ -320,9 +320,9 @@ export function triggerEffects(
 
 > 对比 Vue 2，对于没有在 data 中定义的 propterty，后面想追加响应性，只能使用 `vue.$set` 函数，而在 Vue 3 中添加响应性property 更加灵活。
 
-### 声明响应式状态: [reactive()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%A3%B0%E6%98%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81)
+### 声明响应式状态: reactive()
 
-要为 JavaScript 对象创建响应式状态，可以使用 `reactive()` 函数。
+要为 JavaScript 对象创建响应式状态，可以使用 [reactive()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%A3%B0%E6%98%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81) 函数。
 
 ```js
 import { reactive } from 'vue'
@@ -337,9 +337,9 @@ const state = reactive({
 
 原理前面已经介绍了，这里不再赘述。
 
-### 原始值变成响应式: [ref()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%88%9B%E5%BB%BA%E7%8B%AC%E7%AB%8B%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E5%80%BC%E4%BD%9C%E4%B8%BA-refs)
+### 原始值变成响应式: ref()
 
-`reactive()` 只适用于对象，对于原始值(number, string, boolean)，怎么使其具有响应性呢？Vue 提供了 `ref()` 函数。
+`reactive()` 只适用于对象，对于原始值(number, string, boolean)，怎么使其具有响应性呢？Vue 提供了 [ref()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%88%9B%E5%BB%BA%E7%8B%AC%E7%AB%8B%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E5%80%BC%E4%BD%9C%E4%B8%BA-refs) 函数。
 
 `ref()` 函数将原始值包裹成一个可变的响应式对象，该对象只包含一个名为 `value` 的 property。
 
@@ -429,7 +429,7 @@ const refState = ref({
 
 
 
-### 响应式状态解构: [toRefs()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81%E8%A7%A3%E6%9E%84)
+### 响应式状态解构: toRefs()
 
 当我们想使用大型响应式对象的一些 property 时，可能很想使用 [ES6 解构](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) 来获取我们想要的 property：
 
@@ -447,7 +447,7 @@ const book = reactive({
 let { author, title } = book
 ```
 
-遗憾的是，使用解构的两个 property 的响应性都会丢失。对于这种情况，我们通过 `toRefs()` 使其保留与源对象的响应式关联：
+遗憾的是，使用解构的两个 property 的响应性都会丢失。对于这种情况，我们通过 [toRefs()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81%E8%A7%A3%E6%9E%84) 使其保留与源对象的响应式关联：
 
 ```js
 import { reactive, toRefs } from 'vue'
@@ -503,7 +503,7 @@ class ObjectRefImpl<T extends object, K extends keyof T> {
 
 `value` 的 `get` 方法调用目标对象对应属性的的 `get` 方法，从而触发 `track()`，同样 `value` 的 `set` 方法调用目标对象对应属性的的 `set` 方法，从而触发 `trigger()`。
 
-### 可选的 property 解构: [toRef()](https://v3.cn.vuejs.org/api/refs-api.html#toref)
+### 可选的 property 解构: toRef()
 
 从上面的代码可以看出，如果传入的 `book` 中没有 `title` ，那么在这种情况下，`toRefs()` 将不会为 `title` 创建一个 ref 。
 
@@ -518,7 +518,7 @@ export function toRefs<T extends object>(object: T): ToRefs<T> {
 }
 ```
 
-这个时候你需要使用 `toRef()`。其实就是脱离 object 迭代，直接调用 `toRef()` 函数。
+这个时候你需要使用 [toRef()](https://v3.cn.vuejs.org/api/refs-api.html#toref)。其实就是脱离 object 迭代，直接调用 `toRef()` 函数。
 
 ```js
 import { toRef } from 'vue'
@@ -543,9 +543,9 @@ console.log(book.title) // 'Vue 3 Detailed Guide'
 
 > 一个组件的模板被编译成一个 [`render`](https://v3.cn.vuejs.org/guide/render-function.html) 函数，它被包裹在一个副作用中，允许 Vue 在运行时跟踪被“触达”的 property。如果这些 property 中的任何一个随后发生了变化，它将触发副作用再次运行，重新运行 `render` 函数以生成新的 VNodes。
 
-### [computed()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E8%AE%A1%E7%AE%97%E5%80%BC)
+### computed()
 
-`computed()` API 类似于组件的[计算属性](https://v3.cn.vuejs.org/guide/computed.html#计算属性)。它接受 getter 函数并为 getter 返回的值返回一个不可变的响应式 [ref](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#创建独立的响应式值作为-refs) 对象
+[computed()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E8%AE%A1%E7%AE%97%E5%80%BC) 函数类似于组件的[计算属性](https://v3.cn.vuejs.org/guide/computed.html#计算属性)。它接受 getter 函数并为 getter 返回的值返回一个不可变的响应式 [ref](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#创建独立的响应式值作为-refs) 对象
 
 ```js
 const state = reactive({
@@ -575,7 +575,7 @@ plusOne.value = 2
 console.log(state.count) // 1
 ```
 
-那 Vue 是怎样实现 `computed()` 的呢？
+那 Vue 是怎样实现 `computed()` 的呢？让我们来看看源代码。
 
 ```typescript {18,36-41,48,54}
 export function computed<T>(
@@ -652,9 +652,13 @@ class ComputedRefImpl<T> {
 
 `computed()` 的 `set` 很简单，单纯的执行参数中的 `set` 函数。
 
-### [watchEffect()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect)
+#### 流程图
 
-为了根据响应式状态自动应用和重新应用副作用，Vue 提供了 `watchEffect()` 函数。它立即执行传入的一个函数，同时响应式追踪其依赖，并在其依赖变更时重新运行该函数。 `watchEffect()` 函数是一个纯粹的副作用函数
+![vue3-reactive](./assets/vue3-computed.jpg)
+
+### watchEffect()
+
+为了根据响应式状态自动应用和重新应用副作用，Vue 提供了 [watchEffect()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#watcheffect) 函数。它立即执行传入的一个函数，同时响应式追踪其依赖，并在其依赖变更时重新运行该函数。 `watchEffect()` 函数是一个纯粹的副作用函数
 
 ```js
 const count = ref(0)
@@ -670,9 +674,9 @@ setTimeout(() => {
 
 `watchEffect()` 的源码和 `watch()` 是一起的，都是调用 `doWatch()` 方法，所以和  `watch()` 一起解析。
 
-### [watch()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#watch)
+### watch()
 
-`watch()` 函数完全等同于组件的[侦听器](https://v3.cn.vuejs.org/guide/computed.html#侦听器)。`watch()` 需要侦听特定的数据源，并在回调函数中执行副作用。默认情况下，它也是惰性的，即只有当被侦听的源发生变化时才执行回调。
+`watch()` 函数完全等同于组件的[侦听器](https://v3.cn.vuejs.org/guide/computed.html#侦听器)。[watch()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#watch) 需要侦听特定的数据源，并在回调函数中执行副作用。默认情况下，它也是惰性的，即只有当被侦听的源发生变化时才执行回调。
 
 与 `watchEffect()` 相比，`watch()` 允许我们：
 - 懒执行副作用；
@@ -703,9 +707,9 @@ Vue 怎么实现 `watch()` 方法呢？
 
 `watch()` 的代码比较复杂，涉及[停止侦听](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E5%81%9C%E6%AD%A2%E4%BE%A6%E5%90%AC)、[清除副作用](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E6%B8%85%E9%99%A4%E5%89%AF%E4%BD%9C%E7%94%A8)、[副作用刷新时机](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E5%89%AF%E4%BD%9C%E7%94%A8%E5%88%B7%E6%96%B0%E6%97%B6%E6%9C%BA)等，这里只截取和响应性相关的部分
 
-`watch()` 、`watchEffect()` 函数跟前面讲到的 `effect()` 函数类似，原理是一样的，只是多了很多其它的处理。
+`watch()` ，`watchEffect()` 函数跟前面讲到的 `effect()` 函数类似，原理是一样的，只是多了很多其它的处理
 
-```typescript {22,26,32-41,46-48,51-60,67,78,92-98,101,128}
+```typescript {19,23,27-36,39,45,54,57,62,68-69,72,78,81,84}
 /**
  * watch 和 watchEffect 都是调用这个函数
  * @param source 监听源，包含 ref, reactive, 数组，函数，watchEffect 只有函数
@@ -719,10 +723,7 @@ function doWatch(
   cb: WatchCallback | null,
   { immediate, deep, flush, onTrack, onTrigger }: WatchOptions = EMPTY_OBJ
 ): WatchStopHandle {
-  const instance = currentInstance
   let getter: () => any
-  let forceTrigger = false
-  let isMultiSource = false
 
   // getter 函数对应于 effect 函数的 fn
   if (isRef(source)) {
@@ -734,9 +735,7 @@ function doWatch(
     getter = () => source
     deep = true
   } else if (isArray(source)) {
-    // 数组
-    isMultiSource = true
-    forceTrigger = source.some(isReactive)
+    // 数组（简化）
     getter = () =>
       source.map(s => {
         if (isRef(s)) {
@@ -744,29 +743,12 @@ function doWatch(
         } else if (isReactive(s)) {
           return traverse(s)
         } else if (isFunction(s)) {
-          return callWithErrorHandling(s, instance, ErrorCodes.WATCH_GETTER)
+          return source()
         }
       })
   } else if (isFunction(source)) {
-    // 函数
-    if (cb) {
-      // getter with cb
-      getter = () =>
-      	// 里面会调用source函数
-        callWithErrorHandling(source, instance, ErrorCodes.WATCH_GETTER)
-    } else {
-      // no cb -> simple effect
-      getter = () => {
-        // 里面会调用source函数，
-        // 与 callWithErrorHandling 的区别是，它会处理返回的 promise 错误
-        return callWithAsyncErrorHandling(
-          source,
-          instance,
-          ErrorCodes.WATCH_CALLBACK,
-          [onInvalidate]
-        )
-      }
-    }
+    // 函数（简化）
+    getter = () => { source() }
   }
 
   // 如果设置了 deep，遍历对象所有的属性，即 watch 对象所有属性
@@ -775,33 +757,16 @@ function doWatch(
     getter = () => traverse(baseGetter())
   }
 
-  let oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE
+  let oldValue = ...
   
-  // 可以理解为对副作用的封装，如果是 watch, 返回状态变化前后的值
+  // 可以理解为对副作用的封装（简化）
   const job: SchedulerJob = () => {
-    if (!effect.active) {
-      return
-    }
     if (cb) {
+      // 运行副作用
       const newValue = effect.run()
-      if (
-        deep ||
-        forceTrigger ||
-        (isMultiSource
-          ? (newValue as any[]).some((v, i) =>
-              hasChanged(v, (oldValue as any[])[i])
-            )
-          : hasChanged(newValue, oldValue)) ||
-        (__COMPAT__ &&
-          isArray(newValue) &&
-          isCompatEnabled(DeprecationTypes.WATCH_ARRAY, instance))
-      ) {
-        // 返回状态变化前后的值
-        callWithAsyncErrorHandling(cb, instance, ErrorCodes.WATCH_CALLBACK, [
-          newValue,
-          oldValue === INITIAL_WATCHER_VALUE ? undefined : oldValue,
-          onInvalidate
-        ])
+      if (cb) {
+        // watch 回调返回状态变化前后的值
+        cb(newValue, oldValue)
         oldValue = newValue
       }
     } else {
@@ -811,31 +776,14 @@ function doWatch(
   }
 
   // effect 的 scheduler，依赖值更新时，会调用这个方法
-  // 这里确定当依赖值更新时，副作用刷新时机
+  // 这里确定副作用刷新时机(简化)
   let scheduler: EffectScheduler
-  if (flush === 'sync') {
-    // 强制同步刷新
-    scheduler = job as any 
-  } else if (flush === 'post') {
-    // 需要在组件更新后刷新
-    scheduler = () => queuePostRenderEffect(job, instance && instance.suspense)
-  } else {
-    // 默认值，在组件更新前刷新
-    scheduler = () => {
-      if (!instance || instance.isMounted) {
-        queuePreFlushCb(job)
-      } else {
-        // with 'pre' option, the first call must happen before
-        // the component is mounted so it is called synchronously.
-        job()
-      }
-    }
-  }
+  scheduler = () => { job() }
 
   // 封装 ReactiveEffect，getter 函数用于追踪依赖，scheduler 执行副作用
   const effect = new ReactiveEffect(getter, scheduler)
 
-  // 首次运行，追踪依赖
+  // 首次运行，追踪依赖(简化)
   if (cb) {
     if (immediate) {
       // 如果设置了 immediate，以当前值为 newValue，undefined 为 oldValue 回调
@@ -844,21 +792,13 @@ function doWatch(
       // 没有设置 immediate，以当前值作为 oldValue
       oldValue = effect.run()
     }
-  } else if (flush === 'post') {
-    queuePostRenderEffect(
-      effect.run.bind(effect),
-      instance && instance.suspense
-    )
   } else {
     effect.run()
   }
 
-  // 返回函数用于手动停止监听
+  // 返回函数用于手动停止监听（省略）
   return () => {
-    effect.stop()
-    if (instance && instance.scope) {
-      remove(instance.scope.effects!, effect)
-    }
+    ...
   }
 }
 ```
