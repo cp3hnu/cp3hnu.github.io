@@ -476,7 +476,7 @@ export const mapState = normalizeNamespace((namespace, states) => {
 
 `normalizeNamespace` 处理参数是否带命名空间，`normalizeMap` 将数组方式解析成对象方式，然后，
 
-1. 通过 namespace，在 store._modulesNamespaceMap 中找到 module
+1. 通过 namespace，在 `_modulesNamespaceMap` 中找到 module
 2. 取得 module 内的 state 和 getters
 3. 做映射
 
