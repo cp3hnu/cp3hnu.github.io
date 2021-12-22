@@ -8,9 +8,9 @@ location: ChangSha
 summary: NSUserActivity 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.
 ---
 
-# NSUserActivity
+# NSUserActivity 的用处
 
-NSUserActivity 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.
+*NSUserActivity* 是 iOS 里一个表示 App 某个瞬间状态的类，App 很多功能都需要用到它，包括 Handoff, App Search, Universal Links, SiriKit 以及 State Restoration.
 
 ## Handoff
 

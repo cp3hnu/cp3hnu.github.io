@@ -1,15 +1,15 @@
 ---
 pageClass: blog-page
-title: 实现后台位置更新
+title: iOS 实现后台位置更新
 tags: 
   - iOS
-  - location
+  - Core Location
 date: 2020-03-15
 author: cp3hnu
 location: ChangSha
 summary: 怎样实现后台位置更新呢？开始我以为只要请求 always 权限就可以实现后台位置更新了，发现结果并非如此，还需要设置 location updates 的后台模式，那后台模式与定位权限有什么关系呢？whenInUse 和 always 权限又有什么区别呢？我们一起来研究一下
 ---
-# 实现后台位置更新
+# iOS 实现后台位置更新
 
 实现后台位置更新涉及两个方面：
 
