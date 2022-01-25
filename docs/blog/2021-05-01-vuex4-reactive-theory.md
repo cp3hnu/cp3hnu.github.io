@@ -1,20 +1,22 @@
 ---
 pageClass: blog-page
-title: Vuex 4 响应性原理
+title: Vuex 4.x 实现原理
 tags: 
   - web
   - vue
 date: 2021-05-01
 author: cp3hnu
 location: ChangSha
-summary: 从 Vuex 4 的源代码分析 Vuex 4 的响应性原理
+summary: 从 Vuex 4.x 的源代码分析 Vuex 4.x 的实现原理
 ---
 
-# Vuex 4 响应性原理
+# Vuex 4.x 实现原理
+
+Vuex 4.x 对应于 Vue 3.x，采用 Vue 3.x 的响应性原理，同时增加了组合式函数，详细的变更请看官方文档的[迁移指南](https://next.vuex.vuejs.org/zh/guide/migrating-to-4-0-from-3-x.html)。分析 Vuex 4.x 实现原理之前先简单回顾一下 Vuex 是怎样使用的。
 
 ## Vuex 的使用
 
-我们先简单看一下在 Vue 的项目里是怎样使用 Vuex 的，详细介绍参见 [官方文档](https://next.vuex.vuejs.org/zh/guide/)
+我们先简单看一下在 Vue 的项目里是怎样使用 Vuex 的，详细介绍参见 [官方文档](https://next.vuex.vuejs.org/zh/guide/)。
 
 ```js
 import { createApp } from 'vue'
@@ -56,7 +58,9 @@ methods: {
 1. store 是怎么注入到 Vue 组件中的？
 2. 为什么 store.state 具有响应性？
 
-下面一起通过学习 Vuex 的 [源码](https://github.com/vuejs/vuex) 来解答这两个答案
+下面一起通过学习 Vuex 4 的 [源码](https://github.com/vuejs/vuex) 来解答这两个问题
+
+> 下面展示的代码是 Vuex v4.0.2
 
 ## store 是怎么注入到 Vue 组件中的
 
@@ -104,7 +108,7 @@ export class Store {
 
 ### ModuleCollection
 
-*ModuleCollection* 对 `options.modules` 进行模块化(封装成 *Module* 实例)，并链接在一起
+`ModuleCollection` 对 `options.modules` 进行模块化(封装成 `Module` 实例)，并链接在一起
 
 ```js {11,15}
 export default class ModuleCollection {
@@ -134,7 +138,7 @@ export default class ModuleCollection {
 }
 ```
 
-`options` 的顶层对象作为 *ModuleCollection* 的 `root` module（*Module* 实例）。`options.modules` 的各个 module，先用 *Module* 封装，然后存储在 `root` 的 `children ` 里(支持嵌套)。 `options` 和 module 里的 `state` 对象作为 *Module* 实例的 `state` 。结构如下，其中每个块都是一个 *Module* 实例。
+`options` 的顶层对象作为 `ModuleCollection` 的 `root` module（`Module` 实例）。`options.modules` 的各个 module，先用 `Module` 封装，然后存储在 `root` 的 `children ` 里(支持嵌套)。 `options` 和 module 里的 `state` 对象作为 `Module` 实例的 `state` 。结构如下，其中每个块都是一个 `Module` 实例。
 
 ![](./assets/vuex4-modulecollection.jpg)
 
@@ -474,11 +478,26 @@ export const mapState = normalizeNamespace((namespace, states) => {
 })
 ```
 
-`normalizeNamespace` 处理参数是否带命名空间，`normalizeMap` 将数组方式解析成对象方式，然后，
+`normalizeNamespace` 处理参数是否带命名空间
+
+`normalizeMap` 将数组方式解析成对象方式，然后，
 
 1. 通过 namespace，在 `_modulesNamespaceMap` 中找到 module
 2. 取得 module 内的 state 和 getters
 3. 做映射
+
+### createNamespacedHelpers 辅助函数
+
+```js
+export const createNamespacedHelpers = (namespace) => ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+})
+```
+
+通过  `bind` 函数，提前提供 namespace 参数给 `mapState` 等函数。
 
 ## 组合 API
 
