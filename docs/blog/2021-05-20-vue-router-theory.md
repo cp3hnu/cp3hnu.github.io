@@ -88,7 +88,7 @@ Vue 插件的入口就是其 `install` 方法
 
 1. 注册 `RouterLink`， `RouterView` 全局组件
 2. 定义 `$router` 和 `$route` app 全局属性。`$route` 只能读不能写，是非响应性对象（ `unref` )
-3. 进行首次导航，导航到首页（"/"）
+3. 进行首次导航，导航到浏览器当前地址。
 4. 通过 `provide` 注入 `router` 、`currentRoute`（当前的 route），以及响应性的 currentRoute（见下面的注释）
 5. 改写 app 的 `unmount `方法，进行数据清理
 
@@ -119,10 +119,9 @@ install(app: App) {
   ) {
     // see above
     started = true
-    // `routerHistory` 是 `createRouter(options)`` 的 `options.history`，例如 `createWebHistory()`
-    push(routerHistory.location).catch(err => {
-      if (__DEV__) warn('Unexpected error when starting the router:', err)
-    })
+    // `routerHistory` 是 `createRouter(options)` 的 `options.history`，例如 `createWebHistory()`
+    // `routerHistory.location` 为浏览器当前地址
+    push(routerHistory.location)
   }
 
   // 4.
@@ -385,8 +384,9 @@ router.push({ name: 'User', params: { name: 'eduardo' }, query: {age: 18, weight
 经过 `navigate` 方法之后，导航被确定。`finalizeNavigation` 方法执行导航。
 
 1. 如果是 `replace: true` 或者是第一次导航（ 在 [install](#install%20方法) 方法中执行的），执行 `routerHistory.replace`，否则执行 `routerHistory.push`
-2. 改写 `currentRoute` 为导航目的地
+2. `currentRoute` 记录目的地路由记录
 3. `handleScroll` 处理滑动
+3. `markAsReady` 建立 `popstate` 事件处理，详情见[Vue Router 4.x 导航实现](./2021-06-18-vue-router-navigate)
 
 ```typescript
 function finalizeNavigation(
@@ -402,6 +402,7 @@ function finalizeNavigation(
 
   // change URL only if the user did a push/replace and if it's not the initial navigation because
   // it's just reflecting the url
+  // 1.
   if (isPush) {
     if (replace || isFirstNavigation)
       routerHistory.replace(
@@ -417,12 +418,16 @@ function finalizeNavigation(
   }
 
   // accept current navigation
+  // 2.
   currentRoute.value = toLocation
+  // 3.
   handleScroll(toLocation, from, isPush, isFirstNavigation)
+  // 4.
+  markAsReady()
 }
 ```
 
-这个 `routerHistory` 属性是什么呢？ `routerHistory` 就是你传给 createRouter 方法的 [history](https://next.router.vuejs.org/zh/api/#history) 参数，我们这里以 [createWebHistory](https://next.router.vuejs.org/zh/api/#createwebhistory) 为例。
+`finalizeNavigation` 方法主要是调用 `routerHistory` 的 `push` 或者 `replace` 方法。那这个 `routerHistory` 是什么呢？ `routerHistory` 就是你传给 createRouter 方法的 [history](https://next.router.vuejs.org/zh/api/#history) 参数。我们这里以 [createWebHistory](https://next.router.vuejs.org/zh/api/#createwebhistory) 为例说明。
 
 #### RouterHistory 的 `push` 方法
 
@@ -498,7 +503,7 @@ function changeLocation(
 let createBaseLocation = () => location.protocol + '//' + location.host
 ```
 
-RouterHistory 的 `replace` 方法与 `push` 方法类似，只是最后在 `changeLocation` 方法中使用 `replaceState  `代替  `pushState`。
+RouterHistory 的 `replace` 方法与 `push` 方法类似，只是最后在 `changeLocation` 方法中使用 `replaceState   ` 代替  `pushState`。
 
 #### triggerAfterEach 方法
 
@@ -628,7 +633,7 @@ export const RouterViewImpl = defineComponent({
         }
       }
 
-      // 5.渲染路由记录对应的组件 
+      // 5. 渲染路由记录对应的组件 
       const component = h(
         ViewComponent,
         assign({}, routeProps, attrs, {
@@ -655,7 +660,7 @@ export const RouterViewImpl = defineComponent({
 
 1. Vue Router 是怎样修改浏览器地址栏？
 
-   Vue Router 的 `push` 或者 `replace` 方法通过 `pushState` 或 `replaceState` 修改浏览器地址栏
+   Vue Router 的 `push` 或者 `replace` 方法通过 [History API](https://developer.mozilla.org/en-US/docs/Web/API/History) `pushState` 或 `replaceState` 修改浏览器地址栏
 
 2. Vue Router 是怎样把组件渲染到  `<router-view>`？
 
