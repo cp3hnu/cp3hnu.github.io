@@ -77,7 +77,7 @@ this.$router.push('/about')
 - Vue 插件入口： `install`
 
 - 路由记录相关方法： `addRoute`、`removeRoute`、`getRoutes`、`resolve`、`hasRoute`
-- 导航相关的方法： `push`、`replace`、`go`
+- 导航相关的方法： `push`、`replace`、`go`、`forward`、`back`
 - 导航守卫方法： `beforeEach`、 `beforeResolve`、`afterEach`
 
 ## install 方法
@@ -90,7 +90,7 @@ Vue 插件的入口就是其 `install` 方法
 2. 定义 `$router` 和 `$route` app 全局属性。`$route` 只能读不能写，是非响应性对象（ `unref` )
 3. 进行首次导航，导航到浏览器当前地址。
 4. 通过 `provide` 注入 `router` 、`currentRoute`（当前的 route），以及响应性的 currentRoute（见下面的注释）
-5. 改写 app 的 `unmount `方法，进行数据清理
+5. 改写 app 的 `unmount `方法，进行数据清理，移除事件监听器
 
 ```typescript
 install(app: App) {
@@ -125,13 +125,15 @@ install(app: App) {
   }
 
   // 4.
- 	// 因为 `currentRoute` 是 `shallowRef`，通过 `computed` 使 `params`、`query` 等其它属性对象具有响应性
   const reactiveRoute = {}
   for (const key in START_LOCATION_NORMALIZED) {
     reactiveRoute[key] = computed(() => currentRoute.value[key])
   }
   app.provide(routerKey, router)
+  // 因为 `currentRoute` 是 `shallowRef`，通过 `computed` 使 `params`、`query` 等其它属性对象具有响应性
+  // RouterLink inject 这个对象
   app.provide(routeLocationKey, reactive(reactiveRoute))
+  // 当前路由记录，RouterView inject 这个对象
   app.provide(routerViewLocationKey, currentRoute)
 
   // 5.

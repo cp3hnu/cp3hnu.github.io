@@ -12,7 +12,7 @@ summary: 介绍 Vue Router 4.x 是怎样通过地址栏进行导航和 RouterLin
 
 # Vue Router 4.x 浏览器前进/后退 & RouteLink 的实现
 
-在上一篇 [Vue Router 4.x 实现原理](./2021-05-20-vue-router-theory/) 我们介绍了 Vue Router 编程式导航 `push`、`replace` 的实现。这篇文章我们来看看点击浏览器的前进/后退按钮，Vue Router 是怎样实现导航的，以及 RouteLink 组件时怎么实现导航的。
+在上一篇 [Vue Router 4.x 实现原理](./2021-05-20-vue-router-theory/) 我们介绍了 Vue Router 编程式导航 `push`、`replace` 的实现原理。这篇文章我们来看看点击浏览器的前进/后退按钮，Vue Router 是怎样实现导航的，以及 RouteLink 组件时怎么实现导航的。
 
 ## 前进/后退
 
@@ -89,11 +89,21 @@ function setupListeners() {
 
 `popstate` 事件处理流程和 [`push` 方法](/2021/05/20/vue-router-theory/#push-方法)一致。
 
+## go 方法
+
+`go` 方法就是调用 History 的同名方法
+
+```typescript
+function go(delta: number) {
+  history.go(delta)
+}
+```
+
 ## RouteLink
 
 `RouteLink` 支持两种方式，`<a>` 标签和自定义（`custom`）
 
-```typescript {57}
+```typescript {59}
 export const RouterLinkImpl = /*#__PURE__*/ defineComponent({
   name: 'RouterLink',
   props: {
@@ -122,7 +132,8 @@ export const RouterLinkImpl = /*#__PURE__*/ defineComponent({
     const { options } = inject(routerKey)!
 
     // <a> 标签的 class name
-    // link.isExactActive 与 link.isActive的区别是前者是 
+    // link.isExactActive 与 link.isActive 都是 RouteLink to 对应的路由匹配上当前的路由（currentRoute）
+    // 区别在于前者是完全匹配，不包括父路由记录，且 params 完全相同
     const elClass = computed(() => ({
       [getLinkClass(
         props.activeClass,
