@@ -32,7 +32,7 @@ Ant Design [Grid 栅格断点 ](https://3x.ant.design/components/grid-cn/#Col)�
 
 Ant Design 也定义了这些断点的变量
 
-> Ant Design 使用 less，样式变量在 [这里](https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less) 可以找到
+> Ant Design 使用 Less，样式变量在 [这里](https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less) 可以找到
 
 ```less
 // Media queries breakpoints
@@ -77,10 +77,8 @@ Ant Design 也定义了这些断点的变量
 ### Demo
 
 ```js
-// use scss
-import './app.scss';
-// use less
 import styles from './app.less';
+// import styles from './app.scss';
 import { Button, Drawer, Space } from 'antd';
 import React, { useState } from 'react';
 
@@ -94,25 +92,17 @@ function App() {
   };
   return (
     <div className="App">
-      <Button type="primary" onClick={showDrawer} className="app-button">
+      <Button type="primary" onClick={showDrawer} className={styles.app_button}>
           Open
         </Button>
         <Drawer
-          className="app-drawer"
-          title="Drawer with extra actions"
+          className={styles.app_drawer}
+          title="Drawer"
           placement={"right"}
           onClose={onClose}
           visible={visible}
-          extra={
-            <Space>
-              <Button onClick={onClose}>Cancel</Button>
-              <Button type="primary" onClick={onClose}>
-                OK
-              </Button>
-            </Space>
-          }
         >
-        <div className='app-drawer-content'></div>
+        <div className={styles.app_drawer_content}></div>
       </Drawer>
     </div>
   );
