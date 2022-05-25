@@ -97,7 +97,11 @@ async function name([param[, param[, ...param]]]) {
 }
 ```
 
-异步函数，这个我们平时已经用得很多了，搭配 [await 操作符](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) 一起使用。这个函数的返回值类型是 `Promise`
+异步函数，这个我们平时已经用得很多了，搭配 [await 操作符](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await) 一起使用。这个函数的返回一个 `promise`。有三点需要注意：
+
+- 如果异步函数抛出异常，函数返回 `Promise.reject()`。
+- 如果 `await`  后面的 `promise` 是 `Promise.reject()`，将导致异步函数抛出异常。
+- 如果 `await`  后面的函数抛出异常，相当于 `await` 一个 `reject` 的 `promise`。
 
 #### Demo
 
