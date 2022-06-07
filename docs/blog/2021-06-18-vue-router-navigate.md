@@ -172,7 +172,7 @@ export const RouterLinkImpl = /*#__PURE__*/ defineComponent({
 })
 ```
 
-我们看到在 57 行，`<a>` 标签的点击事件是 `link.navigate`, 这个 `link` 是执行 `useLink ` 方法的返回值。下面 `useLink ` 方法
+我们看到在 59 行，`<a>` 标签的点击事件是 `link.navigate`, 这个 `link` 是执行 `useLink ` 方法的返回值。下面 `useLink ` 方法
 
 >  `useLink ` 方法是 Vue Router 4.x 新增的组合 API 其中的一个 
 >

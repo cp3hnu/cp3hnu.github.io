@@ -444,14 +444,17 @@ npm install reselect
 
 ```js
 import { createSelector } from 'reselect'
+import { useSelector } from 'react-redux'
 
 export const selectTodoIds = createSelector(
   state => state.todos,
   todos => todos.map(todo => todo.id)
 )
+
+const todoIds = useSelector(selectTodoIds)
 ```
 
-`createSelector` 接收多个 input 函数和一个 output 函数，input 函数的返回值作为 output 函数的参数，当 input 函数的返回值没有变化时，output 函数不会运行，重用上一次的 output 函数的返回值。
+`createSelector` 接收多个 input 函数和一个 output 函数，input 函数的返回值作为 output 函数的参数，当 input 函数的返回值没有变化时，output 函数不会运行，重用上一次 output 函数的返回值。
 
 ### Normalized State
 
@@ -705,7 +708,7 @@ npm install react-redux
 
 ### 注入 Store
 
-React Redux 要求组件不能引入 Store 对象，而是通过 `Provider` 注入到整个应用中，这样在组件里就可以使用 React Redux 提供的 Hooks 了。
+React Redux 要求组件不能引入 store 对象，而是通过 `Provider` 组件注入到整个应用中，这样在组件里就可以使用 React Redux 提供的 hooks 访问 store 了。
 
 ```react {11}
 // in src/index.js
