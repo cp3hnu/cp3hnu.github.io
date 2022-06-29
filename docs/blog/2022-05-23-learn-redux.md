@@ -311,7 +311,7 @@ const exampleMiddleware = storeAPI => next => action => {
 
 middleware 解析：
 
-- storeAPI: 一个包含 store `dispatch` 和 `getState` 方法的对象：{ dispatch, getState }，**非 Store 对象**
+- storeAPI: 一个包含 Store `dispatch` 和 `getState` 方法的对象，即 { dispatch, getState }，**非 Store 对象**
 - next：下一个 middleware 或者是初始的 `store.dispath` 方法
 - 调用 `next(action)` 将 action 传给下一个 middleware 或者初始的 `store.dispath` 方法
 - 调用 `storeAPI.dispatch` 重启 pipeline

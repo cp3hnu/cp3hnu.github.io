@@ -7,16 +7,20 @@ tags:
 date: 2022-06-03
 author: cp3hnu
 location: ChangSha
-summary: 介绍什么是 SVG Sprite 以及 iconfont 和 svg-sprite-loader 使用 SVG Sprite 技术绘制图标。
+summary: 介绍什么是 SVG Sprite 以及怎样使用 iconfont 和 svg-sprite-loader 绘制图标。
 ---
 
 # SVG Sprite
 
 SVG Sprite 技术类似于 CSS 中的 Sprite 技术，将图标和图形整合在一起，实际呈现的时候准确显示特定图标。
 
-## symbol
+## 什么是 SVG Sprite
 
-SVG Sprite 使用 `symbol` 元素。`symbol` 元素是什么呢？ 我们可以把 SVG 看成一个舞台，`symbol` 则是舞台上一个一个组装好的元件，这些元件就是我们即将使用的 SVG 图标。
+SVG Sprite = symbol + use
+
+### symbol
+
+SVG Sprite 使用 [`symbol` 元素](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/symbol)。`symbol` 元素是什么呢？ 我们可以把 SVG 看成一个舞台，`symbol` 则是舞台上一个一个组装好的元件，这些元件就是我们即将使用的 SVG 图标。
 
 对于一个集合了三个图标的 SVG 元素的结构是这样：
 
@@ -36,9 +40,9 @@ SVG Sprite 使用 `symbol` 元素。`symbol` 元素是什么呢？ 我们可以�
 
 每一个 `symbol` 就是一个图标元件，但是，只有上面的代码，是无法显示图标的。这是因为，舞台上只是放置了图标，如果你不使用(use)，是看不见的。因此，还差一个“使用”，这就是 SVG 中的 `<use>` 元素。
 
-## use
+### use
 
-[use 元素](http://tutorials.jenkov.com/svg/use-element.html) 可以显示 SVG 文档定义的形状。 它有两大特点：
+[`use` 元素](http://tutorials.jenkov.com/svg/use-element.html) 可以显示 SVG 文档定义的形状。 它有两大特点：
 
 - 可重复调用
 
@@ -66,9 +70,7 @@ SVG Sprite 使用 `symbol` 元素。`symbol` 元素是什么呢？ 我们可以�
 </svg>
 ```
 
-`use` 元素通过 `xlink:href` 属性，寻找要使用的元素的。`#shape` 对应的就是 `id` 为 `shape` 的 `symbol` 元素。可以设置图标尺寸（width、height）、颜色（color）等。
-
-总结：**symbol + use => SVG Sprite**
+`use` 元素通过 `xlink:href` 属性，寻找要使用的元素的。`#shape` 对应的就是 `id` 为 `shape` 的 `symbol` 元素。可以设置图标尺寸（`width`、`height`）、颜色（`color`）等。
 
 ## iconfont
 
@@ -212,7 +214,7 @@ output.js 修改如下：
 
 #### 使用
 
-1. 首先把 svg 文件全部放在 `src/icons` 目录下，加载所有的 svg 文件
+1. 首先把 svg 文件全部放在 `src/icons/svg` 目录下，加载所有的 svg 文件
 
 ```js
 // /src/icons/index.js
@@ -262,9 +264,8 @@ export default {
 
 <style scoped>
 .svg-icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
+  width: 16px;
+  height: 16px;
   fill: currentColor;
   overflow: hidden;
 }
@@ -313,27 +314,9 @@ app.use(store).use(router).mount("#app");
         symbolId: "icon-[name]",
       },
     },
-    // {
-    //   loader: require.resolve('@svgr/webpack'),
-    //   options: {
-    //     prettier: false,
-    //     svgo: false,
-    //     svgoConfig: {
-    //       plugins: [{ removeViewBox: false }],
-    //     },
-    //     titleProp: true,
-    //     ref: true,
-    //   },
-    // },
-    // {
-    //   loader: require.resolve('file-loader'),
-    //   options: {
-    //     name: 'static/media/[name].[hash].[ext]',
-    //   },
-    // },
   ],
   issuer: {
-    and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
+    and: [/\.(ts|tsx|js|jsx)$/],
   }
 }
 ```

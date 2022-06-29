@@ -333,23 +333,25 @@ A tool that allows you to use babel from the terminal.
 
 ### [@babel/polyfill](https://babeljs.io/docs/en/babel-polyfill)
 
-Babel includes a **polyfill** that includes a custom [regenerator runtime](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js) and [core-js](https://github.com/zloirock/core-js).
+Babel includes a **polyfill** that includes a custom [regenerator runtime](https://github.com/facebook/regenerator) and [core-js](https://github.com/zloirock/core-js).
 
 **Deprecated**
 
-使用 `core-js/stable` (to polyfill ECMAScript features) and `regenerator-runtime/runtime` (needed to use transpiled generator functions)
+直接使用 `core-js/stable` (to polyfill ECMAScript features) and `regenerator-runtime/runtime` (needed to use transpiled generator functions)
 
 ### [core-js](https://github.com/zloirock/core-js#readme)
 
 Modular standard library for JavaScript. Includes polyfills for [ECMAScript up to 2021](https://github.com/zloirock/core-js#ecmascript): [promises](https://github.com/zloirock/core-js#ecmascript-promise), [symbols](https://github.com/zloirock/core-js#ecmascript-symbol), [collections](https://github.com/zloirock/core-js#ecmascript-collections), iterators, [typed arrays](https://github.com/zloirock/core-js#ecmascript-typed-arrays), many other features, [ECMAScript proposals](https://github.com/zloirock/core-js#ecmascript-proposals), [some cross-platform WHATWG / W3C features and proposals](https://github.com/zloirock/core-js#web-standards) like [`URL`](https://github.com/zloirock/core-js#url-and-urlsearchparams). You can load only required features or use it without global namespace pollution.
 
-### [regenerator](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js)
+### [regenerator](https://github.com/facebook/regenerator)
 
 This package implements a fully-functional source transformation that takes the syntax for generators/`yield` from [ECMAScript 2015 or ES2015](http://www.ecma-international.org/ecma-262/6.0/) and [Asynchronous Iteration](https://github.com/tc39/proposal-async-iteration) proposal and spits out efficient JS-of-today (ES5) that behaves the same way.
 
 ### [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env.html)
 
 `preset` is pre-determined set of plugins.
+
+推荐使用  [`.browserslistrc`](https://github.com/browserslist/browserslist) 来确定 target
 
 ```json
 {
@@ -384,7 +386,7 @@ This package implements a fully-functional source transformation that takes the 
 
 Uses Babel 7 + [babel-loader](https://github.com/babel/babel-loader) + [@vue/babel-preset-app](https://github.com/vuejs/vue-cli/tree/dev/packages/@vue/babel-preset-app#readme) by default, but can be configured via `babel.config.js` to use any other Babel presets or plugins.
 
-`@vue/babel-preset-app`，通过 [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env.html) 和 [browserslist](https://github.com/browserslist/browserslist) 配置来决定项目需要的 [polyfill](https://babeljs.io/docs/en/babel-polyfill/)
+[@vue/babel-preset-app](https://github.com/vuejs/vue-cli/tree/dev/packages/@vue/babel-preset-app#readme) 是通过 [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env.html) 和 [browserslist](https://github.com/browserslist/browserslist) 配置来决定项目需要的 [polyfill](https://babeljs.io/docs/en/babel-polyfill/). 这是在所有 Vue CLI 项目中使用的默认Babel预设。
 
 ## [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
 
