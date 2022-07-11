@@ -14,6 +14,8 @@ summary: Share Extension 是 iOS 8 推出的一项扩展服务，为用户提供
 
 Share Extension 是 iOS 8 推出的一项扩展服务，为用户提供了一种方便的共享内容的方式，最常见的就是分享相册里的相片。
 
+> 本文的样例代码在 [这里](https://gitee.com/cp3hnu/share-demo)
+
 ![](./assets/share-extension-photos.jpeg)
 
 ## 创建
@@ -125,11 +127,11 @@ SUBQUERY (
 private func hasItemConformingToTypeIds(provider: NSItemProvider) -> Bool {
   let ids = [UTType.image, UTType.pdf, UTType("com.microsoft.word.doc"), UTType("org.openxmlformats.wordprocessingml.document")].compactMap { $0 }
  for id in ids {
-    if provider.hasItemConformingToTypeIdentifier(id.identifier) {
-      return true
+    if !provider.hasItemConformingToTypeIdentifier(id.identifier) {
+      return false
     }
   }
-  return false
+  return true
 }
 ```
 
@@ -209,7 +211,7 @@ do {
 }
 ```
 
-#### Containing app
+#### Containing App
 
 读取数据
 
@@ -225,7 +227,7 @@ if let archiveURL = documentsDirectory?.appendingPathComponent("file.data") {
 }
 ```
 
-## 打开 Containing app
+## 打开 Containing App
 
 iOS 只有 Today extension 和  iMessage app extension 通过 [NSExtensionContext](https://developer.apple.com/documentation/foundation/nsextensioncontext) 的  [open(_:completionHandler:)](https://developer.apple.com/documentation/foundation/nsextensioncontext/1416791-open#) 打开 Containing app，在 [Stack Overflow](https://stackoverflow.com/questions/27506413/share-extension-to-open-containing-app#44499222) 上找到一个方法使别的 Extension 也能打开 Containing app.
 
@@ -339,6 +341,7 @@ private extension CustomViewController {
 - [Share Extension](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW1)
 - [App Extension Keys](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AppExtensionKeys.html) 
 - [Uniform Type Identifiers](https://escapetech.eu/manuals/qdrop/uti.html)
+- [iOS Share extension — Swift 5.1](https://medium.com/macoclock/ios-share-extension-swift-5-1-1606263746b)
 - [StackOverflow - Share Extension to open containing app](https://stackoverflow.com/questions/27506413/share-extension-to-open-containing-app#44499222)
 - [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5)
 - [Custom UI for Share Extensions](https://diamantidis.github.io/2020/01/11/share-extension-custom-ui)

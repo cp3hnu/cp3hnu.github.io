@@ -230,7 +230,7 @@ import "./icons";
 ```vue
 <!-- /src/components/SvgIcon.vue -->
 <template>
-  <svg :class="svgClass" aria-hidden="true">
+  <svg class="svg-icon" aria-hidden="true">
     <use :xlink:href="iconName" />
   </svg>
 </template>
@@ -242,21 +242,11 @@ export default {
     icon: {
       type: String,
       required: true
-    },
-    className: {
-      type: String
     }
   },
   computed: {
     iconName() {
       return `#icon-${this.icon}`;
-    },
-    svgClass() {
-      if (this.className) {
-        return "svg-icon " + this.className;
-      } else {
-        return "svg-icon";
-      }
     }
   }
 };
@@ -423,5 +413,4 @@ const App = () => (
 - [svg-sprite-loader](https://github.com/JetBrains/svg-sprite-loader)
 - [svgr](https://github.com/gregberge/svgr)
 - [svgo](https://github.com/svg/svgo)
-- [demo 仓库](https://gitee.com/cp3hnu/web-demo)
 

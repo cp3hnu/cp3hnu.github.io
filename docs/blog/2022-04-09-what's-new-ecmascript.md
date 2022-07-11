@@ -1098,7 +1098,7 @@ if (globalThis === window){
 
 ### `for-in` mechanics
 
-ES2020 规定 `for (x in y)` 应以何种顺序访问 `y` 的属性。
+ES2020 规定 `for (x in y)` 应以何种顺序访问 `y` 的属性，这样每次迭代的顺序是固定的。外部未知，属于内部实现细节。
 
 ### Dynamic Import `import()`
 
@@ -1526,7 +1526,7 @@ s.accessPrivateField(); // 21
 
 使用 `in` 操作符检测对象是否定义了 private 属性、方法
 
-```javascript
+```javascript {9}
 class C {
   #brand;
 
@@ -1540,7 +1540,7 @@ class C {
 }
 ```
 
-**注意**： 这个必须在类定义里使用，而不是这样使用
+> **注意**： 这个必须在类定义里使用，而不是这样使用
 
 ```javascript
 const c = new C()
@@ -1556,7 +1556,7 @@ console.log("#brand" in c);
 
 在类里面定义一个 `static initialization block`，初始化多个 static 属性
 
-```javascript
+```javascript {9-14}
 class Translator {
   static translations = {
     yes: 'ja',
