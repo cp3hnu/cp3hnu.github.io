@@ -127,11 +127,11 @@ SUBQUERY (
 private func hasItemConformingToTypeIds(provider: NSItemProvider) -> Bool {
   let ids = [UTType.image, UTType.pdf, UTType("com.microsoft.word.doc"), UTType("org.openxmlformats.wordprocessingml.document")].compactMap { $0 }
  for id in ids {
-    if !provider.hasItemConformingToTypeIdentifier(id.identifier) {
-      return false
+    if provider.hasItemConformingToTypeIdentifier(id.identifier) {
+      return true
     }
   }
-  return true
+  return false
 }
 ```
 
@@ -346,3 +346,8 @@ private extension CustomViewController {
 - [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5)
 - [Custom UI for Share Extensions](https://diamantidis.github.io/2020/01/11/share-extension-custom-ui)
 - [Wormhole](https://github.com/nixzhu/Wormhole)
+
+## Demo
+
+[share-demo](https://gitee.com/cp3hnu/share-demo)
+

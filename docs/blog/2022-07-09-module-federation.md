@@ -4,7 +4,7 @@ title: Module Federation
 tags: 
   - web
   - javascript
-date: 2022-06-18
+date: 2022-07-09
 author: cp3hnu
 location: ChangSha
 summary: Module Federation 实现多个应用（app）或者构建（build）在运行时共享模块
@@ -27,7 +27,7 @@ Module Federation 实现多个应用（app）或者构建（build）在 **运行
 
 ![](./assets/module-federation-overview.png)
 
-Container(Remote) 暴露 modules 供 Container Reference(Host) 使用。
+Container(Remote) 暴露 modules 供 Container Reference(Host) 运行时加载使用。
 
 Container Reference 和 Container 通过 `share scope` 共享他们依赖的模块，使用时需要判断共享模块的版本，只有符合版本要求时才能使用。
 
@@ -195,7 +195,11 @@ Module Federation 的加载过程如下：
 
 ![](./assets/module-federation-network.jpg)
 
-这里比较奇怪的是加载 `vue_runtime_esm_js.js`（即 shared library）是从 remote 中加载的。
+这里比较奇怪的是加载 `vue_runtime_esm_js.js`（即 shared library）是从 remote 中加载的。为此我还特意问了作者原因，[issue#2065](https://github.com/module-federation/module-federation-examples/issues/2065)，作者是这么说的
+
+> Zack Jackson: Its loaded based on semver rules and whoever has the best version to serve the needs of the apps.
+>
+> Webpack decides, its not always the host that loads the shared dep and usually has no perf hit since either way its an async chunk that needs to be loaded, either from host build or another build. But its a network request either way.
 
 ## Vue In React
 
@@ -478,7 +482,7 @@ optimization: {
 
 ### optimization.runtimeChunk
 
-同样 `runtimeChunk` 也不能用，或者说如果使用了，需要额外的操作，比如手动加载 remote 的 runtime chunk，可以参考这篇文章 [Module Federation with Webpacker/Rails host resulting in ScriptLoadError #1116](https://github.com/module-federation/module-federation-examples/issues/1116)，但是具体怎么做不得而知。
+同样 `runtimeChunk` 也不能用，或者说如果使用了，需要额外的操作，比如手动加载 remote 的 runtime chunk，可以参考这篇文章 [Module Federation with Webpacker/Rails host resulting in ScriptLoadError #1116](https://github.com/module-federation/module-federation-examples/issues/1116)，但是具体怎么做不得而知，因为 build 的 runtime chunk 文件名是不确定的 。
 
 > Zack Jackson: You'd have to load the runtime chunk & the remote entry since setting it to single removes all the shared runtime code from the remote file.
 
@@ -494,11 +498,34 @@ optimization: {
 
 ### optimization.runtimeChunk
 
-Module Federation 怎么兼容 `optimization.runtimeChunk: "single"` ?
+Module Federation 怎么兼容 `optimization.runtimeChunk: "single"` ? 
 
-### Why load shared library from remote?
+我想到同时设置 `optimization.runtimeChunk: "single"` 和 ModuleFederationPlugin 的 `runtime: false` 。仅测试这样设置运行没有问题，build 生成了 runtime-xxxx.js 文件，同时 remoteEntry.js 也包含了运行时代码，确保能加载 exposed 模块。 但是这样设置 runtimeChunk 是否起作用？为此我还特意问了作者这个问题 [issue#1116](https://github.com/module-federation/module-federation-examples/issues/1116#issuecomment-1180093995)，作者回答说不起作用。
 
-从加载过程来看，Module Federation 从 Remote 环境加载共享库，我理解为了性能应该从 Host 环境加载共享库才对。
+> Zack Jackson: RuntimeChunk single doesn’t work. You’d want to make it false or undefined
+
+另外官方的 [例子](https://webpack.docschina.org/plugins/module-federation-plugin/) 运行失败。
+
+```js
+const { ModuleFederationPlugin } = require('webpack').container;
+module.exports = {
+  plugins: [
+    new ModuleFederationPlugin({
+      runtime: 'my-runtime-name',
+    }),
+  ],
+};
+```
+
+### 为什么从 Remote 中加载共享库?
+
+从加载过程来看，Module Federation 从 Remote 环境加载共享库（Vue），我理解应该从 Host 环境加载共享库，只有当 Host 没有 Remote 使用的共享库时，才从 Remote 环境加载，这样才能获得更好的性能。为此我还特意问了作者原因 [issue#2065](https://github.com/module-federation/module-federation-examples/issues/2065)，作者是这么说的
+
+> Zack Jackson: Its loaded based on semver rules and whoever has the best version to serve the needs of the apps.
+>
+> Webpack decides, its not always the host that loads the shared dep and usually has no perf hit since either way its an async chunk that needs to be loaded, either from host build or another build. But its a network request either way.
+
+意思是从哪里加载无所谓，反正都是加载 chunk 的异步网络请求。
 
 ## References
 
@@ -519,8 +546,7 @@ Module Federation 怎么兼容 `optimization.runtimeChunk: "single"` ?
 
 [Module Federation with Webpacker/Rails host resulting in ScriptLoadError #1116](https://github.com/module-federation/module-federation-examples/issues/1116)
 
-[Any possibility to use with splitChunks? #1864](https://github.com/module-federation/module-federation-examples/issues/1864)
-
 [@vue/cli v5.0.0-alpha.5 don't support module federation which is a feature in webpack 5 #6318](https://github.com/vuejs/vue-cli/issues/6318)
 
 [Initialization of sharing external failed: ScriptExternalLoadError: Loading script failed. #692](https://github.com/module-federation/module-federation-examples/issues/692)
+

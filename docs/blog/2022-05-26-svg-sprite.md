@@ -283,7 +283,7 @@ app.use(store).use(router).mount("#app");
 
 ### React
 
-> 样例代码在 [这里](https://gitee.com/cp3hnu/web-demo/tree/master/antd-demo)
+> 样例代码在 [这里](https://gitee.com/cp3hnu/web-demo/tree/master/svg-sprite-loader-demo)
 
 #### 配置
 
@@ -414,3 +414,6 @@ const App = () => (
 - [svgr](https://github.com/gregberge/svgr)
 - [svgo](https://github.com/svg/svgo)
 
+## Demo
+
+[svg-sprite-loader-demo](https://gitee.com/cp3hnu/web-demo/tree/master/svg-sprite-loader-demo)
