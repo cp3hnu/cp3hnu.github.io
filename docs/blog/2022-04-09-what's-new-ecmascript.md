@@ -1384,7 +1384,7 @@ class Counter {
 }
 ```
 
-ES2022 引入了 [public class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)， 可以在类定义里定义 public 实例属性，例如
+ES2022 引入了 [public class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Public_class_fields)， 可以在类定义里定义 `public` 实例属性，例如
 
 > 在类的构建期间使用 [`Object.defineProperty()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty) 添加 public class fields
 
@@ -1403,13 +1403,13 @@ count.accessPublicField();
 
 #### Public static class fields
 
-ES2022 也引入了 [public static class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#static_methods_and_properties)，可以在类定义里定义 public 静态属性
+ES2022 也引入了 [public static class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#static_methods_and_properties)，可以在类定义里定义 `public` 静态属性
 
 ```javascript
 class Counter {
   static publicStaticField = 'static field'
   static publicStaticMethod() { 
-    return 'This is static method and ' + this.staticField
+    return 'This is static method and ' + this.publicStaticField
   }
 }
 console.log(Counter.publicStaticField);     // static field
@@ -1418,12 +1418,12 @@ console.log(Counter.publicStaticMethod());  // This is static method and static 
 
 #### Private class features
 
-现在 JavaScript 终于可以定义 private 实例属性和方法，只需要在属性和方法名称前前面加 `#`，例如
+现在 JavaScript 终于可以定义 `private` 实例属性和方法，只需要在属性和方法名称前前面加 `#`，例如
 
 ```javascript
 class Counter {
-  #privateField = 20;
-	#privateMethods() {
+  #privateField = 20; // 私有属性
+	#privateMethods() { // 私有方法
     this.#privateField += 1
   }
 
@@ -1448,7 +1448,7 @@ console.log(count.#privateMethods());
 // SyntaxError: Private field '#privateMethods' must be declared in an enclosing class
 ```
 
-除了定义 private 实例属性和方法之外，还可以定义 private 静态属性和方法
+除了定义 `private` 实例属性和方法之外，还可以定义 `private` 静态属性和方法
 
 ```javascript
 export class Counter {
@@ -1468,7 +1468,7 @@ count.accessPrivateStaticField();
 // #privateStaticField = 31
 ```
 
-和 private 实例属性和方法一样，静态私有属性和方法只能在类定义里访问，不能通过类名访问
+和 `private` 实例属性和方法一样，静态私有属性和方法只能在类定义里访问（通过`类名`），在类定义外面不能访问
 
 ```javascript
 console.log(Counter.#privateStaticField);  
@@ -1477,7 +1477,7 @@ console.log(count.#privateStaticMethod());
 // SyntaxError: Private field '#privateStaticMethod' must be declared in an enclosing class
 ```
 
-还有一点要注意，访问静态私有属性和方法时，要使用类名比如（`Counter`），不能使用 `this`，这会导致子类访问静态私有属性和方法时报错。
+还有一点要注意，访问静态私有属性和方法时，要使用类名比如 `Counter`，不能使用 `this`，这会导致子类访问静态私有属性和方法时报错。
 
 ```javascript
 class BaseClassWithPrivateStaticField {
@@ -1499,32 +1499,33 @@ try {
 };
 ```
 
-在这个例子中，`this` 指向 `SubClass`，但是 `SubClass` 没有 `#PRIVATE_STATIC_FIELD` 私有静态属性，所以报错
+在这个例子中，`this` 指向 `SubClass`，但是 `SubClass` 没有 `#PRIVATE_STATIC_FIELD` 私有静态属性，所以报错。
 
 #### 继承
 
-继承时，子类只能访问 public 属性，不能访问 private 属性。
+子类继承时有下列规则
 
-子类实例调用父类方法访问 public 属性时，子类实例可以重写这个属性
+- 子类只能访问、重写父类的 `public` 属性和方法。
+- 子类只能访问、重写父类的 `public` 静态属性和静态方法。
 
-子类实例调用父类方法访问 private 属性时，子类实例**不能**重写这个属性，访问的是父类 private 属性
+- 子类实例调用父类方法访问 `public` 属性时，子类实例可以重写这个属性，这种情况访问的是子类的属性值。
+
+- 子类实例调用父类方法访问 `private` 属性时，子类实例 **不能** 重写这个属性，所以访问的一直都是父类 `private` 属性。
 
 ```javascript
-export class SubCounter extends Counter {
-  publicField = 110;
-  #privateField = 120;
+class SubCounter extends Counter {
+  publicField = 110; // 子类实例重写了父类的 public 属性
+  #privateField = 120; // 子类实例不能重写了父类的 private 属性
 }
 
 const s = new SubCounter()
-s.accessPublicField(); // 110
-s.accessPrivateField(); // 21
+s.accessPublicField(); // 111，返回的是子类的属性值
+s.accessPrivateField(); // 21，返回的是父类的属性值
 ```
-
-子类继承了父类的 public 静态属性和静态方法，子类可以重写 public 静态属性
 
 ### Ergonomic brand checks for Private Fields
 
-使用 `in` 操作符检测对象是否定义了 private 属性、方法
+使用 `in` 操作符检测对象是否定义了 `private` 属性/方法
 
 ```javascript {9}
 class C {
@@ -1554,7 +1555,7 @@ console.log("#brand" in c);
 
 ### Class Static Initialization Block
 
-在类里面定义一个 `static initialization block`，初始化多个 static 属性
+在类里面定义一个 `static initialization block`，初始化多个 `static` 属性
 
 ```javascript {9-14}
 class Translator {

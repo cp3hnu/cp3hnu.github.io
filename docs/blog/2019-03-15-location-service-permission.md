@@ -55,9 +55,9 @@ App 一般都是在前台使用定位服务，如果 app 想要在后台接收�
 >
 > Your app can use all location services and receive events even if the user is not aware that your app is running. If your app isn’t running, the system launches your app and delivers the event.
 
- `whenInUse` 应用于使用 app 时(app in use)使用定位服务，什么是使用 app，**这里有个误区**，以为只有 app 在前台运行的时候，才是使用 app，其实不是，在后台也可以使用 app，但是需要设置 `Location updates` 的后台服务。
+ `whenInUse` 应用于使用 app 时（app in use）使用定位服务，什么是使用 app，**这里有个误区**，以为只有 app 在前台运行的时候，才是使用 app，其实不是，在后台也可以使用 app，但是需要设置 `Location updates` 的后台服务。
 
- `always` 应用于任何情况下使用定位服务，即使 app 没有在运行，且用户无感知 app 是否在运行。同时一些后台定位服务需要 `always` 权限才能运行，比如 Significant-change location service、Visits service、Region monitoring，而且这些定位服务在 app 没有运行时会重启 app。
+ `always` 应用于任何情况下使用定位服务，即使 app 没有在运行，且用户并不知道 app 是否在运行。同时一些后台定位服务需要 `always` 权限才能运行，比如 Significant-change location service、Visits service、Region monitoring，而且这些定位服务在 app 没有运行时会重启 app。
 
 但是 `always` 并不是意味只要用户授权了 `always` 权限就能在后台使用定位服务, app 能否在后台使用定位服务完全取决于 Background Modes 是否设置为 `Location updates` 。只是 Significant-change location service、Visits service、Region monitoring 这些定位服务要想在后台运行，即要求 `Location updates` 的后台服务，也要  `always`  权限，**这是另一个误区**。
 

@@ -111,7 +111,7 @@ SUBQUERY (
 ).@count == 1
 ```
 
-但是这个语法太生涩了，而且如果处理的类型太多，这个字符串也很长。还有一种办法是通过 [`NSItemProvider`](https://developer.apple.com/documentation/foundation/nsitemprovider) 的 [`hasItemConformingToTypeIdentifier`(_:)](https://developer.apple.com/documentation/foundation/nsitemprovider/1403921-hasitemconformingtotypeidentifie#) 判断是否是自己需要的文件类型。比如下面指定 Share Extension 只能处理 图片、PDF 和 Word 类型的文件。
+但是这个语法太生涩了，而且如果处理的类型太多，这个字符串也很长。还有一种办法是通过 [`NSItemProvider`](https://developer.apple.com/documentation/foundation/nsitemprovider) 的 [`hasItemConformingToTypeIdentifier(_:)`](https://developer.apple.com/documentation/foundation/nsitemprovider/1403921-hasitemconformingtotypeidentifie#) 判断是否是自己需要的文件类型。比如下面指定 Share Extension 只能处理 图片、PDF 和 Word 类型的文件。
 
 > `com.microsoft.word.doc` 是 .doc Word 文件
 >
@@ -334,7 +334,7 @@ private extension CustomViewController {
 
 ![](./assets/share-extension-custom-ui.jpeg)
 
-> [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5) 文档上说可以通过 `Auto Layout constraints` 或者 [`preferredContentSize`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621476-preferredcontentsize) 调整 view 的高度，经测试（iPhoneXR 15.5） Share Extension 的自定义 UI 高度不可调。 
+> [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5) 文档上说可以通过 `Auto Layout constraints` 或者 [`preferredContentSize`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621476-preferredcontentsize) 调整 view 的高度，但是如果使用 Navigation Controller，UI 的高度不可调。 
 
 ## References
 
