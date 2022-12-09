@@ -21,8 +21,10 @@ summary: 介绍 Vue Router 4.x 是怎样通过地址栏进行导航和 RouterLin
 首先在 `createWebHistory ` 方法中注册 [popstate](https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event) 事件监听器
 
 ```typescript {29-40}
+注册 `popstate` 事件监听器
 window.addEventListener('popstate', popStateHandler)
 
+// `popstate` 事件监听器
 const popStateHandler = ({ state }) => {
   const to = createCurrentLocation(base, location)
   const from: HistoryLocation = currentLocation.value
@@ -34,7 +36,7 @@ const popStateHandler = ({ state }) => {
     currentLocation.value = to
     historyState.value = state
 
-    // ignore the popstate and reset the pauseState
+    // Check if the popstate listener can trigger twice
     if (pauseState && pauseState === from) {
       pauseState = null
       return

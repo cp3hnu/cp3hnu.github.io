@@ -60,7 +60,7 @@ methods: {
 
 下面一起通过学习 Vuex 4 的 [源码](https://github.com/vuejs/vuex) 来解答这两个问题
 
-> 下面展示的代码是 Vuex v4.0.2
+> 下面展示的代码是 Vuex V4.0.2
 
 ## store 是怎么注入到 Vue 组件中的
 

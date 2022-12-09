@@ -17,7 +17,7 @@ Vue 3 响应性原理请点 **[这里](./2021-04-05-vue3-reactive-theory/)**
 
 ## 组合式 API
 
-**逻辑关注点**拆分，代码复用的新方式，这是 Vue 3 新增的最大一个新特性，这里的内容比较多，直接看**[官方文档](https://v3.cn.vuejs.org/guide/composition-api-introduction.html)**
+**逻辑关注点**拆分，代码复用的新方式，这是 Vue 3 新增的最大一个新特性，这里的内容比较多，直接看 [官方文档](https://v3.cn.vuejs.org/guide/composition-api-introduction.html)
 
 ## 应用实例(app)
 

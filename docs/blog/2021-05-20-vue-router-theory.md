@@ -69,6 +69,8 @@ this.$router.push('/about')
 这里我们就有疑问了，Vue Router 是怎样修改浏览器地址栏的？又是怎样把组件渲染到  `<router-view>`的？带着这两个疑问，我们通过 Vue Router 的[源代码](https://github.com/vuejs/vue-router-next)来分析它是怎么实现的。
 
 > Vue Router 是用 TypeScript 语言写的
+>
+> 版本号 4.0.12
 
 ## createRouter 方法
 

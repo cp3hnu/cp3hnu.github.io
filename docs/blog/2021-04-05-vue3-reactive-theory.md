@@ -160,7 +160,7 @@ Vue 3 使用下面的数据结构存储 effect。
 | depsMap   | Map     | property | dep     | 属性   |
 | dep       | Set     |          | effect  | 副作用 |
 
-下面是 Vue 3 的 [源码](https://github.com/vuejs/vue-next/blob/2d4f4554349db6b07027d0c626f56c48d0233f67/packages/reactivity/src/effect.ts#L212)
+下面是 Vue 3 的 [源码](https://github.com/vuejs/vue-next/blob/2d4f4554349db6b07027d0c626f56c48d0233f67/packages/reactivity/src/effect.ts#L212)，版本号 3.2.23
 > 删除了一些调试相关的代码，只保留主体
 ```typescript {20,25,31}
 // 存储 effect 的数据结构

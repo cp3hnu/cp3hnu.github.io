@@ -363,7 +363,7 @@ Compiled to:
 
 ##### Taking Arbitrary Arguments
 
-`@mixin` 中如果最后的参数带 `...` 结尾，即 `$params...`，表示 `params` 是个 list，类似于 JavaScript 函数中的最后的参数 `...params`。
+`@mixin` 中如果最后的参数带 `...` 结尾，即 `$params...`，表示 `params` 是个 [`list`](https://sass-lang.com/documentation/values/lists)，类似于 JavaScript 函数中的最后的参数 `...params`。
 
 ```scss
 @mixin order($height, $selectors...) {
@@ -379,7 +379,7 @@ Compiled to:
 @include order(150px, "input.name", "input.address", "input.zip");
 ```
 
-如果 `@include` 调用时使用参数名  `$param1: value1`，那么 `params` 是 map，可以使用 [`meta.keywords()`](https://sass-lang.com/documentation/modules/meta#keywords) 解析这个参数。
+如果 `@include` 调用时使用参数名  `$param1: value1`，可以使用 [`meta.keywords()`](https://sass-lang.com/documentation/modules/meta#keywords) 解析这个参数，返回一个 [`map`](https://sass-lang.com/documentation/values/maps)。
 
 ```scss
 @use "sass:meta";
@@ -814,9 +814,13 @@ Less 定义了很多的内置函数，详情请参考 [Functions](https://lesscs
 # References
 
 - [Sass](https://sass-lang.com/documentation/)
+- [Sass Palyground](https://www.sassmeister.com/)
+- [Sass中文网](https://www.sass.hk/docs/)
 - [Less](https://lesscss.org/features/)
 - [Less-To-CSS Playground](http://lesscss.org/less-preview/#eyJjb2RlIjoiIiwiYWN0aXZlVmVyc2lvbiI6IjQuMS4zIn0=)
-- [Sass Palyground](https://www.sassmeister.com/)
-- [BEM](https://getbem.com/)
-- [Sass中文网](https://www.sass.hk/docs/)
 
+## Further Readings
+
+- [BEM](https://getbem.com/)
+- [Used and Abused – CSS Inheritance and Our Misuse of the Cascade](https://www.phase2technology.com/blog/used-and-abused-css)
+- [awesome-css](https://github.com/awesome-css-group/awesome-css)
