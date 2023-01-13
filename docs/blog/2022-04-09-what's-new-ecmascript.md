@@ -1738,7 +1738,7 @@ function readFiles(filePaths) {
 }
 ```
 
-## Reference
+## References
 
 - [tc39/finished-proposals](https://github.com/tc39/proposals/blob/main/finished-proposals.md)
 - [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
