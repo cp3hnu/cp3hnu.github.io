@@ -408,17 +408,17 @@ ES2015 引入了[迭代器和生成器](https://developer.mozilla.org/en-US/docs
 
 #### Async Iterator
 
-AsyncIterator 和 Iterator 一样，有一个 `next` 方法，不同的是 AsyncIterator 的 `next` 方法返回一个 resolve `{ value, done }` 对象的 Promise
+AsyncIterator 和 Iterator 一样，有一个 `next` 方法，不同的是 AsyncIterator 的 `next` 方法返回的是 `Promise.resolve({ value, done })` 或者 `Promise.reject(error)`，这种情况 `for await of` 将抛出异常。
 
 > AsyncIterator 的 `next` 方法也可以直接返回 `{ value, done }` 对象
 
 #### Symbol.asyncIterator
 
-和同步迭代一样，支持异步迭代的对象必须实现 `Symbol.asyncIterator`，返回一个异步迭代器 AsyncIterator
+和同步迭代一样，支持异步迭代的对象必须实现 `Symbol.asyncIterator` 方法，返回一个异步迭代器 AsyncIterator
 
 #### Async Generator
 
-通过 `async *function` 实现异步生成器，异步生成器和同步生成器结构是一样的，除了 `next` 方法返回 Promise 而不是 `{ value, done }`。
+通过 `async *function` 实现异步生成器，异步生成器和同步生成器结构是一样的。异步生成器搭配 `yield wait` 语句， `next` 方法返回的是 `Promise.resolve({ value, done })` 或者 `Promise.reject(error)`，这种情况 `for await of` 将抛出异常。
 
 #### for await of
 

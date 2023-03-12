@@ -22,10 +22,10 @@ Redux 是 JavaScript 应用的状态容器，提供可预测的状态管理。�
 
 ```sh
 # NPM
-npm install redux
+$ npm install redux
 
 # Yarn
-yarn add redux
+$ yarn add redux
 ```
 
 ### 使用 Redux
@@ -201,7 +201,7 @@ const store = createStore(rootReducer)
 
 增强器，通过替换 Store 对象的 `dispatch`、`getState` 和 `subscribe` 方法，对 Store 进行一些额外的操作，比如想在每次 dispatch 时，输出 action 日志
 
->  增强器的函数签名是： (createStore) => (rootReducer, preloadedState, enhancers) => new Store
+>  增强器的函数签名是： `(createStore) => (rootReducer, preloadedState, enhancers) => new Store`
 
 ```js
 const logOnDispatch = (createStore) => (rootReducer, preloadedState, enhancers) => {
@@ -293,13 +293,13 @@ store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions' })
 
 #### pipeline
 
-Redux middleware 围绕 `store.dispath` 方法形成一个pipeline。
+Redux middleware 围绕 `store.dispath` 方法形成一个 pipeline.
 
 ![](./assets/redux-middleware-pipeline.jpg)
 
 #### 怎么写 middleware？
 
-Redux middleware 的函数签名：(storeAPI) => (next) => (action) => {}
+Redux middleware 的函数签名：`(storeAPI) => (next) => (action) => {}`
 
 ```js
 const exampleMiddleware = storeAPI => next => action => {
@@ -311,11 +311,11 @@ const exampleMiddleware = storeAPI => next => action => {
 
 middleware 解析：
 
-- storeAPI: 一个包含 Store `dispatch` 和 `getState` 方法的对象，即 { dispatch, getState }，**非 Store 对象**
-- next：下一个 middleware 或者是初始的 `store.dispath` 方法
+- `storeAPI`: 一个包含 Store `dispatch` 和 `getState` 方法的对象，即 { dispatch, getState }，**非 Store 对象**
+- `next`：下一个 middleware 或者是初始的 `store.dispath` 方法
 - 调用 `next(action)` 将 action 传给下一个 middleware 或者初始的 `store.dispath` 方法
 - 调用 `storeAPI.dispatch` 重启 pipeline
--  `store.dispath` 方法返回第一个middleware 返回的值，初始的 `store.dispath` 方法返回 action 对象
+-  应用 middleware 之后，`store.dispath` 返回的是第一个middleware 返回的值，初始的 `store.dispath` 方法返回 action 对象
 
 ### React Devtools
 
@@ -379,7 +379,7 @@ const fetchSomeData = (dispatch, getState) => {
   })
 }
 
-// 这里的 action 是函数
+// 这里的 action 是函数，即 thunk
 store.dispatch(fetchSomeData)
 ```
 
@@ -387,12 +387,14 @@ store.dispatch(fetchSomeData)
 
  ![](./assets/redux-async.gif)
 
-Redux 提供了官方的异步函数 middleware， [Redux Thunk](https://github.com/reduxjs/redux-thunk) 
+### Redux Thunk
+
+为了简化异步函数 middleware 的创建，Redux 提供了官方的 thunk 库 - [Redux Thunk](https://github.com/reduxjs/redux-thunk) 
 
 #### 安装
 
 ```sh
-npm install redux-thunk
+$ npm install redux-thunk
 ```
 
 #### 配置
@@ -436,8 +438,8 @@ const selectTodoIds = state => state.todos.map(todo => todo.id)
 
 #### 安装
 
-```js
-npm install reselect
+```sh
+$ npm install reselect
 ```
 
 #### 使用
@@ -702,8 +704,8 @@ export const {
 
 ### 安装
 
-```js
-npm install react-redux
+```sh
+$ npm install react-redux
 ```
 
 ### 注入 Store
@@ -724,7 +726,7 @@ ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>, 
   document.getElementById('root')
 )
 ```

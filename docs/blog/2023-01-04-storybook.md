@@ -7,7 +7,7 @@ tags:
 date: 2023-01-04
 author: cp3hnu
 location: ChangSha
-summary: Storybook 帮助你调试组件、撰写组件文档以及测试组件
+summary: Storybook 帮助你调试组件、编写组件文档以及测试组件
 ---
 
 # Storybook
@@ -51,7 +51,7 @@ $ npx storybook@next automigrate
 
 ## Stories
 
-Story 是一个函数，根据组件的参数返回 component 的某种 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF) 定义组件，其关键要素是 story 文件的默认导出描述 component，命名导出定义 story。写 story 最简单的方式是使用 [args](https://storybook.js.org/docs/react/writing-stories/args)。
+Story 是一个函数，根据不同的 props 返回组件不同的 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF) 定义 story，其关键要素是 story 文件的默认导出描述组件，命名导出描述 story。定义 story 最简单的方式是使用 [args](https://storybook.js.org/docs/react/writing-stories/args)。
 
 ```js
 // src/stories/Button.stories.jsx
@@ -93,6 +93,68 @@ Small.args = {
 [Controls addon](https://storybook.js.org/docs/react/essentials/controls) 通过 args 可以让你很方便地修改组件的参数，从而方便地调试组件不同的状态
 
 ![](./assets/storybook-story.png)
+
+### Decorators
+
+Decorator 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html). 
+
+```js
+// .storybook/previews.js
+import { ThemeContext, themes } from './theme-context';
+export const decorators = [
+  Story => (
+    <ThemeContext.Provider value={themes.dark}>
+      <Story />
+    </ThemeContext.Provider>
+  )
+];
+```
+
+可以定义全局、组件、story 的 decorator。层级结构是全局 -> 组件 -> story，而且 decorators 数组中后面定义的 decorator 在前面定义的 decorator 上层。
+
+### ArgTypes
+
+Storybook 自动从组件的代码中推断出组件参数的信息，包括参数类型、描述、默认值。
+
+Storebook 的 addons 可以使用这些信息，比如 [Controls](https://storybook.js.org/docs/react/essentials/controls) 根据不同的参数类型，提供不同的控制组件。
+
+组件的参数信息可以通过 [ArgTypes](https://storybook.js.org/docs/react/api/argtypes) 重写，例如
+
+```js
+// Button.stories.js|jsx|ts|tsx
+export default {
+  title: 'Button',
+  component: Button,
+  argTypes: {
+    label: {
+      name: 'label',
+      type: {
+        name: 'string',
+        required: true
+      },
+      description: 'overwritten description',
+      defaultValue: 'Button',
+      table: {
+        type: { 
+          summary: 'something short', 
+          detail: 'something really really long' 
+        },
+        defaultValue: {
+          summary: 'something short default value', 
+          detail: 'something really really long default value' 
+        }
+      },
+      control: {
+        type: 'string'
+      }
+    }
+  }
+};
+```
+
+其中 `table` 应用有 ArgsTable，详情请参考 [ArgsTable Customizing](https://storybook.js.org/docs/react/writing-docs/doc-block-argstable#customizing)。
+
+`control` 应用于 Controls，详情请参考 [Controls Annotation](https://storybook.js.org/docs/react/essentials/controls#annotation)。
 
 ## Documents
 
@@ -172,7 +234,7 @@ Markdown documentation.
 
 - 当 MDX 文件中没有定义 `<Meta>` 时，该 MDX 文件可以作为别的 component、story 的文档，详情请参考 [CSF Stories with arbitrary MDX](https://github.com/storybookjs/storybook/blob/master/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx)
 
-```js
+```js {7-9}
 // Button.stories.mdx 
 import CustomMDXDocumentation from './Custom-MDX-Documentation.mdx';
 export default {
@@ -190,11 +252,12 @@ export default {
 
 #### Embedding stories
 
-```markdown
+```markdown {6}
 <!-- MyComponent.stories.mdx -->
 import { Story } from '@storybook/addon-docs';
 # Some header
 And Markdown here
+
 <Story id="some--id" />
 ```
 
@@ -241,11 +304,13 @@ Build 生成的文件放在 `storybook-static` 文件夹里
 | 选项             | 说明                                                         |
 | ---------------- | ------------------------------------------------------------ |
 | page             | DocsPage 中自定义文档，可以是 mdx 或者一个返回 React 组件的函数 |
-| inlineStories    | 渲染 story 的方式：true(inline)/false(iframe)                |
+| inlineStories    | 渲染 story 的方式：`true `(inline) / `false` (iframe)        |
 | prepareForInline | 一个函数，将 story 的内容从给定的框架转换为 React 可以渲染的内容 |
 | component        | DocsPage 中覆盖组件的描述                                    |
 | story            | DocsPage 中覆盖 story 的描述                                 |
 | disable          | 禁止 story 出现在 Docs 中                                    |
+| theme            | 文档主题色，详情请参考 [Theming](https://storybook.js.org/docs/react/configure/theming) |
+| source           | 用于 Source Doc Block，详情请参考 [Source](https://storybook.js.org/docs/react/writing-docs/doc-block-source) |
 
 ## Configuration
 
@@ -428,24 +493,54 @@ export const loaders = [
 
 ### `manager.js`
 
-`manager.js` 控制 Storybook 的 UI，详情请参考 [Features and behavior](https://storybook.js.org/docs/react/configure/features-and-behavior)
+`manager.js` 控制 Storybook 的 UI，详情请参考 [Features and behavior](https://storybook.js.org/docs/react/configure/features-and-behavior)。比如我们可以修改 Storybook UI 的 theme.
+
+首先创建 `YourTheme.js` 文件
+
+```js
+// .storybook/YourTheme.js
+
+import { create } from '@storybook/theming';
+
+export default create({
+  base: 'light',
+  brandTitle: 'My custom storybook',
+  brandUrl: 'https://example.com',
+  brandImage: 'https://place-hold.it/350x150',
+  brandTarget: '_blank',
+});
+```
+
+然后在  `manager.js` 引入这个 theme
+
+```js
+// .storybook/manager.js
+
+import { addons } from '@storybook/addons';
+import yourTheme from './YourTheme';
+
+addons.setConfig({
+  theme: yourTheme,
+});
+```
 
 ## Testing
 
-comming soon
+Comming soon
 
 ## Publishing
 
-Commin soon
+Comming soon
 
 ## Existing problems
 
-- ArgTypes 没有 Array 数据类型
+- ArgTypes 没有 Array 数据类型，在 Controls addon 设置值时，默认给的值是 `{}`，导致 Storybook crash。
+- Source 自动生成的代码还是存在很多问题
 
 ## References
 
 - [Storybook](https://storybook.js.org/)
-- [Component Story Format](https://www.componentdriven.org/) 
+- [Component Story Format](https://www.componentdriven.org/)
 - [JSDoc](https://jsdoc.app/)
 - [MDX](https://mdxjs.com/)
 - [Chromatic](https://www.chromatic.com/)
