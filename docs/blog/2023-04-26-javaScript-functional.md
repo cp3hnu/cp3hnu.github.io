@@ -723,9 +723,11 @@ Task.of(renderPage).ap(Http.get('/destinations')).ap(Http.get('/events'))
 
 两个请求将会同时立即执行，当两者的响应都返回之后，`renderPage` 就会被调用，类似于 `Promise.all`
 
-### Lift
+### 抬升 Lift
 
-以一种 Pointfree 的方式调用 Applicative Functor
+一个函数在调用的时候，如果被 `map` 包裹了，那么它就会从一个非 functor 函数转换为一个 functor 函数，我们把这个过程叫做 **Lift**
+
+我们现在以一种 Pointfree 的方式调用 Applicative Functor
 
 ```js
 const liftA2 = curry((g, f1, f2) => f1.map(g).ap(f2));
@@ -1016,7 +1018,7 @@ const Any = (x) => ({ x, concat: (other) => Any(x || other.x) })
 const All = (x) => ({ x, concat: (other) => All(x && other.x) })
 ```
 
-## Functor 也可以是 Semigroup
+### Functor 也可以是 Semigroup
 
 当容器的值是 Semigroup 时，这个容器也是 Semigroup，例如 `Identity`
 
@@ -1120,7 +1122,7 @@ fold(IO.of([]), ['.link', 'a'].map($)) // IO([<a>, <button class="link"/>, <a>])
 
 拥有类型的语言可以自己解决这个问题，在这例子里我们是自己传进去的
 
-## 不能成为 Monoid
+### 不能成为 Monoid
 
 有一些 Semigroup 是不能变成 Monoid 的，因为他们没法提供初始值。例如 `First`：
 
