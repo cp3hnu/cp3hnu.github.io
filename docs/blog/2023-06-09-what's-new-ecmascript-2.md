@@ -14,6 +14,14 @@ summary: 学习总结 ECMAScript 从 2021 年到 2025 年引入的新特性
 
 接上篇 [ES2016 ~ ES2020 新特性](https://www.joylearn123.com/2022/04/09/what-s-new-ecmascript/)
 
+[这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2021 ~ 2025 所有通过的提案
+
+[这里](https://github.com/cp3hnu/What-s-New-in-ECMAScript) 是我写的下面这些新特性的 playground，方便查看运行结果
+
+> 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
+
+> 如果浏览器不支持可以自行 polyfill：[core-js](https://github.com/zloirock/core-js), [Polyfill.io](https://polyfill.io/)
+
 ## ES2021 (ES12)
 
 ES2021 新增 **6** 组新特性
@@ -624,8 +632,8 @@ ES2023 新增 **4** 组新特性
 
 ```js
 const array = [5, 12, 50, 130, 44];
-const found = array.findLast((element) => element > 45);      // 130
-const found = array.findLastIndex((element) => element > 45); // 3
+const found1 = array.findLast((element) => element > 45);      // 130
+const found2 = array.findLastIndex((element) => element > 45); // 3
 ```
 
 ### Change Array by Copy
@@ -704,6 +712,18 @@ Symbol 能作为 WeakMap 的 key 这个新特性，能用于 [ShadowRealms](http
 > Registered symbols 是使用 [`Symbol.for()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/for) 方法的注册的 symbols。
 >
 > Well-known symbols 是  [`Symbol.hasInstance`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/hasInstance) 之类的 symbols。
+
+## ES2024 (ES 15)
+
+期待更新...
+
+
+
+## ES2025 (ES 16)
+
+期待更新...
+
+
 
 ## References
 

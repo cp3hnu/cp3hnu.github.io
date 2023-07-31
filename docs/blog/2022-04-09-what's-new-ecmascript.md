@@ -16,7 +16,7 @@ summary: 学习总结 ECMAScript 从 2016 年到 2020 年引入的新特性
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2016 ~ 2020 所有通过的提案
 
-[这里](https://replit.com/@cp3hnu/ECMAScript) 是我写的下面这些新特性的 playground，方便查看运行结果
+[这里](https://github.com/cp3hnu/What-s-New-in-ECMAScript) 是我写的下面这些新特性的 playground，方便查看运行结果
 
 > 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
 
