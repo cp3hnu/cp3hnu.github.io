@@ -4,6 +4,7 @@ title: ES2021 ~ ES2025 新特性
 tags: 
   - web
   - javascript
+  - ECMAScript
 date: 2023-06-09
 author: cp3hnu
 location: ChangSha

@@ -3,7 +3,8 @@ pageClass: blog-page
 title: Storybook
 tags:
   - web
-  - tool
+  - test
+  - storybook
 date: 2023-01-04
 author: cp3hnu
 location: ChangSha
@@ -23,7 +24,7 @@ Storybook 定义每个组件的不同状态为 story。Storybook render 这些 s
 在已有的工程里使用下面的命令安装 Storybook
 
 ```sh
-$ npx storybook init
+$ npx storybook@latest init
 ```
 
 Storybook 会根据你的工程依赖（比如你用的是 React 还是 Vue），提供最优的配置。
@@ -38,7 +39,7 @@ Storybook 会根据你的工程依赖（比如你用的是 React 还是 Vue）�
 ##### 升级
 
 ```sh
-$ npx storybook upgrade
+$ npx storybook@latest upgrade
 ```
 
 运行上面的命令升级 Storybook 相关的包至最新版本，同时检查是否有机会运行自动更新配置
@@ -51,66 +52,59 @@ $ npx storybook@next automigrate
 
 ## Stories
 
-Story 是一个函数，根据不同的 props 返回组件不同的 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF) 定义 story，其关键要素是 story 文件的默认导出描述组件，命名导出描述 story。定义 story 最简单的方式是使用 [args](https://storybook.js.org/docs/react/writing-stories/args)。
+> 本文档是在 Storybook 6.5 版本下编写，然后更新到 Storybook 7.3 
+
+Story 是一个函数，根据不同的 props 返回组件不同的 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF， Storybook 7.3 使用 CSF 3.0) 定义 story。
+
+在 story 文件里，默认导出组件描述，命名导出 story 描述（推荐使用 UpperCamelCase）。
+
+### Args
+
+定义 story 最简单的方式是使用 [Args](https://storybook.js.org/docs/react/writing-stories/args)。可以定义全局的、组件的、story 的 args.
 
 ```js
 // src/stories/Button.stories.jsx
 import React from "react";
 import { Button } from "./Button";
 
+// 默认导出组件描述 
 export default {
-  title: "Example/Button",
   component: Button
 };
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = args => <Button {...args} />;
-
-export const Primary = Template.bind({});
-Primary.args = {
-  primary: true,
-  label: "Primary"
+// 命名导出 story 描述
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+export const Primary = {
+  args: {
+    primary: true,
+    label: 'Button',
+  }
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: "Secondary"
-};
+export const Secondary = {
+  args: {
+    label: 'Button',
+  },
+}
 
-export const Large = Template.bind({});
-Large.args = {
-  size: "large",
-  label: "Large"
-};
+export const Large = {
+  args: {
+    size: 'large',
+    label: 'Button',
+  },
+}
 
-export const Small = Template.bind({});
-Small.args = {
-  size: "small",
-  label: "Small"
-};
+export const Small = {
+  args: {
+    size: 'small',
+    label: 'Button',
+  },
+}
 ```
 
-[Controls addon](https://storybook.js.org/docs/react/essentials/controls) 通过 args 可以让你很方便地修改组件的参数，从而方便地调试组件不同的状态
+[Controls addon](https://storybook.js.org/docs/react/essentials/controls) 通过 Args 可以让你很方便地修改组件的参数，从而方便地调试组件不同的状态
 
 ![](./assets/storybook-story.png)
-
-### Decorators
-
-Decorator 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html). 
-
-```js
-// .storybook/previews.js
-import { ThemeContext, themes } from './theme-context';
-export const decorators = [
-  Story => (
-    <ThemeContext.Provider value={themes.dark}>
-      <Story />
-    </ThemeContext.Provider>
-  )
-];
-```
-
-可以定义全局、组件、story 的 decorator。层级结构是全局 -> 组件 -> story，而且 decorators 数组中后面定义的 decorator 在前面定义的 decorator 上层。
 
 ### ArgTypes
 
@@ -118,7 +112,7 @@ Storybook 自动从组件的代码中推断出组件参数的信息，包括参�
 
 Storebook 的 addons 可以使用这些信息，比如 [Controls](https://storybook.js.org/docs/react/essentials/controls) 根据不同的参数类型，提供不同的控制组件。
 
-组件的参数信息可以通过 [ArgTypes](https://storybook.js.org/docs/react/api/argtypes) 重写，例如
+同时，组件的参数信息也可以通过 [ArgTypes](https://storybook.js.org/docs/react/api/argtypes) 重写，例如
 
 ```js
 // Button.stories.js|jsx|ts|tsx
@@ -152,36 +146,157 @@ export default {
 };
 ```
 
-其中 `table` 应用有 ArgsTable，详情请参考 [ArgsTable Customizing](https://storybook.js.org/docs/react/writing-docs/doc-block-argstable#customizing)。
+其中 `table` 应用于 ArgsTable，详情请参考 [ArgsTable Customizing](https://storybook.js.org/docs/react/writing-docs/doc-block-argstable#customizing)。
 
 `control` 应用于 Controls，详情请参考 [Controls Annotation](https://storybook.js.org/docs/react/essentials/controls#annotation)。
 
+### Parameters
+
+[Parameters](https://storybook.js.org/docs/react/writing-stories/parameters) 是一组关于 story 的静态元数据，通常用于控制组件或者 story 的特性和 addon 的行为。
+
+和 Args 一样可以定义全局的、组件的、 story 的 parameters.
+
+例如下面配置 story 的背景色，更多配置项请参考下面的 [Configuration](#preview.js)
+
+```js
+// Button.stories.js|ts|jsx|tsx
+
+import { Button } from './Button';
+
+export default {
+  component: Button,
+};
+
+export const Primary = {
+  parameters: {
+    backgrounds: {
+      values: [
+        { name: 'red', value: '#f00' },
+        { name: 'green', value: '#0f0' },
+        { name: 'blue', value: '#00f' },
+      ],
+    },
+  },
+};
+```
+
+### Decorators
+
+Decorator 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html).
+
+和 Args、Parameters 一样可以定义全局的、组件的、 story 的 decorators. 优先级从高到低依次是 story、组件、全局 decorator，而且 decorators 数组中后面定义的 decorator 比前面定义的 decorator 优先级高。
+
+```js
+// .storybook/previews.js
+import { ThemeContext, themes } from './theme-context';
+export const decorators = [
+  Story => (
+    <ThemeContext.Provider value={themes.dark}>
+      <Story />
+    </ThemeContext.Provider>
+  )
+];
+```
+
+Decorators 的第二个参数是 [story context](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking).
+
+### Loaders
+
+[Loaders](https://storybook.js.org/docs/react/writing-stories/loaders) 是为 story 和 decorator 加载数据的异步函数。Story 的 loaders 在 story 渲染之前运行，加载的数据通过 story 的 render context 注入到 story 中。
+
+和 Args、Parameters、Decorators 一样可以定义全局的、组件的、 story 的 loaders.
+
+下面通过 remote API 加载 `currentUser`， 然后通过组件或者 story 的第二个参数 story context (`context.loaded.currentUser`) 注入到 story 中。
+
+```js
+// .storybook/preview.js
+import fetch from 'node-fetch';
+export const loaders = [
+  async () => ({
+    currentUser: await (await fetch('https://jsonplaceholder.typicode.com/users/1')).json(),
+  }),
+];
+
+// Component.stories.js
+export const Primary = (args, { loaded: { currentUser } }) => <Component {...args} user={currentUser} />;
+```
+
+### Naming components and hierarchy
+
+下面是 storybook 的层级结构
+
+<img src="./assets/storybook_naming_hierarchy.png" alt="Storybook sidebar hierarchy" style="zoom:50%;" />
+
+可以通过设置 `title` 设置层级结构
+
+```js
+// Button.stories.js|jsx
+
+import { Button } from './Button';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Design System/Atoms/Button',
+  component: Button,
+};
+```
+
 ## Documents
 
-Storybook 支持两种撰写文档的方法：[DocsPage](https://storybook.js.org/docs/react/writing-docs/docs-page) 和 [MDX](https://storybook.js.org/docs/react/writing-docs/mdx)。
+Storybook 支持两种撰写文档的方法：[Autodocs](https://storybook.js.org/docs/react/writing-docs/autodocs) 和 [MDX](https://storybook.js.org/docs/react/writing-docs/mdx)。
 
-### DocsPage
+### Autodocs
 
-DocsPage 是开箱即用的零配置默认文档。它将 story、文本描述、组件中的 docgen 注释、参数表和代码示例聚合在一起，生成关于组件的文档
+Autodocs 是开箱即用的零配置默认文档。它将 story、文本描述、组件中的 docgen 注释、参数表和代码示例聚合在一起，生成关于组件的文档
 
-![](./assets/storybook-docspage.png)
+![](./assets/storybook-Autodocs.png)
 
 #### Overriding description
 
 ```js
+// 修改组件描述
+export default {
+  title: 'Example/Button',
+  component: Button,
+  parameters: {
+    docs: b
+      description: {
+        component: 'This is a button',
+      },
+    },
+  },
+};
+
+// 修改 stroy 描述
 Primary.parameters = {
   docs: {
     description: {
-      component: 'Component **markdown** description',
-      story: 'Story **markdown** description',
+      story: 'This is a primary button',
     }
   }
 };
 ```
 
+多行注释也能修改 story 的描述
+
+```js
+/**
+ * This is a large button
+ */
+export const Large = {
+  args: {
+    size: 'large',
+    label: 'Button',
+  },
+}
+```
+
 ### MDX
 
-Storybook 默认使用 DocsPage 文档，但是当你想要自定义文档格式或者创建更加详细的文档时，可以使用 MDX。
+Storybook 默认使用 Autodocs 文档，但是当你想要自定义文档格式或者创建更加详细的文档时，可以使用 MDX。
 
 MDX 是一个 [标准文件格式](https://mdxjs.com/)，它结合了 Markdown 和 JSX。
 
@@ -252,6 +367,8 @@ export default {
 
 #### Embedding stories
 
+通过 `<Story id="" />` 嵌入其它 stories
+
 ```markdown {6}
 <!-- MyComponent.stories.mdx -->
 import { Story } from '@storybook/addon-docs';
@@ -262,6 +379,8 @@ And Markdown here
 ```
 
 #### Linking to other stories and pages
+
+通过`[title](link)`链接到其它 stories 和 pages
 
 ```markdown
 [Go to specific story canvas](?path=/story/some--id)
@@ -300,17 +419,34 @@ Build 生成的文件放在 `storybook-static` 文件夹里
 
 ### Docs configuration summary
 
+可以在 MDX 中通过 `parameters.docs` 来配置文档
+
+```js
+export default {
+  parameters: {
+    docs: {
+      page: CustomMDXDocumentation
+    }
+  }
+};
+```
+
+通过官方文档归纳出有以下这些配置项：
+
 
 | 选项             | 说明                                                         |
 | ---------------- | ------------------------------------------------------------ |
-| page             | DocsPage 中自定义文档，可以是 mdx 或者一个返回 React 组件的函数 |
+| page             | 自定义文档或者自定义文档模版，可以是一个 MDX 文件或者一个返回 React 组件的函数 |
+| description      | {component, story}，修改组件或者 stroy 的描述                |
 | inlineStories    | 渲染 story 的方式：`true `(inline) / `false` (iframe)        |
 | prepareForInline | 一个函数，将 story 的内容从给定的框架转换为 React 可以渲染的内容 |
-| component        | DocsPage 中覆盖组件的描述                                    |
-| story            | DocsPage 中覆盖 story 的描述                                 |
 | disable          | 禁止 story 出现在 Docs 中                                    |
 | theme            | 文档主题色，详情请参考 [Theming](https://storybook.js.org/docs/react/configure/theming) |
 | source           | 用于 Source Doc Block，详情请参考 [Source](https://storybook.js.org/docs/react/writing-docs/doc-block-source) |
+| toc              | 文档内容目录，详情请参考 [Configure the table of contents](https://storybook.js.org/docs/react/writing-docs/autodocs#configure-the-table-of-contents) |
+| container        | 自定义文档容器组件，详情请参考 [Customize the Docs Container](https://storybook.js.org/docs/react/writing-docs/autodocs#customize-the-docs-container) |
+| autodocs         | 配置自动生成文档，可选值为：`true`, `false`, `tag`，当配置`tag `时，通过在 story 中添加 `tag: ['autodocs']`为组件自动生成文档，详情请参考 [Configure](https://storybook.js.org/docs/react/writing-docs/autodocs#configure) |
+| defaultName      | 重命名自动生成文档                                           |
 
 ## Configuration
 
@@ -350,6 +486,8 @@ module.exports = {
 };
 ```
 
+通过官方文档归纳出有以下这些配置项：
+
 | 选项         | 说明                                                         |
 | ------------ | ------------------------------------------------------------ |
 | stories      | 确定哪些文件为 story 文件，文件的匹配使用 [picomatch](https://github.com/micromatch/picomatch) 支持的语法，详情请参考 [Configure story loading]( https://storybook.js.org/docs/react/configure/overview#configure-story-loading) |
@@ -365,6 +503,7 @@ module.exports = {
 | refs         | 配置 [Storybook composition](https://storybook.js.org/docs/react/sharing/storybook-composition) |
 | env          | 自定义 Storybook 环境变量，详情请参考 [Environment variables](https://storybook.js.org/docs/react/configure/environment-variables) |
 | logLevel     | 控制日志输出，有这些选项：`silly`, `verbose`, `info` (默认), `warn`, `error`, `silent` |
+| docs         | 配置 Storybook 自动生成文档，详情请参考 [Automatic documentation and Storybook](https://storybook.js.org/docs/react/writing-docs/autodocs#configure) |
 
 ### `preview.js`
 
@@ -372,9 +511,9 @@ module.exports = {
 
 它主要包含下面这些命名导出。
 
-#### parameters
+#### Parameters
 
-[Parameters](https://storybook.js.org/docs/react/writing-stories/parameters) 是一组关于 story 的静态元数据，通常用于控制 Storybook 特性和 addon 的行为。下面是 [Essential addons](https://storybook.js.org/docs/react/essentials/introduction) 的一些配置
+[Parameters](https://storybook.js.org/docs/react/writing-stories/parameters) 是一组关于 story 的静态元数据，通常用于控制组件或者 story 的特性和 addon 的行为。下面是 [Essential addons](https://storybook.js.org/docs/react/essentials/introduction) 的一些配置:
 
 ```js
 // .storybook/preview.js
@@ -409,7 +548,7 @@ export const parameters = {
       { name: "blue", value: "#00f" }
     ]
   },
-  // https://storybook.js.org/docs/react/writing-docs/docs-page#with-mdx-documentation
+  // https://storybook.js.org/docs/react/writing-docs/autodocs#with-mdx-documentation
   docs: {
     page: CustomMDXDocumentation
   },
@@ -418,24 +557,21 @@ export const parameters = {
 };
 ```
 
-#### decorators
+通过官方文档归纳出有以下这些配置项：
 
-[Decorators](https://storybook.js.org/docs/react/writing-stories/decorators) 是一种用额外的“渲染”功能包装 story 的方法，全局的 decorators 配置将会应用到所有的 story.
+| 选项        | Addon                                                        |
+| ----------- | ------------------------------------------------------------ |
+| actions     | [Actions](https://storybook.js.org/addons/@storybook/addon-actions/)，[文档](https://storybook.js.org/docs/react/essentials/actions) |
+| backgrounds | [Backgrounds](https://storybook.js.org/addons/@storybook/addon-backgrounds/)、[文档](https://storybook.js.org/docs/react/essentials/backgrounds) |
+| controls    | [Controls](https://storybook.js.org/addons/@storybook/addon-controls/)，[文档](https://storybook.js.org/docs/react/essentials/controls) |
+| docs        | [Docs](https://storybook.js.org/addons/@storybook/addon-docs/)，[文档](https://storybook.js.org/docs/react/writing-docs/autodocs#with-mdx-documentation) |
+| layout      | [文档](https://storybook.js.org/docs/react/configure/story-layout) |
+|             |                                                              |
+|             |                                                              |
+|             |                                                              |
+| msw         | [Mock Service Worker](https://storybook.js.org/addons/msw-storybook-addon)，[文档](https://storybook.js.org/docs/react/writing-stories/build-pages-with-storybook#mocking-api-services) |
 
-```js
-// .storybook/preview.js
-export const decorators = [
-  (Story, Context) => (
-    <div style={{ margin: '3em' }}>
-      <Story />
-    </div>
-  )
-];
-```
-
-Decorators 的第二个参数是 [story context](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking).
-
-#### globalTypes
+#### GlobalTypes
 
 [Globals](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals) 是 Storybook 的全局输入，不特定于任何 story。它的一个用途是用于配置额外的 toolbar menus，例如下面创建一个 theme menu:
 
@@ -457,20 +593,6 @@ export const globalTypes = {
     }
   }
 };
-```
-
-#### loaders
-
-[Loaders](https://storybook.js.org/docs/react/writing-stories/loaders) 是为 story 和 decorator 加载数据的异步函数。Story 的 loaders 在 story 渲染之前运行，加载的数据通过 story 的 render context 注入到 story 中。下面的例子加载 `currentUser`， 然后通过 `loaded.currentUser` 注入到所有的 story。
-
-```js
-// .storybook/preview.js
-import fetch from 'node-fetch';
-export const loaders = [
-  async () => ({
-    currentUser: await (await fetch('https://jsonplaceholder.typicode.com/users/1')).json(),
-  }),
-];
 ```
 
 ### `preview-head.html` & `preview-body.html` 

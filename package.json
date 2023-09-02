@@ -14,5 +14,10 @@
     "@vuepress/plugin-back-to-top": "^1.8.2",
     "@vuepress/theme-blog": "^2.3.3",
     "vuepress": "^1.8.2"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
+    "moment": "^2.29.4"
   }
 }

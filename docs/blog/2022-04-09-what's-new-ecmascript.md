@@ -4,6 +4,7 @@ title: ES2016 ~ ES2020 新特性
 tags: 
   - web
   - javascript
+  - ECMAScript
 date: 2022-04-09
 author: cp3hnu
 location: ChangSha
