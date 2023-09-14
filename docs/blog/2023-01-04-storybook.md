@@ -32,7 +32,7 @@ Storybook 会根据你的工程依赖（比如你用的是 React 还是 Vue）�
 这个命令主要做四件事：
 
 - 安装依赖包，比如 `@storybook/addon-essentials`
-- 添加 script 命令，比如 `"storybook": "start-storybook -p 6006"`
+- 添加 script 命令，比如 `"storybook": "storybook dev 6006"`
 - 创建配置文件，在 `.storybook` 目录下，有两个文件 `main.js` 和 `preview.js`
 - 创建示例，在 `src/stories` 目录下
 
@@ -52,9 +52,9 @@ $ npx storybook@next automigrate
 
 ## Stories
 
-> 本文档是在 Storybook 6.5 版本下编写，然后更新到 Storybook 7.3 
+> 本文档是在 Storybook 6.5 版本下编写，然后更新到 Storybook 7.4 
 
-Story 是一个函数，根据不同的 props 返回组件不同的 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF， Storybook 7.3 使用 CSF 3.0) 定义 story。
+Story 是一个函数，根据不同的 props 返回组件不同的 render 状态。一个组件可以定义多个 story，表示组件的多种 render 状态。 Storybook 通过 [Component Story Format](https://storybook.js.org/docs/react/api/csf) (CSF， Storybook 7.4 使用 CSF 3.0) 定义 story。
 
 在 story 文件里，默认导出组件描述，命名导出 story 描述（推荐使用 UpperCamelCase）。
 
@@ -182,7 +182,7 @@ export const Primary = {
 
 ### Decorators
 
-Decorator 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html).
+[Decorator](https://storybook.js.org/docs/react/writing-stories/decorators) 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html).
 
 和 Args、Parameters 一样可以定义全局的、组件的、 story 的 decorators. 优先级从高到低依次是 story、组件、全局 decorator，而且 decorators 数组中后面定义的 decorator 比前面定义的 decorator 优先级高。
 
@@ -252,7 +252,7 @@ Storybook 支持两种撰写文档的方法：[Autodocs](https://storybook.js.or
 
 Autodocs 是开箱即用的零配置默认文档。它将 story、文本描述、组件中的 docgen 注释、参数表和代码示例聚合在一起，生成关于组件的文档
 
-![](./assets/storybook-Autodocs.png)
+![](./assets/storybook-autodocs.png)
 
 #### Overriding description
 
@@ -262,7 +262,7 @@ export default {
   title: 'Example/Button',
   component: Button,
   parameters: {
-    docs: b
+    docs:
       description: {
         component: 'This is a button',
       },
@@ -280,7 +280,7 @@ Primary.parameters = {
 };
 ```
 
-多行注释也能修改 story 的描述
+Doc 注释也能修改 story 的描述
 
 ```js
 /**
@@ -300,7 +300,9 @@ Storybook 默认使用 Autodocs 文档，但是当你想要自定义文档格式
 
 MDX 是一个 [标准文件格式](https://mdxjs.com/)，它结合了 Markdown 和 JSX。
 
-可以在 MDX 中使用 `Doc Blocks` 来快速构建文档和定义 story。
+可以在 MDX 中使用 [`Doc Blocks`](https://storybook.js.org/docs/react/api/doc-block-argtypes) 来快速构建文档和定义 story。
+
+> 📢：这里官方文档有错，Canvas 里只能有一个 Story，所以需要拆成三个 Canvas 
 
 ```markdown
 <!-- Checkbox.stories.mdx -->
@@ -323,6 +325,9 @@ Markdown documentation.
     }}>
     {Template.bind({})}
   </Story>
+</Canvas>
+
+<Canvas>
 	<Story 
     name="Checked"
     args={{ 
@@ -331,6 +336,9 @@ Markdown documentation.
     }}>
     {Template.bind({})}
   </Story>
+</Canvas>
+
+<Canvas>
 	<Story 
     name="Secondary"
     args={{
@@ -347,7 +355,7 @@ Markdown documentation.
 
 #### Documentation-only MDX
 
-- 当 MDX 文件中没有定义 `<Meta>` 时，该 MDX 文件可以作为别的 component、story 的文档，详情请参考 [CSF Stories with arbitrary MDX](https://github.com/storybookjs/storybook/blob/master/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx)
+- 当 MDX 文件中没有定义 `<Meta>` 时，该 MDX 文件可以作为 component、story 的文档，详情请参考 [CSF Stories with arbitrary MDX](https://github.com/storybookjs/storybook/blob/master/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx)
 
 ```js {7-9}
 // Button.stories.mdx 
@@ -363,7 +371,14 @@ export default {
 };
 ```
 
-- 当 MDX 文件中定义了 `<Meta>`，但是没有定义 stories 时，可以作为该组件的一个文档节点
+- 当 MDX 文件中定义了 `<Meta>`，但是没有定义 story 时，可以作为该组件的一个文档节点
+
+```jsx
+import { Meta } from '@storybook/addon-docs';
+<Meta title="Button/Intro" component={Button}  />
+
+# This is Button introduction
+```
 
 #### Embedding stories
 
@@ -436,17 +451,21 @@ export default {
 
 | 选项             | 说明                                                         |
 | ---------------- | ------------------------------------------------------------ |
-| page             | 自定义文档或者自定义文档模版，可以是一个 MDX 文件或者一个返回 React 组件的函数 |
+| page             | 自定义文档或文档模版（在 `preview.js` 中），可以是一个 MDX 文件或者一个返回 React 组件的函数 |
 | description      | {component, story}，修改组件或者 stroy 的描述                |
 | inlineStories    | 渲染 story 的方式：`true `(inline) / `false` (iframe)        |
 | prepareForInline | 一个函数，将 story 的内容从给定的框架转换为 React 可以渲染的内容 |
 | disable          | 禁止 story 出现在 Docs 中                                    |
-| theme            | 文档主题色，详情请参考 [Theming](https://storybook.js.org/docs/react/configure/theming) |
+| theme            | 文档主题色，详情请参考 [Theming](https://storybook.js.org/docs/react/configure/theming#theming-docs) |
 | source           | 用于 Source Doc Block，详情请参考 [Source](https://storybook.js.org/docs/react/writing-docs/doc-block-source) |
+| controls         | 用于 Controls Doc Block，请求请参考 [Controls](https://storybook.js.org/docs/react/api/doc-block-controls) |
+| argTypes         | 用于 ArgTypes Doc Block                                      |
+| canvas           | 用于 Canvas Doc Block                                        |
 | toc              | 文档内容目录，详情请参考 [Configure the table of contents](https://storybook.js.org/docs/react/writing-docs/autodocs#configure-the-table-of-contents) |
 | container        | 自定义文档容器组件，详情请参考 [Customize the Docs Container](https://storybook.js.org/docs/react/writing-docs/autodocs#customize-the-docs-container) |
 | autodocs         | 配置自动生成文档，可选值为：`true`, `false`, `tag`，当配置`tag `时，通过在 story 中添加 `tag: ['autodocs']`为组件自动生成文档，详情请参考 [Configure](https://storybook.js.org/docs/react/writing-docs/autodocs#configure) |
 | defaultName      | 重命名自动生成文档                                           |
+| components       | 修改文档中的组件，详情请参考 [MDX component overrides](https://storybook.js.org/docs/react/configure/theming#mdx-component-overrides) |
 
 ## Configuration
 
@@ -507,9 +526,22 @@ module.exports = {
 
 ### `preview.js`
 
-`preview.js` 通过命名导出，来控制 story 怎样被渲染。也可以把它当做 Storybook 的入口文件，一些全局样式，可以通过这个文件进行全局导入。
+`preview.js` 通过命名导出，来控制 story 怎样被渲染。可以把它当做 Storybook 的入口文件，可以添加全局样式，也可以配置全局 [Parameters](https://storybook.js.org/docs/react/writing-stories/parameters)、[Decorator](https://storybook.js.org/docs/react/writing-stories/decorators)、[Loaders](https://storybook.js.org/docs/react/writing-stories/loaders) 、[Globals](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals)、[ArgTypes](https://storybook.js.org/docs/react/api/arg-types) 。
 
-它主要包含下面这些命名导出。
+#### 引入 CSS 文件
+
+```js
+// .storybook/preview.js
+import '../src/styles/global.css';
+
+export default {
+  parameters: {},
+};
+```
+
+#### CSS 预处理
+
+如果需要在 Webpack 中使用 Sass, Less，可以使用 [addon-styling-webpack](https://github.com/storybookjs/addon-styling-webpack) 或者修改 storybook 的 webpack 配置。
 
 #### Parameters
 
@@ -566,9 +598,7 @@ export const parameters = {
 | controls    | [Controls](https://storybook.js.org/addons/@storybook/addon-controls/)，[文档](https://storybook.js.org/docs/react/essentials/controls) |
 | docs        | [Docs](https://storybook.js.org/addons/@storybook/addon-docs/)，[文档](https://storybook.js.org/docs/react/writing-docs/autodocs#with-mdx-documentation) |
 | layout      | [文档](https://storybook.js.org/docs/react/configure/story-layout) |
-|             |                                                              |
-|             |                                                              |
-|             |                                                              |
+| viewport    | [Viewport](https://storybook.js.org/addons/@storybook/addon-viewport/)，[文档](https://storybook.js.org/docs/react/essentials/viewport) |
 | msw         | [Mock Service Worker](https://storybook.js.org/addons/msw-storybook-addon)，[文档](https://storybook.js.org/docs/react/writing-stories/build-pages-with-storybook#mocking-api-services) |
 
 #### GlobalTypes
@@ -646,18 +676,11 @@ addons.setConfig({
 });
 ```
 
-## Testing
-
-Comming soon
-
-## Publishing
-
-Comming soon
-
 ## Existing problems
 
-- ArgTypes 没有 Array 数据类型，在 Controls addon 设置值时，默认给的值是 `{}`，导致 Storybook crash。
-- Source 自动生成的代码还是存在很多问题
+- ArgTypes 没有 Array 数据类型，在 Controls addon 设置值时，默认给的值是 `{}`，导致 Storybook crash。关于这个我提了一个 [issue](https://github.com/storybookjs/storybook/issues/24097).
+- 在 Canvas tab 不能查看 source code，关于这个我提了一个 [discussion](https://github.com/storybookjs/storybook/discussions/24170).
+- 自动生成的代码还是存在很多问题
 
 ## References
 
@@ -666,6 +689,7 @@ Comming soon
 - [JSDoc](https://jsdoc.app/)
 - [MDX](https://mdxjs.com/)
 - [Chromatic](https://www.chromatic.com/)
+- [Storybook Docs Recipes](https://github.com/storybookjs/storybook/blob/master/addons/docs/docs/recipes.md#storybook-docs-recipes)
 - [CSF Stories with arbitrary MDX](https://github.com/storybookjs/storybook/blob/master/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx)
 - [Jest](https://jestjs.io/)
 - [Test-Library](https://testing-library.com/)

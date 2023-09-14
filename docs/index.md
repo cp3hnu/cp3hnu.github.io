@@ -8,7 +8,7 @@ summary: 知之者不如好之者，好之者不如乐之者
     <div class="background-image-div">
       <img class="background-image" src="/assets/img/background.jpg"/>
       <div class="mask">
-        <div class="aphorism">知之者不如好之者，好之者不如乐之者</div>
+        <div class="aphorism">学习，什么时候都不晚</div>
       </div>
     </div>
     <div>
@@ -102,7 +102,7 @@ summary: 知之者不如好之者，好之者不如乐之者
     width: 30%;
     min-width: 300px;
   }
-  
+
   .product-list a:hover {
     text-decoration: none !important;
   }
