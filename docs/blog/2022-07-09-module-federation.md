@@ -45,7 +45,7 @@ Container Reference 和 Container 通过 `share scope` 共享他们依赖的模�
 
 **Container**
 
-每个构建都充当一个容器，可将其他构建作为容器。这样每个构建能够加载其它容器暴露出来的模块。
+每个构建都是一个容器，每个容器都可以加载其它容器暴露出来的模块。
 
 **Bidirectional - Host**
 
@@ -237,7 +237,7 @@ exposes: {
 
 加载 Remote 的 `mount` 方法，封装一个高阶组件
 
-```react {9-12}
+```jsx {9-12}
 // src/components/ComponentMount.js
 import { mount } from "remote/RemoteMount";
 import React, { useRef, useEffect } from "react";
@@ -266,7 +266,7 @@ export default VueComponent;
 
 最后在 Host (React) 工程里使用这个 VueComponent 组件
 
-```react
+```jsx
 import { HelloWorld } from "remote/RemoteMount";
 const HelloWorldComponent = VueComponent(HelloWorld);
 
@@ -500,7 +500,7 @@ optimization: {
 
 Module Federation 怎么兼容 `optimization.runtimeChunk: "single"` ? 
 
-我想到同时设置 `optimization.runtimeChunk: "single"` 和 ModuleFederationPlugin 的 `runtime: false` 。仅测试这样设置运行没有问题，build 生成了 runtime-xxxx.js 文件，同时 remoteEntry.js 也包含了运行时代码，确保能加载 exposed 模块。 但是这样设置 runtimeChunk 是否起作用？为此我还特意问了作者这个问题 [issue#1116](https://github.com/module-federation/module-federation-examples/issues/1116#issuecomment-1180093995)，作者回答说不起作用。
+我想到同时设置 `optimization.runtimeChunk: "single"` 和 ModuleFederationPlugin 的 `runtime: false` 。经测试这样设置运行没有问题，build 生成了 runtime-xxxx.js 文件，同时 remoteEntry.js 也包含了运行时代码，确保能加载 exposed 模块。 但是这样设置 runtimeChunk 是否起作用？为此我还特意问了作者这个问题 [issue#1116](https://github.com/module-federation/module-federation-examples/issues/1116#issuecomment-1180093995)，作者回答说不起作用。
 
 > Zack Jackson: RuntimeChunk single doesn’t work. You’d want to make it false or undefined
 
@@ -516,6 +516,8 @@ module.exports = {
   ],
 };
 ```
+
+[concat-runtime](https://github.com/module-federation/concat-runtime) 说是能解决这个问题，但是我试了一下好像不起作用。
 
 ### 为什么从 Remote 中加载共享库?
 
@@ -549,4 +551,8 @@ module.exports = {
 [@vue/cli v5.0.0-alpha.5 don't support module federation which is a feature in webpack 5 #6318](https://github.com/vuejs/vue-cli/issues/6318)
 
 [Initialization of sharing external failed: ScriptExternalLoadError: Loading script failed. #692](https://github.com/module-federation/module-federation-examples/issues/692)
+
+## Demo
+
+[module-federation-demo](https://gitee.com/cp3hnu/module-federation-demo)
 

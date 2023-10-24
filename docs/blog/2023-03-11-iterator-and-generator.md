@@ -20,7 +20,7 @@ ES6 规范新增了两个高级特性，迭代器和生成器。使用这两个�
 
 实现了 **Iterable** 协议的对象，就是可迭代对象。
 
-Iterable 协议只定义了一个属性或者方法，属性值或者方法返回值是一个迭代器：
+Iterable 协议只定义了一个方法或者属性，方法或者属性返回一个迭代器：
 
 ```swift
 protocol Iterable {
@@ -53,7 +53,7 @@ protocol Iterator {
 }
 ```
 
-迭代器必须实现 `next()` 方法，返回 ` IteratorResult: { done: false, value: "value" }` 对象，当 `done: true` 表示迭代完成。
+迭代器必须实现 `next()` 方法，返回 ` IteratorResult` 对象，即 `{ done: false, value: "value" }`，当 `done: true` 表示迭代完成。
 
 可以把 **可迭代对象** 当成是一把有刻度的尺子，而 **迭代器** 就是游标，尺子通过游标来读取上面的刻度，可迭代对象通过迭代器遍历其数据。
 
@@ -85,10 +85,10 @@ class Counter {
 
 // 利用迭代器迭代
 const iterator = counter[Symbol.iterator]();
-let {done, value } = iterator.next();
+let { done, value } = iterator.next();
 while (!done) {
   console.log(value); // 1 2 3
-  ({done, value } = iterator.next());
+  ({ done, value } = iterator.next());
 }
 
 // 利用 JS 的语法特性迭代
@@ -132,10 +132,9 @@ class Counter {
           return { done: true, value: undefined };
         } 
       },
-      return() {
-        console.log("提前退出");
+      return(value) {
         count = limit + 1;
-        return { done: true, value: undefined };
+        return { done: true, value: value };
       }
   	};
   } 
@@ -143,22 +142,21 @@ class Counter {
 
 const counter = new Counter(10);
 const iterator = counter[Symbol.iterator]();
-for (const value of counter) {
-  console.log(value); // 只打印 1 2 3
-  if (value >= 3) {
-    iterator.return();
-v  }aluez
-}
+console.log(iterator.next());    // { done: false, value: 1 }
+console.log(iterator.return(3)); // { done: true, value: 3 }
+console.log(iterator.next());    // { done: true, value: undefined }
 ```
 
-当 value 等于 3 时，迭代器调用 `return()` 方法，将 `count` 设置为 `limit + 1`，关闭迭代器。
+迭代器调用 `return()` 方法，将 `count` 设置为 `limit + 1`，关闭迭代器。
 
 **调用迭代器的 `return()` 方法，并不保证关闭迭代器。是否关闭迭代器取决于 `return()` 方法的内部逻辑**。例如上面的例子，如果没有设置 ` count = limit + 1`，迭代器就不会关闭。
 
 在下面的情况下，会自动调用迭代器的 `return()` 方法
 
-- for...of 循环中通过 break、continue、return 或者 throw 提前退出循环
+- for...of 循环中通过 break、return 或者 throw 提前退出
 - 解构操作并未消费所有的值
+
+> continue 不会导致提前退出
 
 ## 生成器
 
@@ -172,11 +170,13 @@ function* generatorFn() {}
 
 这个星号（*）不受两侧空格的影响。
 
+> 箭头函数不能用来定义生成器函数
+
 ### 生成器
 
 调用生成器函数，产生一个生成器对象，简称生成器。
 
-生成器既是可迭代对象，又是迭代器。作为可迭代对象，它的迭代器就是自己。
+生成器既是可迭代对象，又是迭代器。作为可迭代对象，它的迭代器就是它自己。
 
 ```js
 const generator = generatorFn();
@@ -217,6 +217,40 @@ console.log(generator.next()) // { done: false,  value: 2 }
 console.log(generator.next()) // { done: false,  value: 3 }
 console.log(generator.next()) // { done: true,  value: finished }
 console.log(generator.next()) // { done: true,  value: undefined }
+```
+
+#### 可迭代对象
+
+生成器作为可迭代对象，拥有 JS 可迭代对象的语言特性，比如 for...of
+
+```js
+function* generatorFn() {
+  yield 1;
+  yield 2;
+  yield 3;
+  return "finished"
+}
+const generator = generatorFn()
+for (const x of generator) {
+  console.log(x) // 1 2 3
+}
+
+// 只能迭代一次
+for (const x of generator) {
+  console.log(x) // 没有输出
+}
+```
+
+因为生成器的迭代器就是它自己，所以生成器只能迭代一次，因此一般直接使用生成器函数进行迭代。
+
+```js
+for (const x of generatorFn()) {
+  console.log(x) // 1 2 3
+}
+
+for (const x of generatorFn()) {
+  console.log(x) // 1 2 3
+}
 ```
 
 #### yield 实现输入
@@ -284,11 +318,8 @@ class Counter {
 }
 
 const counter = new Counter(3);
-const iterator = counter[Symbol.iterator](); // 生成器
-let {done, value } = iterator.next();
-while (done === false) {
-  console.log(value); // 1 2 3
-  ({done, value } = iterator.next());
+for (const x of counter) {
+  console.log(x); // 1 2 3
 }
 ```
 
@@ -368,7 +399,7 @@ console.log(g.next());  // { done: true, value: undefined }
 
 ## 异步迭代器和生成器
 
-请参考 [Asynchronous Iteration](https://www.joylearn123.com/2022/04/09/what-s-new-ecmascript/#asynchronous-iteration)
+请参考 [Asynchronous Iteration](./2022-04-09-what's-new-ecmascript/#asynchronous-iteration)
 
 ## References
 
@@ -376,4 +407,4 @@ console.log(g.next());  // { done: true, value: undefined }
 - [Iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)
 
 - [Iteration protocols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols)
-- [Asynchronous Iteration](https://www.joylearn123.com/2022/04/09/what-s-new-ecmascript/#asynchronous-iteration)
+- [Asynchronous Iteration](./2022-04-09-what's-new-ecmascript/#asynchronous-iteration)

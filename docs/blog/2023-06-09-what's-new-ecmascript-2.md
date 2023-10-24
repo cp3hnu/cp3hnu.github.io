@@ -126,7 +126,7 @@ Promise.any(iterable);
 
 如果 iterable 中有一个 promise resovle 时， `Promise.any` 返回 Promise.resolve(value)，value 是 resovle promise 的值，
 
-如果都是所有的 promise 都 reject， `Promise.any` 返回 Promise.reject(error)，error 是 [`AggregateError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) 类型，这个错误类型有要给`errors` 属性，表示收集的多个错误。
+如果所有的 promise 都 reject， `Promise.any` 返回 Promise.reject(error)，error 是 [`AggregateError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError) 类型，这个错误类型有要给`errors` 属性，表示收集的多个错误。
 
 #### Demo
 

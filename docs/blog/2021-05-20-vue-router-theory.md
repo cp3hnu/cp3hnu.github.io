@@ -4,6 +4,7 @@ title: Vue Router 4.x 实现原理
 tags: 
   - web
   - vue
+  - code
 date: 2021-05-20
 author: cp3hnu
 location: ChangSha
@@ -312,7 +313,7 @@ function insertMatcher(matcher: RouteRecordMatcher) {
 
 ![](./assets/vue-router-matcherMap.png)
 
-现在有了路由记录，我们接下来看Vue Router是怎么导航的。Vue Router 通过 `push`、`replace ` 方法进行[编程式导航](https://next.router.vuejs.org/zh/guide/essentials/navigation.html)。
+现在有了路由记录，我们接下来看 Vue Router是怎么导航的。Vue Router 通过 `push`、`replace ` 方法进行[编程式导航](https://next.router.vuejs.org/zh/guide/essentials/navigation.html)。
 
 ## 编程式导航
 
@@ -478,7 +479,7 @@ function push(to: HistoryLocation, data?: HistoryState) {
 
 #####  `changeLocation` 方法
 
-我们知道，浏览器页面跳转是通过 [Location](http://developer.mozilla.org/en-US/docs/Web/API/Location) 或者 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) API实现的，正所谓万变不离其宗，Vue Router 里面也是通过这个方式实现浏览器地址栏 url 的变化。 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) 的 `pushState` 或者 `replaceState` 虽然可以改变地址栏，但是不会加载页面，而 [Location](http://developer.mozilla.org/en-US/docs/Web/API/Location) 的 `assign` 或者 `replace` 会重新加载页面，所有 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) API 更符合 Vue Router 的设计。
+我们知道，浏览器页面跳转是通过 [Location](http://developer.mozilla.org/en-US/docs/Web/API/Location) 或者 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) API实现的，正所谓万变不离其宗，Vue Router 里面也是通过这个方式实现浏览器地址栏 url 的变化。 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) 的 `pushState` 或者 `replaceState` 虽然可以改变地址栏，但是不会加载页面，而 [Location](http://developer.mozilla.org/en-US/docs/Web/API/Location) 的 `assign` 或者 `replace` 会重新加载页面，所以 [History](http://developer.mozilla.org/en-US/docs/Web/API/Location) API 更符合 Vue Router 的设计。
 
 ```typescript {16,25}
 function changeLocation(
@@ -522,7 +523,7 @@ Vue Router 通过 RouterView 组件渲染路由记录对应的组件。下面是
 1. 存储路由记录对应的组件实例
 1. 执行组件内 `beforeRouteEnter` 导航守卫的 [`next`](https://next.router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E7%BB%84%E4%BB%B6%E5%86%85%E7%9A%84%E5%AE%88%E5%8D%AB) 回调方法，在这里可以访问 `this`
 1.  找到对应的命名组件
-1.  [组件组件传参](https://next.router.vuejs.org/zh/guide/essentials/passing-props.html)
+1.  [组件传参](https://next.router.vuejs.org/zh/guide/essentials/passing-props.html)
 1. 渲染路由记录对应的组件
 1. [RouterView `v-slot` API](https://next.router.vuejs.org/zh/api/#router-view-%E7%9A%84-v-slot)
 

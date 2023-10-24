@@ -1,8 +1,8 @@
 ---
 pageClass: blog-page
-title: Vue 3 新特性
-tags: 
-  - web
+title: Vue 3 新特性 
+tags:
+  - web 
   - vue
 date: 2021-04-15
 author: cp3hnu
@@ -621,70 +621,56 @@ nextTick(() => {
 
 ## v-for 中的 Ref 数组
 
-在 Vue 2 中，在 `v-for` 中使用的 `ref` attribute 会用 ref 数组填充相应的 `$refs` property。当存在嵌套的 `v-for` 时，这种行为会变得不明确且效率低下。
+当在 `v-for` 中使用模板引用时，对应的 `ref` 中包含的值是一个数组，它将在元素被挂载后包含对应整个列表的所有元素：
 
-在 Vue 3 中，此类用法将不再自动创建 `$ref` 数组。要从单个绑定获取多个 ref，请将 `ref` 绑定到一个更灵活的函数上 (这是一个新特性)：
+```vue
+<script setup>
+import { ref, onMounted } from 'vue'
 
-```html
-<div v-for="item in list" :ref="setItemRef"></div>
+const list = ref([
+  /* ... */
+])
+
+const itemRefs = ref([])
+
+onMounted(() => console.log(itemRefs.value))
+</script>
+
+<template>
+  <ul>
+    <li v-for="item in list" ref="itemRefs">
+      {{ item }}
+    </li>
+  </ul>
+</template>
 ```
 
-选项式 API:
-
-```js
-export default {
-  data() {
-    return {
-      itemRefs: []
-    }
-  },
-  methods: {
-    setItemRef(el) {
-      if (el) {
-        this.itemRefs.push(el)
-      }
-    }
-  },
-  beforeUpdate() {
-    this.itemRefs = []
-  },
-  updated() {
-    console.log(this.itemRefs)
-  }
-}
-```
-
-组合式 API:
-
-```js
-import { onBeforeUpdate, onUpdated } from 'vue'
-
-export default {
-  setup() {
-    let itemRefs = []
-    const setItemRef = el => {
-      if (el) {
-        itemRefs.push(el)
-      }
-    }
-    onBeforeUpdate(() => {
-      itemRefs = []
-    })
-    onUpdated(() => {
-      console.log(itemRefs)
-    })
-    return {
-      setItemRef
-    }
-  }
-}
-```
+> ref 数组**并不**保证与源数组相同的顺序
 
 ## 过渡
 
 过渡类名 `v-enter` 修改为 `v-enter-from`、过渡类名 `v-leave` 修改为 `v-leave-from`
 
 ![](./assets/vue3-transition.png)
+
+## Attribute 强制行为
+
+放弃“枚举型 attribute”的内部概念，并将它们视为普通的非布尔型 HTML attribute。
+
+| 绑定表达式          | `foo` 正常      | `draggable` 枚举    |
+| ------------------- | --------------- | ------------------- |
+| `:attr="null"`      | -               | - *                 |
+| `:attr="undefined"` | -               | -                   |
+| `:attr="true"`      | `foo="true"`    | `draggable="true"`  |
+| `:attr="false"`     | `foo="false"` * | `draggable="false"` |
+| `:attr="0"`         | `foo="0"`       | `draggable="0"` *   |
+| `attr=""`           | `foo=""`        | `draggable=""` *    |
+| `attr="foo"`        | `foo="foo"`     | `draggable="foo"` * |
+| `attr`              | `foo=""`        | `draggable=""` *    |
+
+*：已改变
+
+布尔型 attribute 的强制转换保持不变。如果布尔型 attribute是 `falsy` (`undefined`，`null` 或 `false`) 的，Vue 会移除它们，否则会加上。更多详情请参考[attribute 强制行为](https://v3-migration.vuejs.org/zh/breaking-changes/attribute-coercion.html)
 
 ## 其它
 
@@ -707,8 +693,6 @@ export default {
 - 在 prop 的默认函数中不能访问 `this` 上下文
 
 - 来自 mixin 的 `data` 选项现在为浅合并
-
-- 如果值为布尔值 `false`，则不再移除 attribute。取而代之的是，它将被设置为 attr="false"。若要移除 attribute，应该使用 `null` 或者 `undefined`
 
 - 当侦听一个数组时，只有当数组被替换时才会触发回调。如果你需要在数组被改变时触发回调，必须指定 `deep` 选项
 

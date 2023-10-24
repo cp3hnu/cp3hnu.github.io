@@ -4,6 +4,7 @@ title: Vuex 4.x 实现原理
 tags: 
   - web
   - vue
+  - code
 date: 2021-05-01
 author: cp3hnu
 location: ChangSha
@@ -55,14 +56,14 @@ methods: {
 
 这里我们不禁要问了
 
-1. store 是怎么注入到 Vue 组件中的？
+1. Store 是怎么注入到 Vue 组件中的？
 2. 为什么 store.state 具有响应性？
 
 下面一起通过学习 Vuex 4 的 [源码](https://github.com/vuejs/vuex) 来解答这两个问题
 
-> 下面展示的代码是 Vuex V4.0.2
+> 下面展示的代码是 Vuex 4.0.2
 
-## store 是怎么注入到 Vue 组件中的
+## Store 是怎么注入到 Vue 组件中的
 
 通过 Vue 的 [官方文档-插件](https://v3.cn.vuejs.org/guide/plugins.html#%E7%BC%96%E5%86%99%E6%8F%92%E4%BB%B6)，我们知道插件的入口是插件对象的 `install` 方法，下面 Vuex `Store` 的 `install` 方法
 
@@ -73,7 +74,7 @@ install (app, injectKey) {
 }
 ```
 
-`install` 方法通过 `app.config.globalProperties`，定义全局变量 `$store`.
+`install` 方法通过 `app.config.globalProperties`，定义所有组件都可以访问的全局变量 `$store`.
 
 此外还通过 `provide` 将 store 注入到 app，因此组件也可以通过 `inject` 获取，这也实现了[组合式 API](https://next.vuex.vuejs.org/zh/guide/composition-api.html) 的方式。
 
@@ -353,7 +354,7 @@ function registerAction (store, type, handler, local) {
 
 `registerAction` 方法也很简单，主要做两件事
 
-1. 封装 action 方法，以 `type` 为 key，以封装函数的数组为 value，保存在 `store._actions` 中，这里为什么要用数组呢？我推测Vuex 支持多个全局 action 方法。
+1. 封装 action 方法，以 `type` 为 key，以封装函数的数组为 value，保存在 `store._actions` 中，这里为什么要用数组呢？我推测 Vuex 支持多个全局 action 方法。
 2. 通过 `store` 和 `local` 给 action 方法传参，所以 module 中的 action 方法的声明应该是这样的
 
 ```js
@@ -508,3 +509,14 @@ export function useStore (key = null) {
   return inject(key !== null ? key : storeKey)
 }
 ```
+
+## 总结
+
+1. 通过 ` app.config.globalProperties.$store` 添加 App 全局变量 `$store`，同时通过 `provide` 向组件深处注入 `store`，`useStore` 使用 `inject` 获取 `store`，实现组合使用。
+2. 用 `reactive` 封装了 `state`，从而让 `state` 具有了响应性
+
+## References
+
+- [`app.config.globalProperties`](https://cn.vuejs.org/api/application.html#app-config-globalproperties)
+- [依赖注入](https://cn.vuejs.org/guide/components/provide-inject.html)
+- [Vuex](https://vuex.vuejs.org/zh/)

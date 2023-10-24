@@ -1,9 +1,10 @@
 ---
 pageClass: blog-page
-title: Vue 3 响应性原理
+title: Vue 3 响应性原理 
 tags: 
   - web
   - vue
+  - code
 date: 2021-04-05
 author: cp3hnu
 location: ChangSha
@@ -48,33 +49,24 @@ const updateSum = () => {
 
 但我们如何告知 Vue 这个函数呢？
 
-Vue 通过一个**副作用 (effect)** 来跟踪当前正在运行的函数(我称它为**响应函数**)。副作用是一个函数的包裹器，在函数被调用之前就启动跟踪。Vue 知道哪个副作用在何时运行，并能在需要时再次执行它。
-
-Vue 通过 `createEffect()` 来跟踪和执行，如下
+Vue 通过一个**副作用 (effect)** 来跟踪当前正在运行的函数(称之为**响应函数**)。副作用是一个函数的包裹器，在函数被调用之前就启动跟踪，然后当参数改变时再次执行它。
 
 ```js
-// 维持一个执行副作用的栈
-const runningEffects = []
+let activeEffect = null;
 
-const createEffect = fn => {
-  // 将传来的 fn 包裹在一个副作用函数中
-  const effect = () => {
-    runningEffects.push(effect)
-    fn()
-    runningEffects.pop()
-  }
-
-  // 立即自动执行副作用
-  effect()
+function createEffect(fn) {
+  activeEffect = fn;
+  activeEffect();
+  activeEffect = null;
 }
 
-// 调用
-createEffect(() => sum = val1 + val2)
+// 创建副作用，执行响应函数 fn
+createEffect(() => sum = val1 + val2);
+
+// 当 val1 和 val2 改变时
+// 再次执行 activeEffect
+activeEffect();
 ```
-
-当我们的副作用被调用时，在调用 `fn` 之前，它会把自己推到 `runningEffects` 数组中。这个数组可以用来检查当前正在运行的副作用。
-
-虽然 Vue 的公开 API 不包括任何直接创建副作用的方法，但它确实暴露了一个叫做 [watchEffect()](#watcheffect) 的函数，它的行为很像上面例子中的 `createEffect()` 函数
 
 ## Vue 如何跟踪变化—Proxy
 
@@ -86,7 +78,7 @@ const dinner = {
 }
 
 const handler = {
-  get(target, property) {
+  get(target, property, receiver) {
     console.log('intercepted!')
     return target[property]
   }
@@ -100,7 +92,7 @@ console.log(proxy.meal)
 
 这里我们截获了读取目标对象 property 的举动。像这样的处理函数也称为一个 **捕捉器 (trap)**，Proxy 定义了多个捕捉器。
 
-使用 Proxy 的一个难点是 `this` 绑定。我们希望任何方法都绑定到这个 Proxy，而不是目标对象，这样我们也可以拦截它们。ES6 引入了另一个名为 [Reflect](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) 的新特性，它允许我们以最小的代价消除了这个问题。
+使用 Proxy 的一个难点是 `this` 绑定，我们希望任何方法都绑定到这个 Proxy，而不是目标对象，这样我们可以拦截它们。ES6 引入了另一个名为 [Reflect](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect) 的新特性，它允许我们以最小的代价消除了这个问题。
 
 ```js
 const dinner = {
@@ -124,7 +116,7 @@ const dinner = {
 }
 
 const handler = {
-  get(target, property) {
+  get(target, property, receiver) {
     track(target, property)
     return Reflect.get(...arguments)
   },
@@ -648,7 +640,7 @@ class ComputedRefImpl<T> {
 
 当  `computed()` 依赖的属性发生变化时，例如 `state.count = 1`，触发 `state` 的 `trigger`，然后调用 `scheduler -> triggerRefValue`，继而触发依赖于  `computed()` 的副作用函数。
 
-同时我们可以看到 `computed()`  里的值是懒加载的，即改变 `state.count` 的值不会立即更新内部 `_value`，只是等访问 `values` 属性的时候才重新获取。
+同时我们可以看到 `computed()`  里的值是懒加载的，即改变 `state.count` 的值不会立即更新内部 `_value`，只是等访问 `value` 属性的时候才重新获取。
 
 `computed()` 的 `set` 很简单，单纯的执行参数中的 `set` 函数。
 

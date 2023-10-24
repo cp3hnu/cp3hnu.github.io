@@ -58,7 +58,7 @@ button.addEventListener('click', () => {
 store.subscribe(() => {
   // 5. 获取 state，修改元素值
   const state = store.getState()
-  label.innerHTML = store.getState().toString()
+  label.innerHTML = state.toString()
 })
 ```
 
@@ -93,7 +93,7 @@ const bankReducer = (state = 0, action) => {
 
 **action** 是一个具有 `type` 字段的普通 JavaScript 对象。**你可以将 action 视为描述应用程序中发生了什么的事件**。
 
-`type` 字段是一个字符串，给这个 action 一个描述性的名字，action 对象可以有其它字段，其中包含有关发生的事情的附加信息。例如，我们将该信息放在名为 `payload` 的字段中。action 对象采用 [Flux Standard](https://redux.js.org/tutorials/fundamentals/part-7-standard-patterns#flux-standard-actions)。
+`type` 字段是一个字符串，描述事件的类型，action 对象可以有其它字段，包含事件的附加信息，比如 `payload`。action 对象采用 [Flux Standard](https://redux.js.org/tutorials/fundamentals/part-7-standard-patterns#flux-standard-actions)。
 
 ```js
 { type: 'deposit', payload: 10 }
@@ -152,7 +152,7 @@ const addTodo = text => {
 
 #### Selector
 
-**Selector** 函数可以从 store 状态树中提取指定的片段。随着应用变得越来越大，会遇到应用程序的不同部分需要读取相同的数据，selector 可以避免重复这样的读取逻辑。
+**Selector** 函数可以从 store 状态树中提取指定的部分。随着应用变得越来越大，会遇到应用程序的不同部分需要读取相同的数据，selector 可以避免重复这样的读取逻辑。
 
 ```js
 const todoList = state => state.todos
@@ -252,13 +252,27 @@ const store = createStore(rootReducer, undefined, composedEnhancer)
 
 ### Middleware
 
-Redux middleware 在 dispatch action 和 action 到达 reducer 之间提供了一个第三方扩展。我们可以使用 Redux middleware 进行日志记录、崩溃报告、异步 API 请求、路由等。和 reducer 不一样，middleware 可以有 [side effects](https://redux.js.org/tutorials/fundamentals/part-6-async-logic#redux-middleware-and-side-effects)。
+中间件在 dispatch action 和 action 到达 reducer 之间提供了一个第三方扩展。我们可以使用 Redux middleware 进行日志记录、崩溃报告、异步 API 请求、路由等。和 reducer 不一样，middleware 可以有 [side effects](https://redux.js.org/tutorials/fundamentals/part-6-async-logic#redux-middleware-and-side-effects)。
 
-#### `applyMiddleware`
+Middleware 的函数签名：`(storeAPI) => (next) => (action) => {}`
 
-Redux 通过 [`applyMiddleware`](https://redux.js.org/api/applymiddleware) 将多个 middleware 合成一个 enhancer
+```js
+const exampleMiddleware = storeAPI => next => action => {
+  // pass the action onwards with next(action),
+  // or restart the pipeline with storeAPI.dispatch(action)
+  return next(action)
+}
+```
 
-**定义 middleware**
+middleware 解析：
+
+- `storeAPI`: 一个包含 Store `dispatch` 和 `getState` 方法的对象，即 { dispatch, getState }，**非 Store 对象**
+- `next`：下一个 middleware 或者是初始的 `store.dispath` 方法
+- 调用 `next(action)` 将 action 传给下一个 middleware 或者初始的 `store.dispath` 方法
+- 调用 `storeAPI.dispatch` 重启 pipeline
+- 应用 middleware 之后，`store.dispath` 返回的是第一个middleware 返回的值，初始的 `store.dispath` 方法返回 action 对象
+
+#### 定义 middleware
 
 ```js
 export const print1 = (storeAPI) => (next) => (action) => {
@@ -276,7 +290,9 @@ export const print3 = (storeAPI) => (next) => (action) => {
   return next(action)
 }
 ```
-**使用 middleware**
+#### 使用 middleware
+
+Redux 通过 [`applyMiddleware`](https://redux.js.org/api/applymiddleware) 将多个 middleware 合成一个 enhancer
 
 ```js {4}
 import { applyMiddleware } from 'redux'
@@ -291,31 +307,11 @@ store.dispatch({ type: 'todos/todoAdded', payload: 'Learn about actions' })
 // log: '3'
 ```
 
-#### pipeline
+#### Pipeline
 
 Redux middleware 围绕 `store.dispath` 方法形成一个 pipeline.
 
 ![](./assets/redux-middleware-pipeline.jpg)
-
-#### 怎么写 middleware？
-
-Redux middleware 的函数签名：`(storeAPI) => (next) => (action) => {}`
-
-```js
-const exampleMiddleware = storeAPI => next => action => {
-  // pass the action onwards with next(action),
-  // or restart the pipeline with storeAPI.dispatch(action)
-  return next(action)
-}
-```
-
-middleware 解析：
-
-- `storeAPI`: 一个包含 Store `dispatch` 和 `getState` 方法的对象，即 { dispatch, getState }，**非 Store 对象**
-- `next`：下一个 middleware 或者是初始的 `store.dispath` 方法
-- 调用 `next(action)` 将 action 传给下一个 middleware 或者初始的 `store.dispath` 方法
-- 调用 `storeAPI.dispatch` 重启 pipeline
--  应用 middleware 之后，`store.dispath` 返回的是第一个middleware 返回的值，初始的 `store.dispath` 方法返回 action 对象
 
 ### React Devtools
 
@@ -329,7 +325,7 @@ npm install --save @redux-devtools/extension
 
 #### 配置
 
-使用 `composeWithDevTools`  代替之前的 Redux 的 `compose` 方法
+使用 `composeWithDevTools` 代替之前的 Redux 的 `compose` 方法
 
 ```js
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -338,6 +334,7 @@ const composedEnhancer = composeWithDevTools(
   // 这里可以添加任意 middleware
   applyMiddleware(print1, print2, print3)
   // 这里可以添加任意 enhancer
+  // ...
 )
 
 const store = createStore(rootReducer, composedEnhancer)
@@ -428,7 +425,7 @@ function thunkFunction = (dispatch, getState) => {
 
 ### Memoized Selectors
 
-如果使用下面的 selector 从 state 挑选需要的数据，因为 `array.map()` 总是返回一个新的数组，在每次 dispatch 时， 都会运行 React-Redux `useSelector` hook，返回的新数组将导致组件重新渲染（即使数组的值没有变化），影响性能
+如果使用下面的 selector 从 state 挑选需要的数据，因为 `array.map()` 总是返回一个新的数组，在每次 dispatch 后都会运行 React-Redux `useSelector` hook，返回的新数组将导致组件重新渲染（即使数组的值没有变化），影响性能
 
 ```js
 const selectTodoIds = state => state.todos.map(todo => todo.id)
@@ -483,7 +480,7 @@ const todoIds = useSelector(selectTodoIds)
 
 ## Redux Toolkit
 
-Redux 推荐使用 Redux Toolkit 来简化 Redux 操作、减少样板代码。
+Redux 推荐使用 Redux Toolkit 来简化 Redux 操作，减少样板代码。
 
 - 集成了 [Redux Thunk](https://github.com/reduxjs/redux-thunk)、[Reselect](https://github.com/reduxjs/reselect) 和 [Redux Devtools Extension](https://github.com/reduxjs/redux-devtools/tree/main/extension)，简化了对 Store 的配置
 - 使用 [Immer](https://immerjs.github.io/immer/)，简化了 reducer 更新 state 的操作
@@ -564,11 +561,15 @@ console.log(todoToggled(42))
 // {type: 'todos/todoToggled', payload: 42}
 ```
 
-`action.type` 是 slice 的 name + 方法名，而 `action.payload` 是函数参数
+`action.type` 是 `slice 的 name + 方法名`，而 `action.payload` 是函数参数
 
 ### `createAsyncThunk()`
 
-Redux Toolkit 集成了 [Redux Thunk](https://github.com/reduxjs/redux-thunk)，我们可以直接通过 Thunk 函数书写异步逻辑，同时 Redux Toolkit 提供了 `createAsyncThunk()` 方法简化了异步请求。因为一般的异步请求可以概括为三个状态
+Redux Toolkit 集成了 [Redux Thunk](https://github.com/reduxjs/redux-thunk)，我们可以直接通过 Thunk 函数书写异步逻辑。
+
+同时 Redux Toolkit 提供了 `createAsyncThunk()` 方法简化了异步请求。
+
+因为一般的异步请求可以概括为三个状态
 
 - 请求中：pending
 - 请求成功：fulfilled
@@ -585,20 +586,20 @@ export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
 
 `createAsyncThunk()` 方法接收两个参数
 
-- 生成的 action type 的前缀（todos/fetchTodos）
+- 生成的 action type 的前缀（`todos/fetchTodos`）
 - 一个回调函数执行网络请求，要求返回一个 Promise，一般我们使用 async function。这个函数有两个参数
   - 第一个是 `createAsyncThunk()`  返回的函数传入的参数。
   - 第二个是 `{getState, dispatch}`
 
-`createAsyncThunk()` 返回 thunk 函数的 creator.
+`createAsyncThunk()` 返回一个 thunk 函数.
 
 ```js
 store.dispatch(fetchTodos())
 ```
 
-`createAsyncThunk()` 自动生成三个 action types.
+`createAsyncThunk()` 自动生成三个 action creator.
 
-- `fetchTodos.pending`: `todos/fetchTodos/pending`
+- `fetchTodos.pen`ding`: `todos/fetchTodos/pending`
 - `fetchTodos.fulfilled`: `todos/fetchTodos/fulfilled`
 - `fetchTodos.rejected`: `todos/fetchTodos/rejected`
 
@@ -640,7 +641,7 @@ const todosSlice = createSlice({
 
 Redux Toolkit 提供 `createEntityAdapter()` 方法实现 Normalized State，它获取集合并将它们放入 `{ ids: [], entities: {} }` 的结构中。
 
-`createEntityAdapter()` 返回一个 **adapter** 对象，这个对象包含多个预置函数，用来处理一些常见的情况，这些函数可以用于 reducer 函数。
+`createEntityAdapter()` 返回一个 **adapter** 对象，这个对象包含多个预置函数，用来处理一些常见的情况，这些函数可以用于 reducer 函数中。
 
 - `addOne` / `addMany`: 添加一个或多个 items
 - `updateOne` / `updateMany`: 更新一个或多个 items
@@ -729,6 +730,15 @@ ReactDOM.render(
   </React.StrictMode>, 
   document.getElementById('root')
 )
+```
+
+### `useStore()`
+
+React Redux 使用 `useStore()` 获取所需注入的 store
+
+```js
+import { useStore } from 'react-redux'
+const store = useStore()
 ```
 
 ### `useSelector()`

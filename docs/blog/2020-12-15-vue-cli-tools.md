@@ -1,6 +1,6 @@
 ---
 title: Vue-CLI 搭建 Web 框架配置工具
-tags: 
+tags:
   - vue-cli
   - webpack
   - web
@@ -258,7 +258,7 @@ npx browserslist
 
 ## [Can I Use](https://caniuse.com/)
 
-查看哪些浏览器支持某些特性
+查看哪些浏览器支持某些特性，或者使用 [`compat-table`](https://github.com/kangax/compat-table)
 
 ## [CSS Modules](https://github.com/css-modules/css-modules)
 
@@ -349,9 +349,11 @@ This package implements a fully-functional source transformation that takes the 
 
 ### [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env.html)
 
-`preset` is pre-determined set of plugins.
+`preset` is pre-determined set of plugins. 
 
-推荐使用  [`.browserslistrc`](https://github.com/browserslist/browserslist) 来确定 target
+@babel/preset-env是一个智能预设，基于项目支持的浏览器，允许您使用最新的 JavaScript 语法。
+
+它推荐使用  [`.browserslistrc`](https://github.com/browserslist/browserslist) 来确定目标浏览器
 
 ```json
 {
@@ -572,13 +574,43 @@ module.exports = {
 
 固定住 Module Id, 参考[手摸手，带你用合理的姿势使用webpack4（下）](https://juejin.cn/post/6844903652956585992#heading-6)
 
+Webpack 5 使用 `optimization.moduleIds: 'deterministic'`，更多详情请参考 [optimization.moduleIds](https://webpack.docschina.org/configuration/optimization/#optimizationmoduleids)
+
 ## [NamedModulesPlugin](https://webpack-v3.jsx.app/plugins/named-modules-plugin/)
 
 `NamedModulesPlugin` 和 `HashedModuleIdsPlugin` 原理是相同的，将文件路径作为 Module Id, 用于开发环境。
 
+Webpack 5 使用 `optimization.moduleIds: 'named'`
+
 ## NamedChunksPlugin
 
 固定住 Chuck Id, 参考[手摸手，带你用合理的姿势使用webpack4（下）](https://juejin.cn/post/6844903652956585992#heading-6)
+
+### 自定义 nameResolver
+
+```js
+const seen = new Set();
+const nameLength = 4;
+
+new webpack.NamedChunksPlugin(chunk => {
+  if (chunk.name) {
+    return chunk.name;
+  }
+  const modules = Array.from(chunk.modulesIterable);
+  if (modules.length > 1) {
+    const hash = require("hash-sum");
+    const joinedHash = hash(modules.map(m => m.id).join("_"));
+    let len = nameLength;
+    while (seen.has(joinedHash.substr(0, len))) len++;
+    seen.add(joinedHash.substr(0, len));
+    return `chunk-${joinedHash.substr(0, len)}`;
+  } else {
+    return modules[0].id;
+  }
+});
+```
+
+Webpack 5 生成环境使用 `optimization.chunkIds: 'deterministic'`，开发环境使用 `optimization.chunkIds: 'named'`
 
 ## [ESLint](https://github.com/eslint/eslint)
 
@@ -668,8 +700,13 @@ Turns off all rules that are unnecessary or might conflict with [Prettier](https
 3. then() 希望能换到新的一行去
 4. 需要注意，因为设置了 `"htmlWhitespaceSensitivity": "ignore"`, 可能导致 html 显示错误，这个时候就需要 `<!-- prettier-ignore -->`
 
-## [Mock](https://github.com/nuysoft/Mock)
+## [webpack-bundle-analyzer](https://webpack.docschina.org/guides/code-splitting#bundle-analysis)
 
-postman, YAPI 和微信小程序有支持 Mock 的功能
+bundle 分析
 
-难道没有好用的 Mock 服务网站?
+Vue-CLI 集成了这个插件，可以这样使用
+
+```sh
+$ vue-cli-service build --report
+```
+

@@ -4,6 +4,7 @@ title: Vue Router 4.x strict 模式
 tags: 
   - web
   - vue
+  - code
 date: 2021-07-06
 author: cp3hnu
 location: ChangSha

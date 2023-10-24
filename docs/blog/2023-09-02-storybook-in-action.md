@@ -5,7 +5,7 @@ tags:
   - web
   - test
   - storybook
-date: 2023-02-02
+date: 2023-09-02
 author: cp3hnu
 location: ChangSha
 summary: 上一篇文章我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档
@@ -336,6 +336,28 @@ export default {
 };
 ```
 
+#### 添加 Story 描述
+
+```js
+CardWithInfoBtn.parameters = {
+  docs: {
+    description: {
+      story: '使用 `hasInfoBtn` 显示详情按钮，`onView` 查看详情事件',
+    },
+  },
+};
+```
+
+#### 把 Doc 放在第一列
+
+```js
+// .storybook/preview.js
+
+export const parameters = {
+  previewTabs: { 'storybook/docs/panel': { index: -1 } },
+};
+```
+
 ## 写文档
 
 文档分为两种
@@ -548,6 +570,8 @@ Chromatic 提供了很多高级功能，比如 [Visual Tests](https://storybook.
 
 ![](./assets/storybook-chromatic-docs.png)
 
+[文档链接地址](https://www.chromatic.com/builds?appId=6502b59ef30f68996d952bef)
+
 ### Vercel
 
 我们也可以发布到 [Vercel](https://vercel.com/)，同样的原因我们不能从 GitHub 导入 repository，只能手动部署
@@ -573,6 +597,8 @@ $ npm run build-storybook
 $ cd storybook-static
 $ vc
 ```
+
+[文档链接地址](https://fssc-web-cp3hnu.vercel.app/?path=/docs/components-accountcard--default-card)
 
 ## References
 

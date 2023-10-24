@@ -3,8 +3,8 @@ pageClass: blog-page
 title: 规范化 Commit Message
 tags: 
   - web
-  - 规范
-  - 工具
+  - normalization
+  - tools
 date: 2021-12-22
 author: cp3hnu
 location: ChangSha
