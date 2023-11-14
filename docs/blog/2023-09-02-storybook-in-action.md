@@ -13,9 +13,11 @@ summary: 上一篇文章我们介绍了 Storybook，这篇文章我们将 Storyb
 
 # Stroybook 应用
 
-[上一篇文章 ](./2023-01-04-storybook/) 我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档。
+[上一篇文章 ](./2023-01-04-storybook/) 我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档。最终的实现效果如下：
 
-我的项目技术栈是：Webpack + React + Less，版本是 Webpack 4.47.0 +  React 16.9.0 + Less 3.5.0
+> 项目技术栈是：Webpack 4.47.0 +  React 16.9.0 + Less 3.5.0
+
+![](./assets/storybook-chromatic-docs.png)
 
 ## 安装
 

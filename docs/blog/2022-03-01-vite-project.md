@@ -31,6 +31,46 @@ Vite 和 Vue-CLI 都是 Vue 团队开发的，只是 Vite 使用 esbuild + Rollu
 
 未完待续...
 
+## 工具集
+
+### @vitejs/plugin-vue
+
+Vue 3 单文件组件支持：[@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue)
+
+Vue 3 JSX 支持：[@vitejs/plugin-vue-jsx](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue-jsx)
+
+### @vitejs/plugin-legacy
+
+[@vitejs/plugin-legacy](https://github.com/vitejs/vite/tree/main/packages/plugin-legacy#vitejsplugin-legacy-) 为打包后的文件提供传统浏览器兼容性支持。
+
+### vite-plugin-checker
+
+ [vite-plugin-checker](https://github.com/fi3ework/vite-plugin-checker)，是一个 Vite 插件，可以在工作线程中运行 TypeScript, VLS, vue-tsc, ESLint, Stylelint。
+
+### fast-glob
+
+[fast-glob](https://github.com/mrmlnc/fast-glob) 提供了遍历文件系统和返回路径名的方法。作用类似于 Webpack 的 [require.context](https://webpack.js.org/guides/dependency-management/#requirecontext)。
+
+### rollup-plugin-visualizer
+
+[rollup-plugin-visualizer](https://github.com/btd/rollup-plugin-visualizer) 分析 rollup bundle，类似于 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)。
+
+### @rollup/plugin-commonjs
+
+[@rollup/plugin-commonjs](https://github.com/rollup/plugins/tree/master/packages/commonjs#rollupplugin-commonjs) 是一个Rollup 插件，用于将 CommonJS 模块转换为 ES 模块。
+
+### dotenv
+
+[dotenv](https://github.com/motdotla/dotenv) 是一个零依赖模块，它将环境变量从 `.env` 文件加载到 [`process.env`](https://nodejs.org/docs/latest/api/process.html#process_process_env) 中。
+
+### dotenv-expand
+
+[dotenv-expand](https://github.com/motdotla/dotenv-expand) 在 [dotenv](https://github.com/motdotla/dotenv) 的基础上增加了变量扩展。
+
+## References
+
+- [使用require.context实现前端工程自动化](https://www.jianshu.com/p/c894ea00dfec)
+
 
 
 
