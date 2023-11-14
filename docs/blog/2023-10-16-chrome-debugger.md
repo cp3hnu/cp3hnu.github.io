@@ -53,7 +53,7 @@ summary: 本篇文章总结一下 Chrome 的一些调试技巧
 
 ## Mock Request
 
-
+新版的 Chrome 117 支持 mock 请求了，
 
 
 
