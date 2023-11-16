@@ -35,7 +35,7 @@ summary: 本篇文章总结一下 Chrome 的一些调试技巧
 
 条件断点允许你定义表达式，表达式求值为 `true` 时中断。
 
-<img src="./assets/chrome-debugger-conditional-breakpoint.gif" style="zoom:67%;" />
+![](./assets/chrome-debugger-conditional-breakpoint.gif)
 
 ## 日志断点
 
@@ -49,7 +49,7 @@ summary: 本篇文章总结一下 Chrome 的一些调试技巧
 2. 显示检查的元素
 3. 使用快捷键 `comand + \` 或者 `F8`
 
-<img src="./assets/chrome-debugger-hover.png" style="zoom:67%;" />
+![](./assets/chrome-debugger-hover.png)
 
 ## Mock Request
 
