@@ -855,7 +855,7 @@ const saveComment = compose(
 compose(map(f), nt) === compose(nt, map(f));
 ```
 
-<img src="./assets/javascript-functional-nt.png" style="zoom:25%;" />
+<img src="./assets/javascript-functional-nt.png" />
 
 
 

@@ -344,7 +344,7 @@ module.exports = {
 
 #### 使用
 
-```react
+```javascript
 import Star from './star.svg'
 
 const Example = () => (
@@ -389,7 +389,7 @@ const Example = () => (
 
 因为 CRA 同时还用到了 `file-loader`，所以使用方式有点不同
 
-```react
+```javascript
 import starUrl, { ReactComponent as Star } from './star.svg'
 
 const App = () => (

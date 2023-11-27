@@ -225,7 +225,7 @@ export const Primary = (args, { loaded: { currentUser } }) => <Component {...arg
 
 下面是 storybook 的层级结构
 
-<img src="./assets/storybook_naming_hierarchy.png" alt="Storybook sidebar hierarchy" style="zoom:50%;" />
+<img src="./assets/storybook_naming_hierarchy.png" alt="Storybook sidebar hierarchy" />
 
 可以通过设置 `title` 设置层级结构
 

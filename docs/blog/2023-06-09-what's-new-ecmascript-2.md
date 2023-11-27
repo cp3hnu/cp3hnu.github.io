@@ -13,7 +13,7 @@ summary: 学习总结 ECMAScript 从 2021 年到 2025 年引入的新特性
 
 # ES2021 ~ ES2025 新特性
 
-接上篇 [ES2016 ~ ES2020 新特性](https://www.joylearn123.com/2022/04/09/what-s-new-ecmascript/)
+接上篇 [ES2016 ~ ES2020 新特性](./2022-04-09-what's-new-ecmascript)
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2021 ~ 2025 所有通过的提案
 
@@ -50,14 +50,14 @@ str.replaceAll(regexp | substr, newSubstr | replacerFunction)
 
 `newSubstr` 可以使用特殊标记
 
-| Pattern   | Inserts                                             |
-| :-------- | :-------------------------------------------------- |
-| `$$`      | `$` 字符本身                                        |
-| `$&`      | 匹配的子字符串                                      |
-| `$``      | `匹配的子字符串左边的字符串`                        |
-| `$'`      | 匹配的子字符串右边的字符串                          |
-| `$n`      | 第 n 个捕获组，没有捕获组表示字符串本身 "$1, 2...." |
-| `$<name>` | 命名捕获组，没有对应的捕获组时，值为空字符串        |
+| Pattern   | Inserts                                      |
+| :-------- | :------------------------------------------- |
+| `$$`      | `$` 字符本身                                 |
+| `$&`      | 匹配的子字符串                               |
+| `` $` ``  | 匹配的子字符串左边的字符串                   |
+| `$'`      | 匹配的子字符串右边的字符串                   |
+| `$n`      | 第 n 个捕获组                                |
+| `$<name>` | 命名捕获组，没有对应的捕获组时，值为空字符串 |
 
 `replacerFunction` 函数的参数
 

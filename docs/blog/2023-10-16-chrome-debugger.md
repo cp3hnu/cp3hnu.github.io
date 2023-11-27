@@ -3,7 +3,6 @@ pageClass: blog-page
 title: Chrome 调试技巧
 tags:
   - web
-  - chrome
   - debugger
 date: 2023-10-16
 author: cp3hnu
@@ -51,16 +50,30 @@ summary: 本篇文章总结一下 Chrome 的一些调试技巧
 
 ![](./assets/chrome-debugger-hover.png)
 
-## Mock Request
+## Mock 请求
 
-新版的 Chrome 117 支持 mock 请求了，
+Chrome 117 支持 mock 请求了，如下图
+
+![](./assets/chrome-debugger-network-mock1.png)
+
+在 `Network` 面板选择要 mock 的请求，右键选择 `Override content`，然后输入你想放回的数据，就能 mock 这个请求。
+
+![](./assets/chrome-debugger-network-mock2.png)
+
+除了 mock 接口之外，还可以 mock 字体、图片等资源
+
+> 📢 要使用 mock 版本，必须打开调试面板
+
+
 
 
 
 持续更新中...
 
+
+
 ## References
 
-- [Chrome DevTools](https://developer.chrome.com/docs/devtools/javascript/breakpoints/)
-
 - [Chrome Developer Tools](https://blittle.github.io/chrome-dev-tools/)
+- [Pause your code with breakpoints](https://developer.chrome.com/docs/devtools/javascript/breakpoints/)
+- [终于，用浏览器就能mock请求了](https://mp.weixin.qq.com/s/mLGoZmpeoscScnEYOgmB4g)

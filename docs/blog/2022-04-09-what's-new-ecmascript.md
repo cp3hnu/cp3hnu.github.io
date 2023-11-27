@@ -537,7 +537,7 @@ console.log(matchedObject.groups.month); // 04
 console.log(matchedObject.groups.day);   // 09
 
 // 还可以使用对象解构赋值
-const { groups: {year, day, month} } = matchedObject.exec('2022-04-09');
+const { groups: {year, day, month} } = eventDate.exec('2022-04-09');
 ```
 
 命名捕获组还能通过 `\k<name>` 反向引用，例如
@@ -577,9 +577,26 @@ let result = '2015-01-02'.replace(re, (...args) => {
 // result === '02/01/2015'
 ```
 
+#### Lookahead Assertions
+
+零宽度先行断言`(?=pattern)` ，用于匹配 `pattern` 前面的字符串 ，这个 `pattern` 不在匹配内，只是作为一个后置标志，例如下面匹配结尾是 `ing` 的字符串
+
+```javascript
+const regExp = /\w+(?=ing)/;
+console.log(regExp.exec('starting')[0]); // start
+console.log(regExp.exec('start')); // null
+```
+
+相反的操作是负向零宽度先行断言 `(?!pattern)`，匹配其后面不是 `pattern` 的字符串，例如匹配三位数字，而且这三位数字的后面不能是数字
+
+```javascript
+const regExp = /\d{3}(?!\d)/;
+console.log(regExp.exec('1234')[0]); // 234
+```
+
 #### Lookbehind Assertions
 
-零宽度后行断言 `(?<=pattern)`，用于匹配 `pattern` 后面的字符串，这个 `pattern` 不在匹配内，只是作为一个前置标志，例如下面是匹配美元符号（$）后面的金额数字：
+零宽度后行断言 `(?<=pattern)`，用于匹配 `pattern` 后面的字符串，这个 `pattern` 不在匹配内，只是作为一个前置标志，例如下面是匹配美元符号（`$`）后面的金额数字：
 
 ```javascript
 const regExp = /(?<=\$)\d+(\.\d*)?/;
@@ -587,22 +604,12 @@ console.log(regExp.exec('$199')[0]); // 199
 console.log(regExp.exec('199')); // null
 ```
 
-相反的操作是负向零宽度后行断言 `(?<!pattern)`，匹配其前面没有 `pattern` 的字符串
+相反的操作是负向零宽度后行断言 `(?<!pattern)`，匹配其前面没有 `pattern` 的字符串，例如下面匹配前面不是美元符号（`$`）的金额数字：
 
 ```javascript
 const regExp = /(?<!\$)\d+(\.\d*)?/;
 console.log(regExp.exec('￥199')[0]); // 199
-console.log(regExp.exec('$199')[0]); // 99
-```
-
-##### Lookahead Assertions
-
-复习一下零宽度先行断言，它对应的是  `(?=pattern)` 和 `(?!pattern)` ，例如下面匹配结尾是 `ing` 的字符串
-
-```javascript
-const regExp = /\w+(?=ing)/;
-console.log(regExp.exec('starting')[0]); // start
-console.log(regExp.exec('start')); // null
+console.log(regExp.exec('$199')[0]); // 99 (1 不是 $)
 ```
 
 #### Unicode Property Escapes

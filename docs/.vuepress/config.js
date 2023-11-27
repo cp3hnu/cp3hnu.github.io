@@ -9,7 +9,8 @@ module.exports = {
       {
         selector: ".blog-page :not(a) > img",
         options: {
-          margin: 16
+          margin: 16,
+          background: "rgba(0, 0, 0, 0.8)"
         }
       }
     ],

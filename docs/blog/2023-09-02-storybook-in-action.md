@@ -1,6 +1,6 @@
 ---
 pageClass: blog-page
-title: Stroybook 应用
+title: Stroybook 搭建组件库文档
 tags:
   - web
   - test
@@ -11,9 +11,9 @@ location: ChangSha
 summary: 上一篇文章我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档
 ---
 
-# Stroybook 应用
+# Storybook 搭建组件库文档
 
-[上一篇文章 ](./2023-01-04-storybook/) 我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档。最终的实现效果如下：
+[上一篇文章 ](./2023-01-04-storybook/)我们介绍了 Storybook，这篇文章我们将 Storybook 应用到我们的项目中，帮助我们生成组件文档。初级效果如下：
 
 > 项目技术栈是：Webpack 4.47.0 +  React 16.9.0 + Less 3.5.0
 
