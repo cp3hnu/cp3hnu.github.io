@@ -1,6 +1,6 @@
 ---
 pageClass: blog-page
-title: Stroybook 搭建组件库文档
+title: Storybook 搭建组件库文档
 tags:
   - web
   - test

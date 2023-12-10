@@ -13,7 +13,7 @@ summary: 学习总结 ECMAScript 从 2021 年到 2025 年引入的新特性
 
 # ES2021 ~ ES2025 新特性
 
-接上篇 [ES2016 ~ ES2020 新特性](./2022-04-09-what's-new-ecmascript)
+接上篇 [ES2016 ~ ES2020 新特性](./2022-04-09-what's-new-ecmascript/)
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2021 ~ 2025 所有通过的提案
 
