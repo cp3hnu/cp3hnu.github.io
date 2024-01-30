@@ -1350,6 +1350,6 @@ declare namespace GreetingLib.Options {
 
 - [Typescript](https://www.typescriptlang.org/docs/handbook/intro.html)
 - [Playground](https://www.typescriptlang.org/play?#code/KYDwDg9gTgLgBAG2PAFsBCIHVoICZwC8cARCgJYkDcQA)
-- [Type Search](https://aka.ms/types)
+- [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 - [TSConfig Reference](https://www.typescriptlang.org/tsconfig#)
 - [Base TSConfig](https://github.com/tsconfig/bases/)
