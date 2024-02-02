@@ -4,7 +4,7 @@ title: 升级 Babel 7
 tags:
   - web
   - babel
-date: 2023-12-03
+date: 2023-12-23
 author: cp3hnu
 location: ChangSha
 summary: 升级 Babel 7
@@ -12,7 +12,7 @@ summary: 升级 Babel 7
 
 # 升级 Babel 7 
 
-最近入职了一家新公司，发现前端项目里用的还是 Babel 6，其实 Babel 在 2018-08-28 就发布了 7.0.0 版本，距今已有 5 年多了，并且在项目中无法使用一些 JavaScript 新特性，比如 Optional Chaining，于是决定升级 Babel，顺便全面学习一下 Babel.
+最近入职了一家新公司，发现前端项目里用的还是 Babel 6，其实 Babel 在 2018-08-28 就发布了 7.0.0 版本，距今已有 5 年多了，并且在项目中无法使用一些 JavaScript 新特性，比如 [Optional Chaining](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining)，于是决定升级一下 Babel，顺便全面学习一下 Babel.
 
 ## Babel
 
@@ -81,7 +81,7 @@ try {
 
 #### 配置选项
 
-转换函数的行为受配置选项（`options`）的影响，比如 [`targets`](https://babeljs.io/docs/options#targets) 选项表示项目支持的目标环境，如果没有这个选项，表示要支持最老的浏览器，比如上面的列子，将箭头函数转换成了 ES5 代码。设置 `targets` 可以减少一些不必要的转换。 `targets` 支持 [`browserslist`](https://github.com/ai/browserslist) 查询，比如：
+转换函数的行为受配置选项（[`options`](https://babeljs.io/docs/options)）的影响，比如 [`targets`](https://babeljs.io/docs/options#targets) 选项表示项目支持的目标环境，如果没有这个选项，表示要支持最老的浏览器，比如上面的列子，将箭头函数转换成了 ES5 代码。设置 `targets` 可以减少一些不必要的转换。 `targets` 支持 [`browserslist`](https://github.com/ai/browserslist) 查询字符串，比如：
 
 ```js
 {
@@ -89,7 +89,7 @@ try {
 }
 ```
 
-`"> 0.25%, not dead"` 这个查询字符串的含义是：目标环境是全球浏览器市场占比超过 0.25% 的浏览器，并且这些浏览器都还在活跃更新中。
+这个查询字符串的含义是：目标环境是全球浏览器市场占比超过 0.25% 的浏览器，并且这些浏览器都还在活跃更新中。
 
 > 逗号 （`,`）在  [`browserslist`](https://github.com/ai/browserslist) 表示或者，相当于 `or`，取并集，交集使用 `and`，补集使用 `not`，但是我发现  `not dead` 是个另外，虽然上面使用了 `> 0.25%, not dead`，但是作用是交集，意思是占比超过 0.25%并且还在活跃。
 
@@ -101,11 +101,12 @@ $ npx browserslist "> 0.25%, not dead"
 
 更多详情请参考 [`browserslist`](https://github.com/ai/browserslist).
 
-完整的配置选项，请参考 [Options](https://babeljs.io/docs/options).
+完整的配置选项，请参考 [`options`](https://babeljs.io/docs/options).
 
-除了 `options` 参数之外，还可以通过配置文件，比如 `babel.config.json`（后面会讲到），来配置转换函数的行为。
+除了提供 `options` 参数之外，还可以通过配置文件，比如 `babel.config.json`（后面会讲到），来配置转换函数的行为。
 
 ```json
+// babel.config.json
 {
   "presets": [
     [
@@ -187,7 +188,7 @@ const b = [3, 2, 1].map(function (n) {
 
 更多配置选项，请参考 [@babel/cli](https://babeljs.io/docs/babel-cli)， 或者使用 `babel --help` 进行查看。
 
-Babel 也提供了一个[在线转换器](https://babeljs.io/repl)，可以方便地转换代码。
+Babel 也提供了一个[在线转换器](https://babeljs.io/repl)，可以方便地查看转换代码。
 
 ### Plugins
 
@@ -195,18 +196,18 @@ Babel 是构建在插件上的，通过插件来转换代码，比如上面例�
 
 #### `@babel/plugin-transform-runtime`
 
-Babel 大部分插件都是整合到 presets 使用（下面会讲到），[`@babel/plugin-transform-runtime`](https://babeljs.io/docs/babel-plugin-transform-runtime) 是为数不多需要单独使用的插件 ，它的作用是重用 Babel 注入的 helper 帮助函数以减少代码大小。
+Babel 大部分插件都是整合到 presets 使用（下面会讲到），[`@babel/plugin-transform-runtime`](https://babeljs.io/docs/babel-plugin-transform-runtime) 是需要单独使用的插件 ，它的作用是通过注入的 helper 函数以减少代码体积。
 
-Babel 使用一些非常小的 helper 帮助函数来处理常见的函数，比如 `_extend`。默认情况下，它将被添加到每个需要它的文件中。有时这种重复是不必要的，特别是当您的应用程序有很多个文件中时。通过 `@babel/plugin-transform-runtime`，所有的 helper 帮助函数都会引用 [`@babel/runtime`](https://babeljs.io/docs/babel-runtime) 模块，以避免代码重复。
+Babel 使用一些非常小的 helper 函数来处理常见的函数，比如 `_extend`。默认情况下，这些函数源码将被添加到每个需要它的文件里。有时这种重复是不必要的，特别是当您的应用程序有很多个文件中时。通过 `@babel/plugin-transform-runtime`，所有的 helper 函数都会引用 [`@babel/runtime`](https://babeljs.io/docs/babel-runtime) 模块，以减少代码体积。
 
-##### 安装
+安装
 
 ```sh
 $ npm install @babel/plugin-transform-runtime -D
 $ npm install @babel/runtime
 ```
 
-##### 配置
+配置
 
 ```json
 {
@@ -224,9 +225,9 @@ $ npm install @babel/runtime
 }
 ```
 
-**`helpers`**
+##### **`helpers`**
 
-布尔值，默认是 `true`。确定是否引用 `@babel/runtime` 模块来代替注入 helper 帮助函数。
+布尔值，默认是 `true`。确定是否引用 `@babel/runtime` 模块来代替注入 helper 函数。
 
 我们来看一个例子：
 
@@ -260,9 +261,9 @@ var Person = /*#__PURE__*/(0, _createClass2.default)(function Person() {
 });
 ```
 
-**`regenerator`**
+##### **`regenerator`**
 
-布尔值，默认是 `true`。`@babel/plugin-transform-runtime` 除了上面提到的添加 help 函数之后，还能使用 [regenerator runtime](https://github.com/facebook/regenerator/tree/main/packages/runtime) 转换生成器函数（generator functions），而不污染全局作用域。
+布尔值，默认是 `true`。使用 [regenerator runtime](https://github.com/facebook/regenerator/tree/main/packages/runtime) 转换生成器函数（generator functions），而不污染全局作用域。
 
 我们来看一个例子：
 
@@ -291,11 +292,35 @@ function foo() {
 }
 ```
 
-更多详情请参考
+`regenerator` 为 `false` 时，官方文档说是这样的
 
-**`corejs`**
+```js
+"use strict";
 
-有三个值，`false`、`2`、`3`，这个与 [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 的 `corejs` 有冲突，多用于 library。更多详情请参考
+var _marked = [foo].map(regeneratorRuntime.mark);
+
+function foo() {
+  return regeneratorRuntime.wrap(
+    function foo$(_context) {
+      while (1) {
+        switch ((_context.prev = _context.next)) {
+          case 0:
+          case "end":
+            return _context.stop();
+        }
+      }
+    },
+    _marked[0],
+    this
+  );
+}
+```
+
+但是经我测试，还是跟 `regenerator` 为 `true` 时一样。更多详情请参考 [Babel Regenerator and Polyfills](./2024-01-20-babel-regenerator-and-polyfills/).
+
+##### **`corejs`**
+
+有三个值，`false`、`2`、`3`，这个与 [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 的 `corejs` 有冲突，多用于 library。更多详情请参考 [Babel Regenerator and Polyfills](./2024-01-20-babel-regenerator-and-polyfills/).
 
 **`version`**
 
@@ -303,15 +328,15 @@ function foo() {
 
 #### Proposal Plugins
 
-Javascript 标准语法或者已经完成的提案语法转换插件已经并入到 `@babel/preset-env` 预设（下面会讲到），但是没有完成的提案语法Babel 提供了单独的插件，比如 `@babel/plugin-proposal-decorators`，更多详情请参考 [TC39 Proposals](https://babeljs.io/docs/babel-plugin-proposal-async-do-expressions)。
+Javascript 标准语法或者已经完成的提案语法转换插件已经并入到 `@babel/preset-env` 预设（下面会讲到），但是没有完成的提案语法Babel 提供了单独的插件，比如 [`@babel/plugin-proposal-decorators`](https://babeljs.io/docs/babel-plugin-proposal-decorators)，更多详情请参考 [TC39 Proposals](https://babeljs.io/docs/babel-plugin-proposal-async-do-expressions)。
 
 ### Presets
 
-因为有时候需要用到很多的插件，一个一个去指定非常不方便，于是 Babel 通过 presets （预设）来包含多个插件。比如上面提到的  [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env)。
+有时候需要用到很多的插件，一个一个去指定非常不方便，于是 Babel 通过 presets （预设）来包含多个插件。比如前面提到的  [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env)。
 
 #### `@babel/preset-env`
 
-这个是我们使用 Babel 必须要用到的 presets，它包含了转换 Javascript 新语法的所有插件，而且通过 [`core-js`](https://github.com/zloirock/core-js) 库添加新语法 polyfills，有了它我们就可以使用最新的 Javascript 语法了。同时它还非常智能，通过 [`browserslist`](https://github.com/browserslist/browserslist), [`compat-table`](https://github.com/kangax/compat-table) 等开源库提供的数据，再根据项目配置的 `targets`，只进行必要的代码转换和添加必要的 [`core-js`](https://github.com/zloirock/core-js) polyfills。
+[`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 是我们使用 Babel 必须要用到的 presets，它包含了转换 Javascript 新语法的所有插件，而且通过 [`core-js`](https://github.com/zloirock/core-js) 库添加新语法 polyfills，有了它我们就可以使用最新的 Javascript 语法了。同时它还非常智能，通过 [`browserslist`](https://github.com/browserslist/browserslist), [`compat-table`](https://github.com/kangax/compat-table) 等开源库提供的数据，再根据项目配置的 `targets`，只进行必要的代码转换和添加必要的 [`core-js`](https://github.com/zloirock/core-js) polyfills。
 
 > `@babel/preset-env ` 只包含 stage-3 及以上的 JavaScript 提案
 
@@ -322,7 +347,7 @@ $ npm i @babel/preset-env -D
 $ npm i core-js
 ```
 
-一般通过配置文件来指定 `@babel/preset-env`。
+一般通过配置文件来指定 `@babel/preset-env`.
 
 ```json
 {
@@ -341,7 +366,7 @@ $ npm i core-js
 
 `@babel/preset-env` 主要有下面这些配置选项：
 
-> 更多的配置选项，请参考 `@babel/preset-env` 的 [options](https://babeljs.io/docs/babel-preset-env#options).
+> 更多的配置选项，请参考 `@babel/preset-env` 的 [`options`](https://babeljs.io/docs/babel-preset-env#options).
 
 ##### `useBuiltIns`
 
@@ -395,7 +420,7 @@ require("core-js/modules/es.error.cause.js");
 // 还有很多
 ```
 
-**`false`**: 默认值，表示不添加 polyfills，这个基本不用
+**`false`**: 默认值，表示不添加 polyfills，这个基本不用。
 
 ##### `corejs`
 
@@ -446,7 +471,7 @@ Babel 7.4.0 使用 `core-js` 作为 polyfills，而废弃了 `@babel/polyfill` �
 
 当 `shippedProposals` 为 `true` 时，表示启用浏览器已支持的 stage-3 的提案 polyfills。
 
-### 配置
+### Babel 配置
 
 Babel 提供两种配置文件
 
@@ -475,8 +500,6 @@ Babel 提供两种配置文件
 ### `babel-loader`
 
 在我们基于 webpack 构建的项目中，我们一般不是使用 `@babel/core` 或者 `@babel/cli` 来转换代码，而是通过 [`babel-loader`](https://github.com/babel/babel-loader) 来转换代码。
-
-#### 安装
 
 ```sh
 npm install babel-loader @babel/core @babel/preset-env webpack -D 
@@ -529,7 +552,7 @@ module: {
 
 了解了 Babel 的知识之后，现在我们来升级 Babel 7，Babel 7主要有下面几个大变化
 
-1. 使用 @babel 作用域，比如 `@babel/core` 替换 `babel-core`
+1. 使用 `@babel` 作用域，比如 `@babel/core` 替换 `babel-core`
 
 2. Polyfills 使用 `core-js` 替换 `babel-polyfill`、`@babel/polyfill`
 
@@ -585,7 +608,7 @@ module: {
 
    当然也加入了一些新的提案插件，详情请参考 [TC39 Proposals](https://babeljs.io/docs/babel-plugin-proposal-async-do-expressions)。
 
-4.  删除了所有的年度 present，比如  `babel-preset-es2015`，使用 `@babel/preset-env` 代替
+4.  删除了所有的年度 presents，比如  `babel-preset-es2015`，使用 `@babel/preset-env` 代替
 
 5. 添加了全局配置文件 `babel.config.[json|js]`
 
