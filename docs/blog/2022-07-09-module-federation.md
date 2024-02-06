@@ -529,6 +529,10 @@ module.exports = {
 
 意思是从哪里加载无所谓，反正都是加载 chunk 的异步网络请求。
 
+## Demo
+
+[module-federation-demo](https://gitee.com/cp3hnu/module-federation-demo)
+
 ## References
 
 - [Module Federation](https://module-federation.github.io/)
@@ -551,8 +555,3 @@ module.exports = {
 [@vue/cli v5.0.0-alpha.5 don't support module federation which is a feature in webpack 5 #6318](https://github.com/vuejs/vue-cli/issues/6318)
 
 [Initialization of sharing external failed: ScriptExternalLoadError: Loading script failed. #692](https://github.com/module-federation/module-federation-examples/issues/692)
-
-## Demo
-
-[module-federation-demo](https://gitee.com/cp3hnu/module-federation-demo)
-

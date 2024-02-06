@@ -405,6 +405,10 @@ const App = () => (
 
 [SVGO](https://github.com/svg/svgo) 是一个基于node .js的工具，用于优化 SVG 文件。SVGO 除了 CLI 之外，提供了 [很多的方式 ](https://github.com/svg/svgo#other-ways-to-use-svgo)来优化 SVG 文件。
 
+## Demo
+
+[svg-sprite-loader-demo](https://gitee.com/cp3hnu/web-demo/tree/master/svg-sprite-loader-demo)
+
 ## References
 
 - [未来必热：SVG Sprites 技术介绍](https://www.zhangxinxu.com/wordpress/2014/07/introduce-svg-sprite-technology/)
@@ -413,7 +417,3 @@ const App = () => (
 - [svg-sprite-loader](https://github.com/JetBrains/svg-sprite-loader)
 - [svgr](https://github.com/gregberge/svgr)
 - [svgo](https://github.com/svg/svgo)
-
-## Demo
-
-[svg-sprite-loader-demo](https://gitee.com/cp3hnu/web-demo/tree/master/svg-sprite-loader-demo)

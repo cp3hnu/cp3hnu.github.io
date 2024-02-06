@@ -336,6 +336,10 @@ private extension CustomViewController {
 
 > [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5) 文档上说可以通过 `Auto Layout constraints` 或者 [`preferredContentSize`](https://developer.apple.com/documentation/uikit/uiviewcontroller/1621476-preferredcontentsize) 调整 view 的高度，但是如果使用 Navigation Controller，UI 的高度不可调。 
 
+## Demo
+
+[share-demo](https://gitee.com/cp3hnu/share-demo)
+
 ## References
 
 - [Share Extension](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW1)
@@ -346,8 +350,4 @@ private extension CustomViewController {
 - [Design the UI](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/Share.html#//apple_ref/doc/uid/TP40014214-CH12-SW5)
 - [Custom UI for Share Extensions](https://diamantidis.github.io/2020/01/11/share-extension-custom-ui)
 - [Wormhole](https://github.com/nixzhu/Wormhole)
-
-## Demo
-
-[share-demo](https://gitee.com/cp3hnu/share-demo)
 

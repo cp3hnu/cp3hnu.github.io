@@ -14,7 +14,7 @@ summary: 在写上一篇升级 Babel 7过程中，发现 @babel/plugin-transform
 
 在写上一篇文章 [升级 Babel 7](./2023-12-23-upgrade-babel-7/) 的过程中，发现 [`@babel/plugin-transform-runtime`](https://babeljs.io/docs/babel-plugin-transform-runtime) 插件除了添加 helper 函数之外，还可以转换生成器函数和添加 polyfills。但是 [`@babel/plugin-transform-regenerator`](https://babeljs.io/docs/babel-plugin-transform-regenerator) 插件也可以转换生成器函数，那这两者有什么区别呢？同时 [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 通过 [`core-js`](https://github.com/zloirock/core-js) 也能添加 polyfills，那他们之间又有什么区别呢？这篇文章我们来探讨一下。
 
-> 下面的讨论是是基于 Babel 7.23
+> 下面的讨论是基于 Babel 7.23+
 
 ## Regenerator
 
