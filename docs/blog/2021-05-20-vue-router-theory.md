@@ -75,7 +75,7 @@ this.$router.push('/about')
 
 ## createRouter 方法
 
-在 Vue 的的工程中，通过 `createRouter` 方法创建路由。`createRouter` 方法创建并返回一个 `Router` 类型的对象，Vue Router 绝大部分功能都是通过这个 `Router` 对象里实现的，我们后面会介绍。 `Router` 主要方法如下：
+在 Vue 的工程中，通过 `createRouter` 方法创建路由。`createRouter` 方法创建并返回一个 `Router` 类型的对象，Vue Router 绝大部分功能都是通过这个 `Router` 对象里实现的，我们后面会介绍。 `Router` 主要方法如下：
 
 - Vue 插件入口： `install`
 
@@ -92,7 +92,7 @@ Vue 插件的入口就是其 `install` 方法
 1. 注册 `RouterLink`， `RouterView` 全局组件
 2. 定义 `$router` 和 `$route` app 全局属性。`$route` 只能读不能写，是非响应性对象（ `unref` )
 3. 进行首次导航，导航到浏览器当前地址。
-4. 通过 `provide` 注入 `router` 、`currentRoute`（当前的 route），以及响应性的 currentRoute（见下面的注释）
+4. 通过 `provide` 注入 `router` 、`currentRoute`，以及响应性的 `currentRoute`（见下面的注释）
 5. 改写 app 的 `unmount `方法，进行数据清理，移除事件监听器
 
 ```typescript
@@ -134,9 +134,10 @@ install(app: App) {
   }
   app.provide(routerKey, router)
   // 因为 `currentRoute` 是 `shallowRef`，通过 `computed` 使 `params`、`query` 等其它属性对象具有响应性
-  // RouterLink inject 这个对象
+  // RouterLink `inject` 这个对象
+  // 组合式 useRoute 也是 `inject` 这个对象
   app.provide(routeLocationKey, reactive(reactiveRoute))
-  // 当前路由记录，RouterView inject 这个对象
+  // 当前路由记录，RouterView `inject` 这个对象
   app.provide(routerViewLocationKey, currentRoute)
 
   // 5.

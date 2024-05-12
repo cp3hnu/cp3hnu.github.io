@@ -35,11 +35,11 @@ console.log(sum) // 期待得到6，实际是5
 
 1. **当一个值被读取时进行追踪**，例如 `val1 + val2` 会同时读取 `val1` 和 `val2`。
 2. **当某个值改变时进行检测**，例如，当我们赋值 `val1 = 3`。
-3. **重新运行代码来读取原始值**，例如，再次运行 `sum = val1 + val2` 来更新 `sum` 的值。
+3. **重新运行代码求值**，例如，再次运行 `sum = val1 + val2` 来更新 `sum` 的值。
 
 ## 副作用 *effect*
 
-为了能够在数值变化时，随时运行我们的总和，我们首先要做的是将其包裹在一个函数中。
+为了能够在数值变化时，重新求值，我们首先要做的是将其包裹在一个函数中。
 
 ```js
 const updateSum = () => {
@@ -47,7 +47,7 @@ const updateSum = () => {
 }
 ```
 
-但我们如何告知 Vue 这个函数呢？
+但我们如何告知 Vue 运行这个函数呢？
 
 Vue 通过一个**副作用 (effect)** 来跟踪当前正在运行的函数(称之为**响应函数**)。副作用是一个函数的包裹器，在函数被调用之前就启动跟踪，然后当参数改变时再次执行它。
 
@@ -134,7 +134,7 @@ console.log(proxy.meal)
 
 1. **当一个值被读取时进行追踪**：proxy 的 `get` 处理函数中 `track` 函数记录了该 property 和当前副作用。
 2. **当某个值改变时进行检测**：在 proxy 上调用 `set` 处理函数。
-3. **重新运行代码来读取原始值**：`trigger` 函数查找哪些副作用依赖于该 property 并执行它们。
+3. **重新运行代码**：`trigger` 函数查找哪些副作用依赖于该 property 并执行它们。
 
 由此可见，响应性由两个部分组成，追踪依赖(`track`)和当依赖变化时执行副作用(`trigger`)
 
@@ -310,7 +310,7 @@ export function triggerEffects(
 
 为了实现响应性，Vue 3 提供了下面这些响应性 API，让我们来看看这些 API 是怎样实现的。
 
-> 对比 Vue 2，对于没有在 data 中定义的 propterty，后面想追加响应性，只能使用 `vue.$set` 函数，而在 Vue 3 中添加响应性property 更加灵活。
+> 对比 Vue 2，对于没有在 data 中定义的 propterty，后面想追加响应性，只能使用 `vue.$set` 函数，而在 Vue 3 中添加响应性 property 更加灵活。
 
 ### 声明响应式状态: reactive()
 
@@ -331,7 +331,7 @@ const state = reactive({
 
 ### 原始值变成响应式: ref()
 
-`reactive()` 只适用于对象，对于原始值(number, string, boolean)，怎么使其具有响应性呢？Vue 提供了 [ref()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%88%9B%E5%BB%BA%E7%8B%AC%E7%AB%8B%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E5%80%BC%E4%BD%9C%E4%B8%BA-refs) 函数。
+`reactive()` 只适用于对象，对于原始值（number, string, boolean），怎么使其具有响应性呢？Vue 提供了 [ref()](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#%E5%88%9B%E5%BB%BA%E7%8B%AC%E7%AB%8B%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E5%80%BC%E4%BD%9C%E4%B8%BA-refs) 函数。
 
 `ref()` 函数将原始值包裹成一个可变的响应式对象，该对象只包含一个名为 `value` 的 property。
 
@@ -399,7 +399,7 @@ export function triggerRefValue(ref: RefBase<any>, newVal?: any) {
 
 #### `reactive()` 与 `ref()` 的区别
 
-`reactive()` 只能用于 Object 类型，而 `ref()` 常用于原始值(number, string, boolean)，当然也能用于 Object 类型，当  `ref()` 用于 Object 时，其 `value` 是被封装成 reactive。
+`reactive()` 只能用于 Object 类型，而 `ref()` 常用于原始值（number, string, boolean），当然也能用于 Object 类型，当  `ref()` 用于 Object 时，其 `value` 是被封装成 reactive。
 
 在上面的源码中我们发现有个 `toReactive()` 函数，作用就是用来封装对象的
 
@@ -416,8 +416,9 @@ const refState = ref({
    count: 0
 })
 ```
+其 `value` 是 `Proxy`
 
-![](/Users/cp3hnu/Documents/mine/cp3hnu.github.io/docs/blog/assets/vue3-ref.png)
+![](./assets/vue3-ref.png)
 
 
 
@@ -491,7 +492,7 @@ class ObjectRefImpl<T extends object, K extends keyof T> {
 }
 ```
 
-从上面的代码，我们可以看出，`toRefs()` 迭代目标响应对象的每个属性，然后使用 `toRef()` 函数将每个非 reactive 属性(reactive 属性已经具有响应性，直接返回)封装成 `ObjectRefImpl` 类型(一种 ref 类型)，里面也只有一个 `value` 属性。
+从上面的代码，我们可以看出，`toRefs()` 迭代目标响应对象的每个属性，然后使用 `toRef()` 函数将每个非 reactive 属性（reactive 属性已经具有响应性，直接返回）封装成 `ObjectRefImpl` 类型（一种 `ref` 类型），里面也只有一个 `value` 属性。
 
 `value` 的 `get` 方法调用目标对象对应属性的的 `get` 方法，从而触发 `track()`，同样 `value` 的 `set` 方法调用目标对象对应属性的的 `set` 方法，从而触发 `trigger()`。
 
@@ -537,7 +538,7 @@ console.log(book.title) // 'Vue 3 Detailed Guide'
 
 ### computed()
 
-[computed()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E8%AE%A1%E7%AE%97%E5%80%BC) 函数类似于组件的[计算属性](https://v3.cn.vuejs.org/guide/computed.html#计算属性)。它接受 getter 函数并为 getter 返回的值返回一个不可变的响应式 [ref](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#创建独立的响应式值作为-refs) 对象
+[computed()](https://v3.cn.vuejs.org/guide/reactivity-computed-watchers.html#%E8%AE%A1%E7%AE%97%E5%80%BC) 函数类似于组件的[计算属性](https://v3.cn.vuejs.org/guide/computed.html#计算属性)。它接受 `getter` 函数并返回一个不可变的响应式 [`ref`](https://v3.cn.vuejs.org/guide/reactivity-fundamentals.html#创建独立的响应式值作为-refs) 对象。
 
 ```js
 const state = reactive({
@@ -550,7 +551,7 @@ state.count = 1
 console.log(plusOne.value) // 2
 ```
 
-它可以使用一个带有 `get` 和 `set` 函数的对象来创建一个可写的 ref 对象。
+它可以使用一个带有 `get` 和 `set` 函数的对象来创建一个可写的 `ref` 对象。
 
 ```js
 const state = reactive({
@@ -619,7 +620,7 @@ class ComputedRefImpl<T> {
     // 追踪依赖于自己的副作用
     trackRefValue(self)
     // self._dirty 就是 Vue 官方文档的计算属性缓存
-    // 依赖的属性值没有变化，直接返回结果，不执行get方法
+    // 依赖的属性值没有变化，直接返回结果，不执行 get 方法
     if (self._dirty) {
       self._dirty = false
       // 执行响应函数(get)，收集自己的依赖，并等到结果
@@ -676,7 +677,7 @@ setTimeout(() => {
 - 访问侦听状态变化前后的值;
 - 参数的类型更多，`watchEffect()` 的参数只能是函数。
 
-例如，侦听器数据源可以是返回值的 `getter` 函数，也可以直接是 ref：
+例如，侦听器数据源可以是返回值的 `getter` 函数，也可以直接是 `ref`：
 
 ```js
 // 侦听一个 getter
@@ -703,12 +704,12 @@ Vue 怎么实现 `watch()` 方法呢？
 
 ```typescript {19,23,27-36,39,45,54,57,62,68-69,72,78,81,84}
 /**
- * watch 和 watchEffect 都是调用这个函数
- * @param source 监听源，包含 ref, reactive, 数组，函数，watchEffect 只有函数
- * @param cb 回调，返回状态变化前后的值，watchEffect中这个值为null
- * @param immediate 对应于侦听器里的 immediate
- * @param deep 对应于侦听器里的 deep
- * @param flush pre(默认值)、post、sync，副作用刷新时机
+ * `watch` 和 `watchEffect` 都是调用这个函数
+ * @param source 监听源，包括 `ref`, `reactive`, `getter` 函数、数组，`watchEffect` 只能是函数
+ * @param cb 回调，返回状态变化前后的值，watchEffect 中这个值为 `null`
+ * @param immediate 对应于侦听器里的 `immediate`
+ * @param deep 对应于侦听器里的 `deep`
+ * @param flush 副作用刷新时机：`pre`(默认值)、`post`、`sync`
  */
 function doWatch(
   source: WatchSource | WatchSource[] | WatchEffect | object,

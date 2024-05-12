@@ -7,7 +7,7 @@ tags:
 date: 2023-12-23
 author: cp3hnu
 location: ChangSha
-summary: 升级 Babel 7
+summary: 最近入职了一家新公司，发现前端项目里用的还是 Babel 6，其实 Babel 在 2018-08-28 就发布了 7.0.0 版本，距今已有 5 年多了，并且在项目中无法使用一些 JavaScript 新特性，比如 Optional Chaining，于是决定升级一下 Babel，顺便全面学习一下 Babel.
 ---
 
 # 升级 Babel 7 

@@ -40,7 +40,7 @@ TypeScript 提供 7 个 primitive 类型，对应 JavaScript 的 primitive 类�
 
 `void` 表示函数没有返回值
 
-`never` 表示函数从来没有返回，而是抛异常
+`never` 用于函数返回值类型时，表示函数从来没有返回，而是抛异常；也表示不可能的类型
 
 `object` 表示泛型对象，Typescript 可以定义具体的对象类型
 
@@ -908,8 +908,30 @@ type FeatureOptions = {
 
 `readonly` and `?` 修改类型的可写性和可选性，可使用下面两个前缀符号
 
-- `+`  添加，默认
+- `+`  添加（默认）
 - `-`  删除
+
+例如下面删除 `readonly`
+
+```ts
+type CreateMutable<Type> = {
+  -readonly [Property in keyof Type]: Type[Property];
+};
+ 
+type LockedAccount = {
+  readonly id: string;
+  readonly name: string;
+};
+ 
+type UnlockedAccount = CreateMutable<LockedAccount>;
+
+/*
+type UnlockedAccount = {
+    id: string;
+    name: string;
+}
+*/
+```
 
 #### Key Remapping
 
@@ -1228,7 +1250,7 @@ d.printName();
 const b = new Base();
 ```
 
-# Modules
+## Modules
 
 Typescript 支持导入/导出类型
 

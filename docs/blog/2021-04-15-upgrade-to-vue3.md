@@ -21,7 +21,7 @@ Vue 3 响应性原理请点 **[这里](./2021-04-05-vue3-reactive-theory/)**
 
 ## 应用实例(app)
 
-每个 Vue 应用都是通过用 `createApp` 函数创建一个新的 **应用实例** 开始
+每个 Vue 应用都是通过用 `createApp` 函数创建一个新的**应用实例**开始
 
 ```javascript
 const app = Vue.createApp({
@@ -29,7 +29,7 @@ const app = Vue.createApp({
 })
 ```
 
-该 **应用实例** 是用来在应用中注册"全局"组件、"全局"方法、"全局"指令、"全局"插件等，取代 Vue 2 的全局函数
+该**应用实例**是用来在应用中注册全局组件、全局方法、全局指令、全局插件等，取代 Vue 2 的全局函数
 
 ```js
 const app = Vue.createApp({})
@@ -39,7 +39,7 @@ app.directive('focus', FocusDirective)
 app.use(LocalePlugin)
 ```
 
-Vue2 全局 API 和 Vue3 应用实例 API的对比
+Vue 2 全局 API 和 Vue 3 应用实例 API 的对比
 
 | 2.x 全局 API               | 3.x 实例 API (`app`)                       |
 | -------------------------- | ------------------------------------------ |
@@ -54,7 +54,7 @@ Vue2 全局 API 和 Vue3 应用实例 API的对比
 | Vue.extend                 | **移除**                                   |
 | Vue.filter                 | **移除**                                   |
 
-**应用实例** 暴露的大多数方法都会返回该同一实例，允许链式：
+**应用实例**暴露的大多数方法都会返回同一实例，这样就能链式操作了
 
 ```js
 Vue.createApp({})
@@ -63,7 +63,7 @@ Vue.createApp({})
   .use(LocalePlugin)
 ```
 
-传递给 `createApp` 的选项用于配置 **根组件**。当我们 **挂载** 应用时，该组件被用作渲染的起点。
+传递给 `createApp` 的选项用于配置**根组件**。当我们**挂载**应用时，该组件被用作渲染的起点。
 
 ```js
 const RootComponent = { 
@@ -73,7 +73,7 @@ const app = Vue.createApp(RootComponent)
 const vm = app.mount('#app')
 ```
 
-与大多数应用方法不同的是，`mount` 不返回应用本身。相反，它返回的是根组件实例
+与大多数应用方法不同的是，`mount` 不返回应用本身，它返回的是根组件实例。
 
 > 应用中的所有组件实例将共享同一个应用实例
 
@@ -105,8 +105,8 @@ console.log(vm.count)       // => 4
 `v-model` 在内部为不同的输入元素使用不同的 property 并抛出不同的事件：
 
 - text 和 textarea 元素使用 `value` property 和 `input` 事件
-- checkbox 和 radio 使用 `checked` property 和 `change` 事件
-- select 字段将 `value` 作为 prop 并将 `change` 作为事件
+- checkbox 和 radio 元素使用 `checked` property 和 `change` 事件
+- select 元素使用 `value` property 和 `change` 事件
 
 例如
 
@@ -179,7 +179,7 @@ app.component('my-component', {
 
 ### 自定义 `v-model` 修饰符
 
-当我们学习表单输入绑定时，我们看到 `v-model` 有[内置修饰符](https://v3.cn.vuejs.org/guide/forms.html#修饰符)——`.trim`、`.number` 和 `.lazy`。但是，在某些情况下，你可能还需要添加自己的自定义修饰符。
+当我们学习表单输入绑定时，我们看到 `v-model` 有[内置修饰符](https://v3.cn.vuejs.org/guide/forms.html#修饰符) — `.trim`、`.number` 和 `.lazy`。但是，在某些情况下，你可能还需要添加自己的自定义修饰符。
 
 让我们创建一个示例自定义修饰符 `capitalize`，它将 `v-model` 绑定提供的字符串的第一个字母大写
 
@@ -266,7 +266,7 @@ app.component('custom-form', {
     // 没有验证
     click: null,
 
-    // 验证submit 事件
+    // 验证 submit 事件
     submit: ({ email, password }) => {
       if (email && password) {
         return true
@@ -290,7 +290,7 @@ app.component('custom-form', {
 
 ### 基础数据
 
-provide 是一个对象
+`provide` 是一个对象
 
 ```js
 app.component('todo-list', {
@@ -393,7 +393,7 @@ const asyncModalWithOptions = defineAsyncComponent({
 
 ### 钩子函数
 
-- `created`：在绑定元素的 attribute 或事件监听器被应用之前调用。这在指令需要附加事件监听器的情况下很有用，这些事件监听器必须在正常的v-on事件监听器之前调用。
+- `created`：在绑定元素的 attribute 或事件监听器被应用之前调用。这在指令需要附加事件监听器的情况下很有用，这些事件监听器必须在正常的 v-on 事件监听器之前调用。
 - `beforeMount`：当指令第一次绑定到元素并且在挂载父组件之前调用。
 - `mounted`：在绑定元素的父组件被挂载后调用。
 - `beforeUpdate`：在更新包含组件的 VNode 之前调用。
@@ -454,9 +454,9 @@ Vue 3 现在正式支持了多根节点的组件，也就是 **片段**。但是
 
 ### 深度选择器
 
-由 `/deep/` 变成 `::v-deep` 现在又变成了 `deep()`
+由 `/deep/` 变成 `::v-deep` 现在又变成了 `:deep()`
 
->  `deep()` 是 `::v-deep()` 的简写 
+>  `:deep()` 是 `::v-deep()` 的简写 
 
 ```vue
 <style scoped>
@@ -473,9 +473,9 @@ Vue 3 现在正式支持了多根节点的组件，也就是 **片段**。但是
 
 ### 插槽选择器
 
-默认情况下，作用域样式不会影响到 `<slot/>` 渲染出来的内容，因为它们被认为是父组件所持有并传递进来的。使用 `:slotted` 伪类以确切地将插槽内容作为选择器的目标
+默认情况下，作用域样式不会影响到 `<slot/>` 渲染出来的内容，因为它们被认为是父组件所持有并传递进来的。使用 `:slotted()` 伪类以确切地将插槽内容作为选择器的目标
 
->  `slotted()` 是 `::v-slotted()` 的简写 
+>  `:slotted()` 是 `::v-slotted()` 的简写 
 
 ```vue
 <style scoped>
@@ -487,9 +487,9 @@ Vue 3 现在正式支持了多根节点的组件，也就是 **片段**。但是
 
 ### 全局选择器
 
->  `global()` 是 `::v-global()` 的简写
+>  `:global()` 是 `::v-global()` 的简写
 
-如果想让其中一个样式规则应用到全局，比起另外创建一个 `<style>`，可以使用 `:global` 伪类来实现
+如果想让其中一个样式规则应用到全局，比起另外创建一个 `<style>`，可以使用 `:global()` 伪类来实现
 
 ```vue
 <style scoped>
@@ -605,7 +605,7 @@ nextTick(() => {
 
 ## v-bind 合并行为
 
-在一个元素上同时使用 `v-bind="object"` 语法和独立 attribute时，后面的覆盖前面的，例如
+在一个元素上同时使用 `v-bind="object"` 语法和独立 attribute 时，后面的覆盖前面的，例如
 
 ```html
 <!-- 模板 -->
@@ -670,7 +670,7 @@ onMounted(() => console.log(itemRefs.value))
 
 *：已改变
 
-布尔型 attribute 的强制转换保持不变。如果布尔型 attribute是 `falsy` (`undefined`，`null` 或 `false`) 的，Vue 会移除它们，否则会加上。更多详情请参考[attribute 强制行为](https://v3-migration.vuejs.org/zh/breaking-changes/attribute-coercion.html)
+布尔型 attribute 的强制转换保持不变。如果布尔型 attribute是 `falsy` (`undefined`，`null` 或 `false`) 的，Vue 会移除它们，否则会加上。更多详情请参考 [attribute 强制行为](https://v3-migration.vuejs.org/zh/breaking-changes/attribute-coercion.html)
 
 ## 其它
 
@@ -728,7 +728,7 @@ onMounted(() => console.log(itemRefs.value))
 
 - ~~过滤器 (filter)被删除~~，使用计算属性、方法调用。(其实这个功能挺好用的，尤其是对于数据格式化，希望能加回来)
 
-- ~~`$children` 实例 property被删除~~，使用$refs
+- ~~`$children` 实例 property被删除~~，使用 $refs
 
 - ~~全局函数 `set` 和 `delete` 以及实例方法 `$set` 和 `$delete`被删除~~。基于代理的变化检测已经不再需要它们了
 

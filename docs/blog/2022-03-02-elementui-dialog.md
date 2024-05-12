@@ -168,6 +168,8 @@ export default {
 };
 ```
 
+> 也可以使用 ID 选择器来指向一个元素，例如：`template: '#my-template-element'`
+
 ### `render` 函数 
 
 在实际应用中基本上不会使用 Template 字符串来创建组件，因为代码不好阅读、不好调试、不好维护，除了 Vue 模板创建组件外，另一种常用的方式就是使用 `render` 函数，让你拥有 JavaScript 的完全编程的能力。

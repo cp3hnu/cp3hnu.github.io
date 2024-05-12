@@ -113,7 +113,10 @@ module.exports = {
       // fallback
       "/": "auto"
     },
-    smoothScroll: true
+    smoothScroll: true,
+    globalPagination: {
+      lengthPerPage: 10,
+    }
   },
   markdown: {
     lineNumbers: true,
