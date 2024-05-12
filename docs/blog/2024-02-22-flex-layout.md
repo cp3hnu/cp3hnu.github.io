@@ -1,3 +1,16 @@
+---
+pageClass: blog-page
+title: Flex 布局
+tags:
+  - web
+  - css
+  - flex
+date: 2024-02-22
+author: cp3hnu
+location: ChangSha
+summary: 学习总结一下 Flex 布局。
+---
+
 # Flex 布局
 
 今天我们来学习总结一下 Flex 布局
@@ -30,21 +43,22 @@ Flex 布局最关键的是就是 `flex-basis`，`flex-basis` 确定 flex 元素�
 
 `flex-basis` 的值分为以下几种：
 
-| `flex-basis`                 | 元素的宽度                        | 参与 grow/shrink 的宽度          |
-| ---------------------------- | --------------------------------- | -------------------------------- |
-| 确定值（0, 10px, 30%）       | max(`flex-basis`, min-content^1^) | `flex-basis` 的值                |
-| `auto` (`width` 也为 `auto`) | 等同于 `flex-basis: content`      | 等同于 `flex-basis: content`     |
-| `auto` (`width` 为确定值)    | `width` 属性的值                  | `width `属性的值                 |
-| `content`                    | content^2^                        | content^2^                       |
-| `max-content`^3^             | 等同于 `flex-basis: content`      | 等同于 `flex-basis: content`     |
-| `min-content`                | min-content^1^                    | min-content^1^                   |
-| `fit-content`                | min(content^2^, flex 容器的宽度)  | min(content^2^, flex 容器的宽度) |
+| `flex-basis`                 | 元素的宽度                                 | 参与 grow/shrink 的宽度                   |
+| ---------------------------- | ------------------------------------------ | ----------------------------------------- |
+| 确定值（0, 10px, 30%）       | max(`flex-basis`, min-content<sup>1</sup>) | `flex-basis` 的值                         |
+| `auto` (`width` 也为 `auto`) | 等同于 `flex-basis: content`               | 等同于 `flex-basis: content`              |
+| `auto` (`width` 为确定值)    | `width` 属性的值                           | `width `属性的值                          |
+| `content`                    | content<sup>2</sup>                        | content<sup>2</sup>                       |
+| `max-content`<sup>3</sup>    | 等同于 `flex-basis: content`               | 等同于 `flex-basis: content`              |
+| `min-content`                | min-content<sup>1</sup>                    | min-content<sup>1</sup>                   |
+| `fit-content`                | min(content<sup>2</sup>, flex 容器的宽度)  | min(content<sup>2</sup>, flex 容器的宽度) |
 
-min-content^1^：元素的最小宽度。对于文本，表示其中最长单词的宽度，如果设置了 `word-break: break-all`，则是一个字母的宽度。详情请参考 [min-content](http://developer.mozilla.org/en-US/docs/Web/CSS/min-content)。
+[ 1 ] min-content：元素的最小宽度。对于文本，表示其中最长单词的宽度，如果设置了 `word-break: break-all`，则是一个字母的宽度。详情请参考 [`min-content`](http://developer.mozilla.org/en-US/docs/Web/CSS/min-content)。
 
-content^2^：元素不自动换行的宽度。
+[ 2 ] content：元素不自动换行的宽度。
 
-max-content^3^：感觉上等同于 `flex-basis: content`，暂时没有找到它们的区别，文档上也没有说明。
+[ 3 ] max-content：感觉上等同于 `flex-basis: content`，暂时没有找到它们的区别，文档上也没有说明。
+
 
 ## `flex-grow` 扩展公式
 
@@ -60,9 +74,7 @@ $$
 ## `flex-shrink` 缩减公式
 
 缩减因子：
-$$
-ShrinkPercent = \frac{NegativeSpace}{(WidthF1 \times ShrF1)\,+\,...\,+\,(WidthFN \times ShrFN)}
-$$
+$$ShrinkPercent = \frac{NegativeSpace}{(WidthF1 \times ShrF1)\,+\,...\,+\,(WidthFN \times ShrFN)}$$
 最终元素的宽度为：
 $$
 NewWidthN = WidthN - ShrinkPersent \times WidthN
@@ -72,5 +84,40 @@ $$
 
 ## References
 
-[Understanding min-content, max-content, and fit-content in CSS](https://blog.logrocket.com/understanding-min-content-max-content-fit-content-css/)
+- [Understanding min-content, max-content, and fit-content in CSS](https://blog.logrocket.com/understanding-min-content-max-content-fit-content-css/)
+
+
+
+## VuePress 中使用数学公式
+
+因为我的 Blog 是使用 VuePress 搭建的，一开始无法正确展示数学公式，查询资料得知需要这么配置
+
+### 安装组件
+
+数学公式插件 [markdown-it-katex](https://github.com/waylonflinn/markdown-it-katex)
+
+```sh
+$ npm install markdown-it-katex --save
+```
+
+### 添加配置
+
+修改 `.vuepress/config.js` 下的配置
+
+```js
+module.exports = {
+  head: [
+    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
+  ],
+  extendMarkdown(md) {
+    md.set({ html: true });
+    md.use(require("markdown-it-katex"));
+  }
+}
+```
+
+
+
+
 
