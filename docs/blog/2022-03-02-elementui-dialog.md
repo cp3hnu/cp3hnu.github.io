@@ -8,20 +8,20 @@ tags:
 date: 2022-03-02
 author: cp3hnu
 location: ChangSha
-summary: 我们知道 ElementUI 有一个 MessageBox 的组件，提供了全局方法打开消息弹框，但是 Dialog 却没有提供这样的方法，这篇文章我们来研究一下怎样以函数的方式打开对话框。
+summary: ElementUI 有一个 MessageBox 的组件，提供了全局方法打开消息弹框，但是 Dialog 却没有提供这样的方法，这篇文章我们来研究一下怎样以函数的方式打开对话框。
 ---
 
 # ElementUI 以函数的方式打开 Dialog
 
-我们知道 [ElementUI](https://element.eleme.cn/#/zh-CN) 有一个 [MessageBox](https://element.eleme.cn/#/zh-CN/component/message-box) 的组件，提供了[全局方法](https://element.eleme.cn/#/zh-CN/component/message-box#quan-ju-fang-fa)打开消息弹框，但是 [Dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 却没有提供这样的方法，这篇文章我们来研究一下怎样以函数的方式打开对话框。
+[ElementUI](https://element.eleme.cn/#/zh-CN) 有一个 [MessageBox](https://element.eleme.cn/#/zh-CN/component/message-box) 的组件，提供了[全局方法](https://element.eleme.cn/#/zh-CN/component/message-box#quan-ju-fang-fa)打开消息弹框，但是 [Dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 却没有提供这样的方法，这篇文章我们来研究一下怎样以函数的方式打开对话框。
 
 > Vue 2.6.14 + ElementUI 2.15.14
 
 ## 现状
 
-一般我们都是这样使用 dialog：首先新建一个文件，自定义 dialog，然后在页面代码里引入这个自定义 dialog，通过 `visible ` 属性控制打开或者关闭 dialog，可能还需要定义处理 `confirm` 或者 `cancel` 的方法。
+一般我们都是这样使用 dialog：首先新建一个文件，自定义 dialog，然后在页面代码里引入这个自定义 dialog，通过 `visible` 属性控制打开或者关闭 dialog，最后处理 `confirm` 或者 `cancel` 的事件。
 
-自定义 dialog
+### 自定义 dialog
 
 ```vue
 <!-- CustomDialog.vue -->
@@ -65,7 +65,7 @@ export default {
 </script>
 ```
 
-使用 dialog
+### 使用 dialog
 
 ```vue
 <template>

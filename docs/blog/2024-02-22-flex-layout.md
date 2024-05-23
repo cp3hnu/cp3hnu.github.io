@@ -82,6 +82,14 @@ $$
 
 
 
+## 常见问题
+
+### Flex 布局的子元素，设置了 `flex-shrink`，为什么没有收缩？
+
+子元素的最小宽度是由内容决定的，比如设置了 `min-width` 或者一个很长的单词。为了解决这个问题，可以尝试设置 `min-width: 0`。
+
+另一种种常见的情形是设置了 `white-space: nowrap`，子元素内部的文本没有被设置为换行，那么即使容器宽度不足，子元素也不会收缩。为了解决这个问题，也可以尝试设置 `min-width: 0`，或者设置 `overflow: auto` 或 `overflow: hidden`。
+
 ## References
 
 - [Understanding min-content, max-content, and fit-content in CSS](https://blog.logrocket.com/understanding-min-content-max-content-fit-content-css/)
@@ -117,7 +125,7 @@ module.exports = {
 }
 ```
 
-
+然后再部署，就可以正确展示数学公式了
 
 
 
