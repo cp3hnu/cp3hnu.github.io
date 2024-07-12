@@ -3,8 +3,8 @@ pageClass: blog-page
 title: Ant Design 以函数的方式打开 Modal
 tags:
   - web
-  - Ant Design
   - react
+  - Ant Design
 date: 2024-04-27
 author: cp3hnu
 location: ChangSha
@@ -211,7 +211,7 @@ function Page() {
 
 无需多余的 state，无需临时存储 Modal 所需的数据，打开 Modal 、关闭 Modal 和处理 Modal 的业务逻辑在一起，Nice。
 
-### 遇到的问题
+### 遇到的问题及解决办法
 
 #### 全局配置的主题没有生效
 
@@ -436,6 +436,10 @@ const App = () => {
 
 const useApp = () => React.useContext<useAppProps>(AppContext);
 ```
+
+## Demo
+
+[open-modal-demo](https://gitee.com/cp3hnu/web-demo/tree/master/open-modal-demo)
 
 ## References
 
