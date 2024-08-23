@@ -17,16 +17,6 @@ summary: 使用 jscodeshift 工具汉化 React 项目
 
 没有现成的工具，就只能自己开发了。[`jscodeshift`](https://github.com/facebook/jscodeshift) 是一个转换 JavaScript/TypeScript 代码的工具，一般用来重构代码，用它来汉化 React 项目最合适不过了。
 
-## 整体流程
-
-整体流程分三步
-
-- 扫描代码，从代码里提取英文文本
-- 接入翻译 API，将英文文本翻译成中文文本
-- 再次扫描代码，将英文文本替换成翻译的中文文本
-
-![](./assets/jscodeshift.jpg)
-
 ## `jscodeshift`
 
 [`jscodeshift`](https://github.com/facebook/jscodeshift) 是一个在多个 JavaScript 或 TypeScript 文件上运行代码的工具包。它提供了:
@@ -56,24 +46,24 @@ module.exports = function(fileInfo, api, options) {
 
 它有三个参数：
 
-- fileInfo： 当前处理的文件的相关信息。
-	- path： 文件路径
-	- source： 文件代码
-- api：jscodesshift 库和 helper 函数。
-  - jscodesshift： jscodesshift 库
-  - stats：当运行 `--dry` 时，收集统计信息的函数
-  - report：打印到标准输出
-- options：运行时传入的选项
+- `fileInfo`： 当前处理的文件的相关信息。
+	- `path`： 文件路径
+	- `source`： 文件代码
+- `api`：jscodesshift 库和 helper 函数。
+  - `jscodesshift`： jscodesshift 库
+  - `stats`：当运行 `--dry` 时，收集统计信息的函数
+  - `report`：打印到标准输出
+- `options`：运行时传入的选项
 
 ### 使用
 
 #### CLI
 
 ```sh
-jscodeshift -t ./extract.js src/ --extensions=ts,tsx --ignore-pattern 'src/tests/**'
+jscodeshift src/ -t ./extract.js --extensions=ts,tsx --ignore-pattern 'src/tests/**'
 ```
 
-更多详情请参考  [`jscodeshift`](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli)
+更多详情请参考  [Jscodeshift Usage (CLI)](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli)
 
 #### JS
 
@@ -92,6 +82,16 @@ const options = {
 
 const res = await jscodeshift(transformPath, paths, options)
 ```
+
+## 整体流程
+
+整体流程分三步
+
+- 扫描代码，从代码里提取英文文本
+- 接入翻译 API，将英文文本翻译成中文文本
+- 再次扫描代码，将英文文本替换成中文文本
+
+![](./assets/jscodeshift.jpg)
 
 ## 提取
 
@@ -146,11 +146,11 @@ module.exports = function transformer(fileInfo, api) {
 
 首先，我们需要确定解析器，`jscodeshift` 提供了 5 个解析器供你选择
 
-- babel，默认
-- babylon
-- flow
-- ts
-- tsx
+- `babel`，默认
+- `babylon`
+- `flow`
+- `ts`
+- `tsx`
 
 因为这个 React 项目使用的是 tx/tsx 开发的，而且没有使用 babel，所以我一开始运行的时候报错
 
@@ -514,13 +514,21 @@ function replaceValue(node, translations) {
 
 完成替换后，汉化工作完成了80%，剩下的 20% 是一些变量的汉化，这部分的工作只能手动修改，因为变量不仅用于展示，也可能用于代码的逻辑处理，必要时需要在显示的时候添加英文到中文的映射，这部分需要小心处理。
 
+## 完整代码
+
+[chinesize-demo](https://gitee.com/cp3hnu/web-demo/tree/master/chinesize-demo)
+
 ## References
 
 - [`jscodeshift`](https://github.com/facebook/jscodeshift)
-- [jscodeshift API](https://jscodeshift.com/)
+- [Jscodeshift API](https://jscodeshift.com/)
 - [`recast`](https://github.com/benjamn/recast)
 - [`ast-types`](https://github.com/benjamn/ast-types)
 - [babel/types](https://babeljs.io/docs/babel-types)
-- [AST explorer](http://astexplorer.net/) 
+- [AST explorer](http://astexplorer.net/)
+- [`react-codemod`](https://github.com/reactjs/react-codemod)
+- [`js-codemod`](https://github.com/cpojer/js-codemod/)
+- [`js-transforms`](https://github.com/jhgg/js-transforms)
+- [`fix-js`](https://github.com/anshckr/fix-js)
 - [`kiwi`](https://github.com/alibaba/kiwi)
 - [`i18next-parser`](https://github.com/i18next/i18next-parser)

@@ -4,7 +4,7 @@ title: Ant Design 以函数的方式打开 Modal
 tags:
   - web
   - react
-  - Ant Design
+  - ant design
 date: 2024-04-27
 author: cp3hnu
 location: ChangSha
