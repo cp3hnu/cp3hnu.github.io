@@ -1,3 +1,4 @@
 {
-  "codeium.aggressiveShutdown": true
+  "codeium.aggressiveShutdown": true,
+  "editor.tabSize": 2
 }
