@@ -18,7 +18,11 @@ module.exports = {
         }
       }
     ],
-    "@vuepress/back-to-top"
+    "@vuepress/back-to-top",
+    // ['vuepress-plugin-code-copy', {
+    //   color: '#d05dd2',
+    //   successText: '已复制',
+    // }]
   ],
   themeConfig: {
     nav: [

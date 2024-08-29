@@ -19,11 +19,13 @@ summary: 使用 jscodeshift 工具汉化 React 项目
 
 ## `jscodeshift`
 
-[`jscodeshift`](https://github.com/facebook/jscodeshift) 是一个在多个 JavaScript 或 TypeScript 文件上运行代码的工具包。它提供了:
+[`jscodeshift`](https://github.com/facebook/jscodeshift) 是一个能在多个 JavaScript/TypeScript 文件上运行代码的工具，它提供了:
 
-- 一个运行器，它为传递给它的每个文件执行提供的转换。
+- 一个运行器，它为传递给它的每个文件执行转换。
 
-- 一个 [`recast`](https://github.com/benjamn/recast) 包装器，提供不同的 API。Recast 是一种 AST 到 AST 的转换工具，它也试图尽可能地保留原始代码的风格。
+- 一个 [`recast`](https://github.com/benjamn/recast) 包装器，但是提供不同的 API。Recast 是一种 AST 到 AST 的转换工具，它也试图尽可能地保留原始代码的风格。
+
+`jscodeshift` 首先将 JS/TS 代码转换 AST，然后遍历 AST，并根据你提供的转换函数进行转换，最后将转换后的 AST 转换回 JS/TS 代码。
 
 ### 安装
 
@@ -55,7 +57,93 @@ module.exports = function(fileInfo, api, options) {
   - `report`：打印到标准输出
 - `options`：运行时传入的选项
 
+### API
+
+`jscodeshift` 提供了 25 个 API 帮助我们检测和转换 JS/TS 代码，这里列举我们后面会用的 API，更多详情请参考 [API Reference](https://jscodeshift.com/build/api-reference/)
+
+#### `jscodeshift()`
+
+返回 `jscodesshift` 实例
+
+```js
+const jscodeshift = require('jscodeshift');
+const sourceCode = `const a = 1;`;
+const j = jscodeshift(sourceCode);
+```
+
+#### `find()`
+
+查找与所提供类型匹配的所有节点，返回的是集合类型 `Collection`，里面的元素类型是 [`ast-types`](https://github.com/benjamn/ast-types) 的 [`NodePath`](https://github.com/benjamn/ast-types?tab=readme-ov-file#nodepath) 类型，它包含 AST 节点信息（`Node` 类型），并且提供了处理 AST 节点的辅助方法。
+
+ AST 节点是一个纯 JavaScript 对象，具有一组特定的字段，通过它们的 type 属性来识别节点。
+
+```js
+// "foo"
+{
+  type: 'Literal',
+  value: 'foo',
+  raw: '"foo"'
+}
+```
+
+关于 AST 节点有哪些属性，可以参考 [Mozilla Parser API](https://udn.realityripple.com/docs/Mozilla/Projects/SpiderMonkey/Parser_API).
+
+```js
+const variableDeclarations = j.find(j.VariableDeclaration);
+```
+
+#### `replaceWith()`
+
+用新节点替换当前节点
+
+```js
+j.find(j.Identifier)
+  .replaceWith(path => j.identifier(path.node.name.toUpperCase()));
+```
+
+#### `toSource(options)`
+
+将转换后的 AST 转换回源代码，它接收一个对象参数 [options](https://github.com/benjamn/recast/blob/master/lib/options.ts)，表示怎样格式化输出代码。
+
+除此之外，为了使创建 AST 节点更简单、更安全，`jscodeshift` 支持 `ast-types` 的 *builder* 方法。比如 `jsxText("text")` 构建 JSX Text 节点 
+
+### 节点类型
+
+`jscodesshift` 提供 278 个节点类型，它们映射到 `ast-types` 相应的节点类型。这里同样列举我们后面会用的节点类型，更多详情请参考 [AST Grammar](https://jscodeshift.com/build/ast-grammar/)
+
+> 不知道代码的节点类型？可以通过 [AST Explorer](http://astexplorer.net/) 在线工具查看
+
+#### `JSXText`
+
+表示 JSX 中的文本
+
+#### `StringLiteral`
+
+表示字符串字面值
+
+#### `JSXElement`
+
+表示一个 JSX 元素，包含整个 JSX 结构，包括开头标签、闭合标签和子内容
+
+#### `JSXOpeningElement`
+
+表示 JSX 中的开始元素，只表示开头的标签部分，不包含子内容和闭合标签
+
+#### `JSXExpressionContainer`
+
+表示 JSX 中的表达式容器
+
+#### `ConditionalExpression`
+
+表示条件表达式（`?:`）
+
+#### `LogicalExpression`
+
+逻辑表达式（`||`、`&&` 和 `??`）
+
 ### 使用
+
+`jscodeshift` 有两种使用方式：`CLI` 和 `Module`
 
 #### CLI
 
@@ -65,7 +153,7 @@ jscodeshift src/ -t ./extract.js --extensions=ts,tsx --ignore-pattern 'src/tests
 
 更多详情请参考  [Jscodeshift Usage (CLI)](https://github.com/facebook/jscodeshift?tab=readme-ov-file#usage-cli)
 
-#### JS
+#### Module
 
 ```js
 const {run: jscodeshift} = require('jscodeshift/src/Runner')
@@ -83,15 +171,19 @@ const options = {
 const res = await jscodeshift(transformPath, paths, options)
 ```
 
+> jscodeshift 好像不支持 ES Module 
+
 ## 整体流程
 
-整体流程分三步
+了解了`jscodeshift` 之后，我们现在用它汉化一个英文的 React 项目。 它的整体流程分三步：
 
 - 扫描代码，从代码里提取英文文本
 - 接入翻译 API，将英文文本翻译成中文文本
 - 再次扫描代码，将英文文本替换成中文文本
 
 ![](./assets/jscodeshift.jpg)
+
+接下来我们详细介绍这三步，最终实现我们的目标。
 
 ## 提取
 
@@ -161,7 +253,7 @@ Transformation error (Unexpected token, expected "(" (5:17)) SyntaxError: Unexpe
 其实就是不识别 Typescript 的类型标注，这个时候需要设置解析器，设置解析器有三种方式：
 
 - 和上面代码一样使用 `withParser` 函数
-- 添加命令行选项`--parser tsx`  
+- 添加命令行选项 `--parser tsx`  
 - 在转换文件里导出 `parser` 属性，像这样：
 
 ```js
@@ -525,7 +617,8 @@ function replaceValue(node, translations) {
 - [`recast`](https://github.com/benjamn/recast)
 - [`ast-types`](https://github.com/benjamn/ast-types)
 - [babel/types](https://babeljs.io/docs/babel-types)
-- [AST explorer](http://astexplorer.net/)
+- [Mozilla Parser API](https://udn.realityripple.com/docs/Mozilla/Projects/SpiderMonkey/Parser_API)
+- [AST Explorer](http://astexplorer.net/)
 - [`react-codemod`](https://github.com/reactjs/react-codemod)
 - [`js-codemod`](https://github.com/cpojer/js-codemod/)
 - [`js-transforms`](https://github.com/jhgg/js-transforms)
