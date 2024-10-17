@@ -482,3 +482,5 @@ npm run release -- --first-release
 - [semantic-release](https://github.com/semantic-release/semantic-release)
 - [Commit message 和 Change log 编写指南](https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html)
 - [Gitmoji Commit Workflow 完全指南](https://www.yuque.com/arvinxx-fe/workflow/gitmoji-commit-workflow)
+- [carloscuesta](https://github.com/carloscuesta)/
+- [gitmoji](https://github.com/carloscuesta/gitmoji)

@@ -301,6 +301,7 @@ function fallbackCopyTextToClipboard(text) {
 - [How do I copy to the clipboard in JavaScript?](https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript#answer-30810322)
 - [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
 - [`document.execCommand()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand)
+- [`tree-cli`](https://github.com/MrRaindrop/tree-cli)
 
 
 
