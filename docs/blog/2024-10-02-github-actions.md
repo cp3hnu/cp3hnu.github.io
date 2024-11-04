@@ -1,14 +1,14 @@
 ---
 pageClass: blog-page
-title: Github 自动化部署
+title: GitHub 自动化部署
 tags:
   - web
-  - github
+  - GitHub
   - CI/CD
 date: 2024-10-02
 author: cp3hnu
 location: ChangSha
-summary: Github 自动化部署
+summary: 学习 GitHub Pages 和 GitHub Actions，实现自动部署 Web 前端应用
 ---
 
 # GitHub 自动化部署
@@ -369,9 +369,7 @@ jobs:
 | macOS      | 4                | 14 GB          | 14 GB          | `macos-13`                                                   |
 | macOS      | 3 (M1)           | 7 GB           | 14 GB          | `macos-latest`、`macos-14`、`macos-15`                       |
 
-> [!NOTE] 
->
->  `-latest` 运行器是 GitHub 提供的最新稳定映像，但可能不是操作系统供应商提供的最新版本的操作系统。
+> 📢：`-latest` 运行器是 GitHub 提供的最新稳定映像，但可能不是操作系统供应商提供的最新版本的操作系统。
 
 关于运行器的详细介绍请参考[选择作业的运行器](https://docs.github.com/zh/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job#choosing-github-hosted-runners)、[在容器中运行作业](https://docs.github.com/zh/actions/writing-workflows/choosing-where-your-workflow-runs/running-jobs-in-a-container)和[在工作流中运行作业的变体](https://docs.github.com/zh/actions/writing-workflows/choosing-what-your-workflow-does/running-variations-of-jobs-in-a-workflow)
 
@@ -545,7 +543,7 @@ jobs:
 
 ## 代码仓库
 
-[Sudoku](https://github.com/cp3hnu/Sudoku)
+[cp3hnu/Sudoku](https://github.com/cp3hnu/Sudoku)
 
 # References
 
