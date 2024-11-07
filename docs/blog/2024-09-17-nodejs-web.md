@@ -2,8 +2,8 @@
 pageClass: blog-page
 title: 创建 Node.js 服务 
 tags:
+  - server
   - node.js
-  - 服务
 date: 2024-09-17
 author: cp3hnu
 location: ChangSha
@@ -82,7 +82,7 @@ Node.js 通过开启 `--inspect` 选项进行调试，启用 `--inspect` 选项�
 
 ### VS Code 调试 Node.js
 
-因为我是用 VS Code 开发的，VS Code 提供了多种方法调试 Node.js
+因为我是用 VS Code 开发的，VS Code 提供了四种方法调试 Node.js
 
 - 使用 [自动附加 ](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_auto-attach)调试您在 VS Code 的集成终端中运行的进程。
 - 使用 [JavaScript 调试终端](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_javascript-debug-terminal)，类似于使用集成终端。
@@ -670,7 +670,7 @@ app.listen(port, async () => {
 })
 ```
 
-关于 Express 的更多功能，请参考我的下一篇文章 Express.
+关于 Express 的更多功能，请参考我的下一篇文章 [Express](./2024-11-15-express).
 
 ## 完整代码
 

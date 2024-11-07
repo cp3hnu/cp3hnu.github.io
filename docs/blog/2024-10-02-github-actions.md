@@ -3,8 +3,8 @@ pageClass: blog-page
 title: GitHub 自动化部署
 tags:
   - web
-  - GitHub
-  - CI/CD
+  - github
+  - ci/cd
 date: 2024-10-02
 author: cp3hnu
 location: ChangSha
