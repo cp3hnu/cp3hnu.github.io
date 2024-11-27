@@ -5,7 +5,7 @@ tags:
   - web
   - github
   - ci/cd
-date: 2024-10-02
+date: 2024-11-15
 author: cp3hnu
 location: ChangSha
 summary: 学习 GitHub Pages 和 GitHub Actions，实现自动部署 Web 前端应用

@@ -1,18 +1,18 @@
 ---
 pageClass: blog-page
-title: 创建 Node.js 服务 
+title: 创建 Node.js 后台服务 
 tags:
   - server
   - node.js
 date: 2024-09-17
 author: cp3hnu
 location: ChangSha
-summary: 这篇文章我们使用 Node.js 创建 Web 服务，这是一篇入门教程，我们将实现最简单的增删改查服务，希望借此通往后端开发。
+summary: 这篇文章我们使用 Node.js 创建后台服务，这是一篇入门教程，我们将实现最简单的增删改查服务，希望借此通往后端开发。
 ---
 
-# 创建 Node.js 服务
+# 创建 Node.js 后台服务
 
-上一篇文章 [创建 Node.js 命令行工具](./2024-08-23-node-cli.md)，我们使用 Node.js 创建了命令行工具 **chinesize**，这篇文章我们使用 Node.js 创建 Web 服务，这是一篇简单的入门教程，我们将实现最简单的增删改查服务，希望借此通往后端开发。
+上一篇文章 [创建 Node.js 命令行工具](./2024-08-23-node-cli.md)，我们使用 Node.js 创建了命令行工具 **chinesize**，这篇文章我们使用 Node.js 创建后台服务，这是一篇简单的入门教程，我们将实现最简单的增删改查服务，希望借此通往后端开发。
 
 ## 简单的 HTTP 服务
 
@@ -49,7 +49,7 @@ $ node index.js
 
 在浏览器里输入 `http://localhost:3000/` 就能看到
 
-![](./assets/nodejs-web-hello.png)
+![](./assets/nodejs-api-hello.png)
 
 这样一个简单的 HTTP 服务就完成了，接下来我们实现常用的增删改查功能
 
@@ -66,17 +66,17 @@ $ node index.js
 
 Node.js 通过开启 `--inspect` 选项进行调试，启用 `--inspect` 选项后，Node.js 进程将会侦听调试客户端（默认情况下监听 `127.0.0.1:9229`，可以通过其它选项修改主机地址和端口），每个进程还分配有一个唯一的 UUID。Inspector 客户端必须知道并指定要连接的主机地址、端口和 UUID。完整的 URL 将类似于 `ws://127.0.0.1:9229/0f2c936f-b1cd-4ac9-aab3-f63b0f33d55e`。
 
-![](./assets/nodejs-web-inspector.png)
+![](./assets/nodejs-api-inspector.png)
 
 然后我们就可以利用 Chrome 浏览器进行调试了
 
 在 Chrome 浏览器中打开 `chrome://inspect`，可以看到我们的 Node.js 服务
 
-![](./assets/nodejs-web-inpector-chrome.png)
+![](./assets/nodejs-api-inpector-chrome.png)
 
 点击 `inspect`
 
-![](./assets/nodejs-web-chrome-devtools.png)
+![](./assets/nodejs-api-chrome-devtools.png)
 
 就可以像调试前端代码一样调试 Node.js 了。
 
@@ -93,11 +93,11 @@ Node.js 通过开启 `--inspect` 选项进行调试，启用 `--inspect` 选项�
 
 首先我们创建启动配置文件，侧边栏选择 "运行和调试"，在点击下图的 "运行和调试" 按钮
 
-![](./assets/nodejs-web-vscode-create-launch.png)
+![](./assets/nodejs-api-vscode-create-launch.png)
 
 选择 "Node.js"
 
-![](./assets/nodejs-web-vscode-debug-node.png)
+![](./assets/nodejs-api-vscode-debug-node.png)
 
 在本地目录下会创建了一个 `.vscode/launch.json` 文件
 
@@ -123,7 +123,7 @@ Node.js 通过开启 `--inspect` 选项进行调试，启用 `--inspect` 选项�
 
 然后我们就可以运行 "启动程序" 进行调试了
 
-![](./assets/nodejs-web-vscode-debug.png)
+![](./assets/nodejs-api-vscode-debug.png)
 
 我们可以设置断点，查看变量值、单步执行等。关于调试的更多详情，请参考 [Node.js debugging in VS Code](https://code.visualstudio.com/docs/nodejs/nodejs-debugging) 和 [Debugging](https://code.visualstudio.com/docs/editor/debugging)
 
@@ -575,37 +575,29 @@ process.on('SIGTERM', () => {
 - [**Koa**](https://koa.bootcss.com/)
   - **简介**: 由 Express 团队开发，Koa 是一个更轻量、模块化的框架，专注于中间件的使用。它没有内置的路由或模板引擎，适合需要高自由度的开发者。
   - **特点**: 支持 async/await 语法，使得异步代码更简洁；非常适合需要高度定制化的 API 开发。
-
+- [**NestJS**](https://nestjs.com/)
+  - **简介**: NestJS 是一个受 Angular 启发的全栈框架，使用 TypeScript 编写，结构清晰，适合构建复杂的企业应用。
+  - **特点**: 基于模块化架构，支持依赖注入，拥有丰富的功能和生态。它内置支持 GraphQL、WebSocket、gRPC 等，适合需要良好架构的项目。
+- [**Fastify**](https://fastify.dev/)
+  - **简介**: Fastify 是一个专注于性能的框架，与 Express 类似但更快，且在设计上提供更好的开发体验。
+  - **特点**: 支持 JSON Schema 验证，插件系统强大，针对性能优化，适合需要高并发的场景。
 - [**Hapi**](https://hapi.dev/)
   - **简介**: Hapi 是一个用于构建强大应用和 API 的企业级框架，广泛用于构建大型项目。
   - **特点**: 提供一套丰富的插件系统，可以很方便地进行身份验证、输入验证、缓存等操作。Hapi 的配置性很强，非常适合需要严格控制的项目。
 
-- [**NestJS**](https://nestjs.com/)
-  - **简介**: NestJS 是一个受 Angular 启发的全栈框架，使用 TypeScript 编写，结构清晰，适合构建复杂的企业应用。
-  - **特点**: 基于模块化架构，支持依赖注入，拥有丰富的功能和生态。它内置支持 GraphQL、WebSocket、gRPC 等，适合需要良好架构的项目。
-
-- [**Fastify**](https://fastify.dev/)
-  - **简介**: Fastify 是一个专注于性能的框架，与 Express 类似但更快，且在设计上提供更好的开发体验。
-  - **特点**: 支持 JSON Schema 验证，插件系统强大，针对性能优化，适合需要高并发的场景。
-
 - [**Sails.js**](https://sailsjs.com/)
   - **简介**: Sails.js 是一个 MVC 框架，灵感来自 Ruby on Rails。它基于 Express 构建，但提供更丰富的功能，尤其适合实时应用。
   - **特点**: 提供水手式蓝图（Blueprint），让 API 开发更加快捷。支持实时功能，内置与 WebSocket 集成。
-
 - [**Feathers.js**](https://feathersjs.com/)
   - **简介**: Feathers.js 是一个轻量级框架，适合构建实时应用和 RESTful API，具有很强的可扩展性。
   - **特点**: 提供服务的概念，可以轻松添加、删除服务，同时支持与数据库（MongoDB、MySQL 等）无缝集成。
-
-- [**LoopBack**](https://loopback.io/)
-  - **简介**: LoopBack 是由 IBM 支持的一个高扩展性的 API 框架，适合创建 RESTful 和 GraphQL API。
-  - **特点**: 提供了强大的 CLI 工具和模型定义功能，适合与数据库进行无缝连接。它非常适合需要构建复杂 API 和后端服务的项目。
 
 **框架选择建议：**
 
 - 如果你需要一个简单、快速的应用，可以考虑 **Koa** 或 **Fastify**。
 - 对于大型项目或有企业级需求，**Hapi** 和 **NestJS** 是不错的选择。
 - 如果你习惯于 MVC 架构，**Sails.js** 是一个理想的选择。
-- **Feathers.js** 和 **LoopBack** 是构建实时应用和 RESTful API 的好选择。
+- **Feathers.js** 是构建实时应用和 RESTful API 的好选择。
 
 这里是他们的 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)。从下载量来看，**Express** 遥遥领先，多出一个数量级。**NestJS** 和 **Express** 拥有最多的 star.
 
