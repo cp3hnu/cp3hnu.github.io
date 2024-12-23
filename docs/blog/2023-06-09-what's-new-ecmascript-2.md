@@ -716,7 +716,23 @@ Symbol 能作为 WeakMap 的 key 这个新特性，能用于 [ShadowRealms](http
 
 ## ES2024 (ES 15)
 
-期待更新...
+ES2024 新增 **8** 组新特性
+
+- [Class Fields](https://github.com/tc39/proposal-class-fields)
+
+- [Ergonomic brand checks for Private Fields](https://github.com/tc39/proposal-private-fields-in-in)
+
+- [Class Static Initialization Block](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Class_static_initialization_blocks)
+
+- [Accessible `Object.prototype.hasOwnProperty`](https://github.com/tc39/proposal-accessible-object-hasownproperty)
+
+- [`.at()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/at)
+
+- [RegExp Match Indices](https://github.com/tc39/proposal-regexp-match-indices)
+
+- [Top-level `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await#top_level_await)
+
+  
 
 
 
