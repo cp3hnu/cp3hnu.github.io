@@ -976,11 +976,11 @@ console.log(notFalsyText);     // Hello world
 str.matchAll(regexp)
 ```
 
-参数 `regexp`，是一个 RegExp 对象 ，如果不是，将使用 `new RegExp(regexp)` 转换成 RegExp 对象。这个 `RegExp` 对象必须带有 `\g` flag，否则抛出 **TypeError** 错误
+参数 `regexp`，是一个 RegExp 对象 ，如果不是，将使用 `new RegExp(regexp)` 转换成 RegExp 对象。这个 `RegExp` 对象必须带有 `\g` flag，否则抛出 `TypeError` 错误
 
 它返回一个迭代器，其中每个元素是匹配成功的数组，带有额外的 `index` 和 `input` 属性。数组的第一元素是匹配的字符串，后面是对应的捕获组。
 
-迭代器元素跟带 `\g` flag [`RegExp.prototype.exec()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec) 函数返回值是一样的。下面是这两个函数的 Demo.
+迭代器元素跟带 `\g` flag [`RegExp.prototype.exec()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec) 函数返回值是一样的。下面是这两个函数的 demo.
 
 #### Demo
 

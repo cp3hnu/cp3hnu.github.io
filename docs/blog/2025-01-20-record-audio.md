@@ -265,10 +265,10 @@ function startRecording() {
 ## References
 
 - [MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API)
-- [Media Capture and Streams API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API)
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - [Using the MediaStream Recording API](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API)
 - [Recording a media element](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Recording_a_media_element)
+- [Media Capture and Streams API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API)
 - [`MediaDevices`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
 - [`MediaRecorder`](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder)
 - [`MediaStream`](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream)
@@ -277,3 +277,4 @@ function startRecording() {
 - [`AudioNode`](https://developer.mozilla.org/en-US/docs/Web/API/AudioNode)
 - [`http-party/http-server`](https://github.com/http-party/http-server)
 - [`FiloSottile/mkcert`](https://github.com/FiloSottile/mkcert)
+- [`mdn/dom-examples`](https://github.com/mdn/dom-examples/blob/main/media/web-dictaphone/scripts/app.js)
