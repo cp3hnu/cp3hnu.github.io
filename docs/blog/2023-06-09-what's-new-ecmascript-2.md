@@ -17,7 +17,7 @@ summary: 学习总结 ECMAScript 从 2021 年到 2025 年引入的新特性
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2021 ~ 2025 所有通过的提案
 
-[这里](https://github.com/cp3hnu/What-s-New-in-ECMAScript) 是我写的下面这些新特性的 playground，方便查看运行结果
+[这里](https://www.joylearn123.com/What-s-New-in-ECMAScript/) 是我写的下面这些新特性的 playground，方便查看运行结果
 
 > 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
 
@@ -511,9 +511,9 @@ Object.hasOwn(object, "foo") // false
 
 支持的类型有
 
-- Array
-- String
-- TypedArray，例如Uint8Array
+- `Array`
+- `String`
+- `TypedArray`，例如 `Uint8Array`
 
 #### 语法
 
@@ -533,7 +533,7 @@ index 可以是正整数，也可以是负整数，当是负数表示表示从�
 
 ### RegExp Match Indices
 
-在正则表达式（RegExp）中添加 `\d` flag，获取正则表达式中捕获组在源字符串中起止位置，这些信息存放在匹配返回对象的 `indices` 数组中。
+在正则表达式（RegExp）中添加 `d` flag，获取正则表达式中捕获组在源字符串中起止位置，这些信息存放在匹配返回对象的 `indices` 数组中。
 
 | Property/Index | Description                                                  |
 | :------------- | :----------------------------------------------------------- |
@@ -955,7 +955,7 @@ resolve("hello");
 RegExp 新增 `v` flag，并提供三个功能
 
 - 字符串的 Unicode 属性
-- 集合表示法和字符串文本语法
+- 集合标记法和字符串文本语法
 - 改进不区分大小写的匹配
 
 #### 字符串的 Unicode 属性
@@ -1012,7 +1012,7 @@ re.test('👨🏾'); // '\u{1F468}\u{1F3FE}\u200D\u2695\uFE0F'
 
 > 尽管字符串的属性目前只在 `v` 标志下使用，[但是也计划在 `u` 模式下可用](https://github.com/tc39/proposal-regexp-v-flag/issues/49)。
 
-#### 集合表示法和字符串文本语法
+#### 集合标记法和字符串文本语法
 
 当使用 Unicode 字符属性和 `v` 标志时，可以实现字符集的差集、交集和并集操作
 

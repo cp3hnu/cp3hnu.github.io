@@ -17,7 +17,7 @@ summary: 学习总结 ECMAScript 从 2016 年到 2020 年引入的新特性
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2016 ~ 2020 所有通过的提案
 
-[这里](https://github.com/cp3hnu/What-s-New-in-ECMAScript) 是我写的下面这些新特性的 playground，方便查看运行结果
+[这里](https://www.joylearn123.com/What-s-New-in-ECMAScript/) 是我写的下面这些新特性的 playground，方便查看运行结果
 
 > 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
 
@@ -80,7 +80,7 @@ x ** y
 
 ES2017 新增 **6** 组新特性
 
-- [async function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
+- [Async Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
 - [`Object.values()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values) 和 [`Object.entries()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)
 - [`String.prototype.padStart()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart) 和 [`String.prototype.padEnd()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd)
@@ -88,7 +88,7 @@ ES2017 新增 **6** 组新特性
 - [Trailing commas in function parameter lists and calls](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas#trailing_commas_in_functions)
 - [Shared memory and atomics](https://github.com/tc39/proposal-ecmascript-sharedmem/blob/main/TUTORIAL.md)
 
-### async function
+### Async Function
 
 #### 语法
 
@@ -405,7 +405,7 @@ const obj4 = Object.assign({}, obj1, obj2)
 
 ### Asynchronous Iteration
 
-ES2015 引入了[迭代器和生成器](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)。为了实现异步迭代，ES2018 引入了**异步迭代器（Async Iterator）** 、**异步生成器（Async Generator）**和 **[异步迭代语句（ for await of）](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)**
+ES2015 引入了[迭代器和生成器](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)。为了实现异步迭代，ES2018 引入了**异步迭代器（Async Iterator）** 、**异步生成器（Async Generator）** 和 **[异步迭代语句（ for await of）](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of)**
 
 #### Async Iterator
 
@@ -504,7 +504,7 @@ async function* readLines(path) {
 
 ES2018 引入了 **4** 个正则表达式的新特性
 
-#### `/s` flag
+#### `s` flag
 
 我们知道在正则表达式里，`.` 表示除换行符以外的任意字符。ES2018 在 RegExp 中加入 `/s` flag，表示`.` 也能匹配换行符。
 
@@ -637,7 +637,7 @@ console.log(result) // Prints true
 ES2015 (ES 6) 引入了 [Template literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) 和 [Tagged templates](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates)，但是如果在模板字符串中存在下列情形的，则抛出 **SyntaxError** 异常
 
 - `\uXXXX`：unicode 转义，如 `\u00A9` 表示 ©，但是像 `\ubuntu` 这种则是错误的
-- `\u{Code Point}`：和 `\uXXXX` 一样是 unicode 转义，但是可以放置一个 [码点（code point）](https://developer.mozilla.org/en-US/docs/Glossary/Code_point)，码点是 Unicode 中一个字符的完整标识，可能是16位，也可能是32位，例如 `\u{1F60A}` 表示一个笑脸（😊）， 但是像 `\u{ubuntu}` 这种则是错误的
+- `\u{Code Point}`：和 `\uXXXX` 一样是 unicode 转义，但是可以放置一个 [码位（code point）](https://developer.mozilla.org/en-US/docs/Glossary/Code_point)，码点是 Unicode 中一个字符的完整标识，可能是16位，也可能是32位，例如 `\u{1F60A}` 表示一个笑脸（😊）， 但是像 `\u{ubuntu}` 这种则是错误的
 - `\xHH`：16 进制转义，如 `\xA9` 表示 ©，但是像 `\xerxes` 这种则是错误的
 - `\OOO`  [8进制转义](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Deprecated_octal#octal_escape_sequences)已经 deprecated，所以像 `\251` 这种也是错误的
 
@@ -821,8 +821,7 @@ try {
 ES2019 使用 JSON 转义序列来表示未配对代理代码点（例如 U+D800 ~ U+DFFF），而不是奇怪的字符。详见 [提案](https://github.com/tc39/proposal-well-formed-stringify)
 
 ```javascript
-JSON.stringify('\uD800'); // '"�"'
-JSON.stringify('\uD800'); // '"\ud800"'
+console.log(JSON.stringify('\uD800')); // "\ud800"，以前是 "�"
 ```
 
 ### `Function.prototype.toString` revision
@@ -832,7 +831,7 @@ JSON.stringify('\uD800'); // '"\ud800"'
 ```javascript
 function /* a comment */ foo () {}
 
-foo.toString();
+console.log(foo.toString());
 
 // 以前输出
 "function foo() {}"
