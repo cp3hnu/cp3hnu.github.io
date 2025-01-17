@@ -4,7 +4,7 @@ title: 手机浏览器录音
 tags:
   - web
   - media
-date: 2025-01-20
+date: 2025-02-20
 author: cp3hnu
 location: ChangSha
 summary: 今天我们来实现手机浏览器的录音功能，记录用户通过麦克风输入的语音，转存为音频文件，然后进行语言播放、语言聊天或者语言识别等

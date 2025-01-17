@@ -662,7 +662,7 @@ app.listen(port, async () => {
 })
 ```
 
-关于 Express 的更多功能，请参考我的下一篇文章 [Express](./2024-11-15-express).
+关于 Express 的更详细的介绍，请参考我的下一篇文章 [使用 Express 创建 Web 服务](./2024-12-12-express).
 
 ## 完整代码
 
