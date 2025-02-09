@@ -594,12 +594,12 @@ process.on('SIGTERM', () => {
 
 **框架选择建议：**
 
-- 如果你需要一个简单、快速的应用，可以考虑 **Koa** 或 **Fastify**。
+- 如果你需要一个简单、快速的应用，可以考虑 **Express**、 **Koa** 或 **Fastify**。
 - 对于大型项目或有企业级需求，**Hapi** 和 **NestJS** 是不错的选择。
 - 如果你习惯于 MVC 架构，**Sails.js** 是一个理想的选择。
 - **Feathers.js** 是构建实时应用和 RESTful API 的好选择。
 
-这里是他们的 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)。从下载量来看，**Express** 遥遥领先，多出一个数量级。**NestJS** 和 **Express** 拥有最多的 star.
+从 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails) 来看，下载量方面 **Express** 遥遥领先，多出一个数量级，然后依次是 **NestJS**、 **Koa** 和 **Fastify**。GitHub Star 方面 **NestJS** 最多，**Express** 紧随其后。根据 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)，推荐 **Express** 和 **NestJS**。
 
 ### 重构用户管理系统
 
