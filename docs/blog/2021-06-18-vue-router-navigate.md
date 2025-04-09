@@ -13,7 +13,7 @@ summary: 介绍 Vue Router 4.x 是怎样通过地址栏进行导航和 RouterLin
 
 # Vue Router 4.x 浏览器前进/后退 & RouteLink 的实现
 
-在上一篇 [Vue Router 4.x 实现原理](./2021-05-20-vue-router-theory/) 我们介绍了 Vue Router 编程式导航 `push`、`replace` 的实现原理。这篇文章我们来看看点击浏览器的前进/后退按钮，Vue Router 是怎样实现导航的，以及 RouteLink 组件时怎么实现导航的。
+在上一篇 [Vue Router 4.x 实现原理](/2021/05/20/vue-router-theory/) 我们介绍了 Vue Router 编程式导航 `push`、`replace` 的实现原理。这篇文章我们来看看点击浏览器的前进/后退按钮，Vue Router 是怎样实现导航的，以及 RouteLink 组件时怎么实现导航的。
 
 ## 前进/后退
 

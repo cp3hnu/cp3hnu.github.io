@@ -36,7 +36,7 @@ Storybook 会根据你的工程依赖（比如你用的是 React 还是 Vue）�
 - 创建配置文件，在 `.storybook` 目录下，有两个文件 `main.js` 和 `preview.js`
 - 创建示例，在 `src/stories` 目录下
 
-##### 升级
+### 升级
 
 ```sh
 $ npx storybook@latest upgrade
@@ -44,7 +44,7 @@ $ npx storybook@latest upgrade
 
 运行上面的命令升级 Storybook 相关的包至最新版本，同时检查是否有机会运行自动更新配置
 
-##### 自动更新配置
+### 自动更新配置
 
 ```sh
 $ npx storybook@next automigrate
@@ -60,7 +60,7 @@ Story 是一个函数，根据不同的 props 返回组件不同的 render 状�
 
 ### Args
 
-定义 story 最简单的方式是使用 [Args](https://storybook.js.org/docs/react/writing-stories/args)。可以定义全局的、组件的、story 的 args.
+定义 story 最简单的方式是使用 [`Args`](https://storybook.js.org/docs/react/writing-stories/args)。可以定义全局的、组件的、story 的 args.
 
 ```js
 // src/stories/Button.stories.jsx
@@ -102,7 +102,7 @@ export const Small = {
 }
 ```
 
-[Controls addon](https://storybook.js.org/docs/react/essentials/controls) 通过 Args 可以让你很方便地修改组件的参数，从而方便地调试组件不同的状态
+[`Controls addon`](https://storybook.js.org/docs/react/essentials/controls) 通过 Args 可以让你很方便地修改组件的参数，从而方便地调试组件不同的状态
 
 ![](./assets/storybook-story.png)
 
@@ -110,9 +110,9 @@ export const Small = {
 
 Storybook 自动从组件的代码中推断出组件参数的信息，包括参数类型、描述、默认值。
 
-Storebook 的 addons 可以使用这些信息，比如 [Controls](https://storybook.js.org/docs/react/essentials/controls) 根据不同的参数类型，提供不同的控制组件。
+Storebook 的 addons 可以使用这些信息，比如 [`Controls addon`](https://storybook.js.org/docs/react/essentials/controls) 根据不同的参数类型，提供不同的控制组件。
 
-同时，组件的参数信息也可以通过 [ArgTypes](https://storybook.js.org/docs/react/api/argtypes) 重写，例如
+同时，组件的参数信息也可以通过 [`ArgTypes`](https://storybook.js.org/docs/react/api/argtypes) 重写，例如
 
 ```js
 // Button.stories.js|jsx|ts|tsx
@@ -146,15 +146,15 @@ export default {
 };
 ```
 
-其中 `table` 应用于 ArgsTable，详情请参考 [ArgsTable Customizing](https://storybook.js.org/docs/react/writing-docs/doc-block-argstable#customizing)。
+其中 `table` 对应 `ArgsTable`，详情请参考 [ArgsTable Customizing](https://storybook.js.org/docs/react/writing-docs/doc-block-argstable#customizing)。
 
-`control` 应用于 Controls，详情请参考 [Controls Annotation](https://storybook.js.org/docs/react/essentials/controls#annotation)。
+`control` 对应 `Controls addon`，详情请参考 [Controls Annotation](https://storybook.js.org/docs/react/essentials/controls#annotation)。
 
 ### Parameters
 
-[Parameters](https://storybook.js.org/docs/react/writing-stories/parameters) 是一组关于 story 的静态元数据，通常用于控制组件或者 story 的特性和 addon 的行为。
+[`Parameters`](https://storybook.js.org/docs/react/writing-stories/parameters) 是一组关于 story 的静态元数据，通常用于控制组件或者 story 的特性和 addon 的行为。
 
-和 Args 一样可以定义全局的、组件的、 story 的 parameters.
+和 Args 一样可以定义全局的、组件的、 story 的 `Parameters`.
 
 例如下面配置 story 的背景色，更多配置项请参考下面的 [Configuration](#preview.js)
 
@@ -182,9 +182,9 @@ export const Primary = {
 
 ### Decorators
 
-[Decorator](https://storybook.js.org/docs/react/writing-stories/decorators) 包装 story 进行额外的渲染，比如提供全局的 [Context](https://zh-hans.reactjs.org/docs/context.html).
+[`Decorator`](https://storybook.js.org/docs/react/writing-stories/decorators) 包装 story 进行额外的渲染，比如提供全局的 [`Context`](https://zh-hans.reactjs.org/docs/context.html).
 
-和 Args、Parameters 一样可以定义全局的、组件的、 story 的 decorators. 优先级从高到低依次是 story、组件、全局 decorator，而且 decorators 数组中后面定义的 decorator 比前面定义的 decorator 优先级高。
+和 Args、Parameters 一样可以定义全局的、组件的、 story 的 decorators. 优先级从高到低依次是 story、组件、全局 decorator，而且 decorators 数组中后面定义的 decorator 比前面定义的 decorator 优先级高。下面定义一个全局的 decorators。
 
 ```js
 // .storybook/previews.js
@@ -198,11 +198,11 @@ export const decorators = [
 ];
 ```
 
-Decorators 的第二个参数是 [story context](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking).
+Decorators 的第二个参数是 [`story context`](https://storybook.js.org/docs/react/writing-stories/decorators#context-for-mocking).
 
 ### Loaders
 
-[Loaders](https://storybook.js.org/docs/react/writing-stories/loaders) 是为 story 和 decorator 加载数据的异步函数。Story 的 loaders 在 story 渲染之前运行，加载的数据通过 story 的 render context 注入到 story 中。
+[`Loaders`](https://storybook.js.org/docs/react/writing-stories/loaders) 是为 story 和 decorator 加载数据的异步函数。Story 的 loaders 在 story 渲染之前运行，加载的数据通过 story 的 render context 注入到 story 中。
 
 和 Args、Parameters、Decorators 一样可以定义全局的、组件的、 story 的 loaders.
 
@@ -464,8 +464,8 @@ export default {
 | toc              | 文档内容目录，详情请参考 [Configure the table of contents](https://storybook.js.org/docs/react/writing-docs/autodocs#configure-the-table-of-contents) |
 | container        | 自定义文档容器组件，详情请参考 [Customize the Docs Container](https://storybook.js.org/docs/react/writing-docs/autodocs#customize-the-docs-container) |
 | autodocs         | 配置自动生成文档，可选值为：`true`, `false`, `tag`，当配置`tag `时，通过在 story 中添加 `tag: ['autodocs']`为组件自动生成文档，详情请参考 [Configure](https://storybook.js.org/docs/react/writing-docs/autodocs#configure) |
-| defaultName      | 重命名自动生成文档                                           |
 | components       | 修改文档中的组件，详情请参考 [MDX component overrides](https://storybook.js.org/docs/react/configure/theming#mdx-component-overrides) |
+| subtitle         | 副标题，组标题取值 Meta `title` 属性的最后部分，描述取自组件的 JSDoc 注释 |
 
 ## Configuration
 
@@ -506,6 +506,8 @@ module.exports = {
 ```
 
 通过官方文档归纳出有以下这些配置项：
+
+> 更多详情请参考 [Configure your Storybook project](https://storybook.js.org/docs/configure#configure-your-storybook-project) 和 [Main configuration](https://storybook.js.org/docs/api/main-config/main-config)
 
 | 选项         | 说明                                                         |
 | ------------ | ------------------------------------------------------------ |

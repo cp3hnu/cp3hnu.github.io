@@ -13,7 +13,7 @@ summary: Express 是 Node.js 的一个快速的，独立的，极简的 web 框�
 
 # 使用 Express 创建 Web 服务（二）
 
-上一篇文章 [使用 Express 创建 Web 服务（一）](./2024-12-12-express.md) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
+上一篇文章 [使用 Express 创建 Web 服务（一）](/2024/12/12/express) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
 
 首先我们先介绍一下模版引擎。
 
@@ -66,7 +66,7 @@ Vue 模板语法还带来了语法高亮、错误提示、代码格式化、模�
 
 那 Express 可以使用模板语法呢？  正如上文 [使用 Express 创建 Web 服务（一）](./2024-12-12-express.md) 介绍的，Express 可以使用 [`pugjs/pug`](https://github.com/pugjs/pug)、[`mde/ejs`](https://github.com/mde/ejs)、[`handlebars-lang/handlebars.js`](https://github.com/handlebars-lang/handlebars.js)、[`marko-js/marko`](https://github.com/marko-js/marko)、[`mozilla/nunjucks`](https://github.com/mozilla/nunjucks) 以及 [`janl/mustache.js`](https://github.com/janl/mustache.js) 等模板引擎。
 
-从 [npm trends](https://npmtrends.com/ejs-vs-handlebars-vs-marko-vs-mustache-vs-nunjucks-vs-pug) 中我可以看出，`pug` 有最多的 star，`ejs` 和 `handlebars.js` 有最多的下载量，`nunjucks` 类似于 Python 的模板引擎  [`jinja2`](http://jinja.pocoo.org/)，`marko` 类似于 Vue 模板
+从 [npm trends](https://npmtrends.com/ejs-vs-handlebars-vs-marko-vs-mustache-vs-nunjucks-vs-pug) 中我可以看出，`pug` 有最多的 star，`ejs` 和 `handlebars.js` 有最多的下载量。`nunjucks` 类似于 Python 的模板引擎  [`jinja2`](http://jinja.pocoo.org/)
 
 接下来我们以 `pug` 为例讲解 Express 怎么使用模板引擎。
 
@@ -852,5 +852,6 @@ router.delete("/:id", async (req, res) => {
 - [`redis/ioredis`](https://github.com/redis/ioredis)
 - [`connect-redis`](https://github.com/tj/connect-redis)
 - [`motdotla/dotenv`](https://github.com/motdotla/dotenv)
+- [`auth0/node-jsonwebtoken`](https://github.com/auth0/node-jsonwebtoken)
 - [BEM](https://getbem.com/introduction/)
 

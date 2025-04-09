@@ -12,9 +12,9 @@ summary: 这篇文章我们将详细介绍 VS Code 调试 Node.js 的四种方�
 
 # VS Code 调试 Node.js
 
-在上一篇文章  [创建 Node.js 服务](/2024/09/17/nodejs-web/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中，我们简单介绍了 VS Code 调试 Node.js。但是有一个问题，如果在调试过程中发现了问题，随即修改代码，但是服务没有自动重启，而是需要我们手动刷新。如果我们一时忘记了刷新，调试时发现问题依然存在，而我们觉得已经改了代码，问题不应该存在，给我们带来了困惑。这篇文章我们将详细介绍 VS Code 调试 Node.js 的四种方法，并且解决修改代码没有重启服务的问题。
+在上一篇文章  [创建 Node.js 服务](/2024/09/17/nodejs-api/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中，我们简单介绍了 VS Code 调试 Node.js。但是有一个问题，如果在调试过程中发现了问题，随即修改代码，但是服务没有自动重启，而是需要我们手动刷新。如果我们一时忘记了刷新，调试时发现问题依然存在，而我们觉得已经改了代码，问题不应该存在，给我们带来了困惑。这篇文章我们将详细介绍 VS Code 调试 Node.js 的四种方法，并且解决修改代码没有重启服务的问题。
 
-正如上一篇文章 [创建 Node.js 服务](/2024/09/17/nodejs-web/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中说的，VS Code 调试 Node.js 有四种方法：
+正如上一篇文章 [创建 Node.js 服务](/2024/09/17/nodejs-api/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中说的，VS Code 调试 Node.js 有四种方法：
 
 - 使用 [自动附加 ](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_auto-attach)调试您在 VS Code 的集成终端中运行的进程。
 - 使用 [JavaScript 调试终端](https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_javascript-debug-terminal) 调试程序。
