@@ -17,9 +17,16 @@ summary: 上篇文章 UmiJS + Storybook 搭建组件库文档，我使用了 Sto
 
 > 如果想要发布到外网，可以使用 Chromatic 或者 Vercel 托管服务，详情请参考我的这篇文章 [Storybook 搭建组件库文档](/2023/09/02/storybook-in-action#%E5%8F%91%E5%B8%83)。
 
+部署 Storybook 文档到内部服务器有多种方式，下面我将分别介绍以下几种方式：
+
+- HTTP 静态服务
+- Nginx
+- Docker
+- Docker 镜像
+
 ## HTTP 静态服务
 
-`storybook build` 命令生成的是静态 HTML/CSS/JS 文件，可以通过 [`http-server`](https://github.com/http-party/http-server)、[`serve`](https://github.com/vercel/serve) 或者 [`live-server`](https://github.com/tapio/live-server) 等 [Node.js](https://nodejs.org/) 命令行工具开启一个 HTTP 静态服务。
+`storybook build` 编译 Storybook 生成的是静态 HTML/CSS/JS 文件，可以通过 [`http-server`](https://github.com/http-party/http-server)、[`serve`](https://github.com/vercel/serve) 或者 [`live-server`](https://github.com/tapio/live-server) 等 [Node.js](https://nodejs.org/) 服务开启一个 HTTP 静态服务。
 
 操作步骤如下：
 
@@ -60,7 +67,7 @@ $ http-server ./ -p 60006
 
 [Nginx](https://nginx.org/) 是一个高性能的开源 Web 服务器，同时也可以作为**反向代理服务器**、**负载均衡器**和**HTTP 缓存**使用。它以轻量、高并发著称，是目前互联网中应用最广泛的 Web 服务器之一。
 
-Nginx 的主要功能
+Nginx 的主要功能有：
 
 - **静态资源服务**：高效地处理 HTML、CSS、JavaScript、图片等前端静态文件的请求，特别适合部署前端应用。
 - **反向代理**：将客户端请求转发给后端服务，常用于前后端分离架构。
@@ -129,7 +136,7 @@ $ sudo systemctl reload nginx
 
 [Docker](https://www.docker.com/) 是一个开源的容器化平台，它能够将应用程序及其依赖打包到一个“容器”中。这种容器可以在任何支持 Docker 的环境中一致地运行，不受操作系统和环境配置的影响。
 
-Docker 的主要功能：
+Docker 的主要功能有：
 
 - **环境一致性**：无论是在开发、测试还是生产环境中，Docker 都能确保你的应用以相同的方式运行，避免“在我电脑上没问题”的情况。
 
@@ -249,7 +256,7 @@ echo "✅ 部署完成！你现在可以访问：http://${SERVER_IP}:${PORT}"
 $ brew install docker docker-compose docker-buildx
 ```
 
-因为我是 Macbook，Docker Engine 不能直接在 macOS 上运行（macOS 不支持 dockerd），还需要额外配置 **Docker Daemon**（可以使用 [`colima`](https://github.com/abiosoft/colima) 或 [`rancher-desktop`](https://github.com/rancher-sandbox/rancher-desktop)）：
+因为我是 Macbook，Docker Engine 不能直接在 macOS 上运行（macOS 不支持 dockerd），还需要额外配置 **Docker Daemon**（可以使用 [`colima`](https://github.com/abiosoft/colima) 或 [`rancher-desktop`](https://github.com/rancher-sandbox/rancher-desktop)），这里我使用 `colima` 
 
 ```sh
 $ brew install colima
@@ -261,6 +268,8 @@ $ docker ps
 
 Colima 的配置文件路径是 `~/.colima/default/colima.yaml`
 
+接下来制作 Docker 镜像并进行部署
+
 ### 操作步骤
 
 ##### 1. 新建 Dockerfile
@@ -271,7 +280,7 @@ FROM nginx:alpine
 COPY storybook-static/ /usr/share/nginx/html
 ```
 
-`nginx:alpine` 和 `nginx` 的区别是 `nginx:alpine` 是基于 **Alpine Linux** 的镜像，体积小，而 `nginx` 拉取的是 `nginx:latest`，默认基于 **Debian** 的完整版镜像，体积大。
+`nginx:alpine` 和 `nginx` 的区别是 `nginx:alpine` 是基于 **Alpine Linux** 的镜像，体积小，而 `nginx` 拉取的是 `nginx:latest`，默认基于 **Debian** 的完整版镜像，体积大。对应 Storybook 生成的静态资源，使用 `nginx:alpine` 就够了。
 
 ##### 2.  构建 Storybook
 
@@ -361,7 +370,7 @@ EOF
 echo "🎉 全部完成！现在你可以访问：http://${SERVER_IP}:${PORT}"
 ```
 
-添加更多功能，比如添加部署时间统计、成功/失败提示音
+我们还可以添加更多功能，比如添加部署时间统计、成功/失败提示音等
 ```sh
 #!/bin/bash
 

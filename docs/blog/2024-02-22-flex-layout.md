@@ -39,7 +39,7 @@ summary: 学习总结一下 Flex 布局。
 
 ## `flex-basis`
 
-Flex 布局最关键的是就是 `flex-basis`，`flex-basis` 确定 flex 元素的初始宽度（即放进 flex 容器之前的宽度），它的优先级高于 `width`（`flex-basis` 不是 `auto` ），即使  `width` 使用 `!important`。
+Flex 布局最关键的就是 `flex-basis`，`flex-basis` 确定 flex 元素的初始宽度（即放进 flex 容器之前的宽度），它的优先级高于 `width`（`flex-basis` 不是 `auto` ），即使  `width` 使用 `!important`。
 
 `flex-basis` 的值分为以下几种：
 
@@ -93,8 +93,6 @@ $$
 ## References
 
 - [Understanding min-content, max-content, and fit-content in CSS](https://blog.logrocket.com/understanding-min-content-max-content-fit-content-css/)
-
-
 
 ## VuePress 中使用数学公式
 

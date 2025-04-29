@@ -180,7 +180,7 @@ $ nodemon --inspect index.js
 - `restart`：终止时是否重新启动连接，默认为 `false`
 - `cwd`：启动程序所在的目录
 
-关于配置项的完整列表，请参考 [VS Code 启动配置参数](https://github.com/microsoft/vscode-js-debug)
+关于配置项的完整列表，请参考 [VS Code 启动配置参数](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
 
 **我们可以将 `runtimeExecutable` 设置为 `nodemon`，从而实现开启 VS Code 调试，同时修改代码之后重启服务**
 
@@ -337,7 +337,7 @@ $ nodemon --inspect index.js
 
 - [Node.js debugging in VS Code](https://code.visualstudio.com/docs/nodejs/nodejs-debugging)
 - [Debugging](https://code.visualstudio.com/docs/editor/debugging)
-- [VS Code 启动配置参数](https://github.com/microsoft/vscode-js-debug)
+- [VS Code 启动配置参数](https://github.com/microsoft/vscode-js-debug/blob/main/OPTIONS.md)
 - [Variables Reference](https://code.visualstudio.com/docs/editor/variables-reference)
 - [Glob Patterns Reference](https://code.visualstudio.com/docs/editor/glob-patterns)
 - [`remy/nodemon`](https://github.com/remy/nodemon)
