@@ -1,6 +1,6 @@
 ---
 pageClass: blog-page
-title: TypeScript 学习笔记
+title: Learn TypeScript
 tags: 
   - web
   - typescript
@@ -11,7 +11,7 @@ location: ChangSha
 summary: TypeScript 具有类型系统，是 JavaScript 的超集，它可以编译成普通的 JavaScript 代码。本文将列出 TypeScript 语法清单，以便使用的时候能快速查找。
 ---
 
-# TypeScript 学习笔记
+# Learn TypeScript
 
 ## 安装 & 编译
 

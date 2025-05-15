@@ -1,6 +1,6 @@
 ---
 pageClass: blog-page
-title: Redux 学习笔记
+title: Learn Redux
 tags: 
   - web
   - react
@@ -11,7 +11,7 @@ location: ChangSha
 summary: Redux 是 JavaScript 应用的状态容器，提供可预测的状态管理。一般用于 React 项目中，用于实现全局状态管理。
 ---
 
-# Redux 学习笔记
+# Learn Redux
 
 Redux 是 JavaScript 应用的状态容器，提供可预测的状态管理。一般用于 React 项目中，用于实现全局状态管理。
 
