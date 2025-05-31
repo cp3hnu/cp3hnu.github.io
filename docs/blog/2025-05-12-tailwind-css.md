@@ -5,15 +5,15 @@ tags:
   - web
   - css
   - tailwind
-date: 2025-05-26
+date: 2025-05-12
 author: cp3hnu
 location: ChangSha
-summary: 在现代前端开发中，Tailwind CSS 正迅速成为最受欢迎的 CSS 框架之一。与传统框架不同，Tailwind 采用了一种“功能类优先（Utility-First）”的设计思路，它通过提供大量小而精的原子类（如 text-center、bg-blue-500、p-4 等），让开发者可以在 HTML 中直接组合这些类快速构建出灵活且美观的用户界面。Tailwind 避免了重复命名和层层嵌套的样式文件问题，大大提高了开发效率，也使得样式更易于维护和复用。
+summary: 在现代前端开发中，Tailwind CSS 正迅速成为最受欢迎的 CSS 框架之一。与传统框架不同，Tailwind CSS 采用了一种“功能类优先（Utility-First）”的设计思路，它通过提供大量小而精的原子类（如 text-center、bg-blue-500、p-4 等），让开发者可以在 HTML 中直接组合这些类快速构建出灵活且美观的用户界面。Tailwind CSS 避免了重复命名和层层嵌套的样式文件问题，大大提高了开发效率，也使得样式更易于维护和复用。
 ---
 
 # Learn Tailwind CSS
 
-在现代前端开发中，Tailwind CSS 正迅速成为最受欢迎的 CSS 框架之一。与传统框架不同，Tailwind 采用了一种“功能类优先（Utility-First）”的设计思路，它通过提供大量小而精的原子类（如 text-center、bg-blue-500、p-4 等），让开发者可以在 HTML 中直接组合这些类快速构建出灵活且美观的用户界面。Tailwind 避免了重复命名和层层嵌套的样式文件问题，大大提高了开发效率，也使得样式更易于维护和复用。
+在现代前端开发中，Tailwind CSS 正迅速成为最受欢迎的 CSS 框架之一。与传统框架不同，Tailwind CSS 采用了一种“功能类优先（Utility-First）”的设计思路，它通过提供大量小而精的原子类（如 `text-center`、`bg-blue-500`、`p-4` 等），让开发者可以在 HTML 中直接组合这些类快速构建出灵活且美观的用户界面。Tailwind CSS 避免了重复命名和层层嵌套的样式文件问题，大大提高了开发效率，也使得样式更易于维护和复用。
 
 ## 前端样式的发展历程
 
@@ -537,9 +537,17 @@ Tailwind CSS 提供了 `dark:` 变体
 如果只判断浏览器是否支持某个属性（而不是一个特定的值），可以只指定属性名，不需要中括号 `[]`
 
 ```html
-<div class="supports-backdrop-filter:bg-black/25 supports-backdrop-filter:backdrop-blur ...">
+<div class="supports-backdrop-filter:bg-black">
   <!-- ... -->
 </div>
+```
+
+```css
+.supports-backdrop-filter\:bg-black {
+  @supports (backdrop-filter: var(--tw)) {
+    background-color: var(--color-black);
+  }
+}
 ```
 
 使用 `not-supports-[...]` 变体，测试浏览器不支持某个属性。
@@ -580,7 +588,7 @@ Tailwind CSS 提供了 5 个视口（viewport）的断点变体，来支持响�
 | `max-xl`  | 80rem *(1280px)* | `@media (width < 80rem) { ... }` |
 | `max-2xl` | 96rem *(1536px)* | `@media (width < 96rem) { ... }` |
 
-除了支持视口（viewport）断点之外，Tailwind CSS 使用 [Container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) 支持基于父容器的断点
+除了支持视口（viewport）断点之外，Tailwind CSS 使用 [Container size queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) 支持基于父容器的断点
 
 ```html
 <div class="@container">
@@ -590,7 +598,24 @@ Tailwind CSS 提供了 5 个视口（viewport）的断点变体，来支持响�
 </div>
 ```
 
-用法与视口（viewport）断点类似，除了需要使用 `@container` 确定基于哪个父容器。当要基于多个父容器时，可以使用 `@container/{name}` 进行命名
+```css
+.\@container {
+  container-type: inline-size;
+}
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.\@md\:flex-row {
+  @container (width >= 28rem) {
+    flex-direction: row;
+  }
+}
+```
+
+用法与视口（viewport）断点类似，除了需要使用 `@container` 确定基于哪个父容器。当要基于多个父容器时，可以使用 `@container/{name}` 进行命名。
 
 ```css
 <div class="@container/main">
@@ -599,6 +624,25 @@ Tailwind CSS 提供了 5 个视口（viewport）的断点变体，来支持响�
     <!-- ... -->
   </div>
 </div>
+```
+
+```css
+.\@container\/main {
+  container-type: inline-size;
+  container-name: main;
+}
+.flex {
+  display: flex;
+}
+.flex-row {
+  flex-direction: row;
+}
+.\@sm\/main\:flex-col {
+  @container main (width >= 24rem) {
+    flex-direction: column;
+  }
+}
+
 ```
 
 关于 container 断点的更多详情，请参考 [Tailwind CSS Container queries](https://tailwindcss.com/docs/responsive-design#container-queries) 
@@ -1027,9 +1071,11 @@ Tailwind CSS 也支持你自定义 CSS 类
 @import "tailwindcss";
 
 .my-custom-style {
-  /* ... */
+  color： #1664ff;
 }
 ```
+
+### 优先级
 
 但是如果想要 Tailwind CSS 能覆盖你的自定义 CSS 类的样式，使用 `@layer components`
 
@@ -1044,13 +1090,46 @@ Tailwind CSS 也支持你自定义 CSS 类
 }
 ```
 
-Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) 确定样式的优先级
+Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) 确定样式的优先级。
 
 ```css
 @layer theme, base, components, utilities;
 ```
 
-因此 Tailwind CSS 中优先级依次是：没有使用 `@layer`、utilities、components、base、theme。
+因此 Tailwind CSS 中优先级依次是：没有使用 `@layer`、`utilities`、`components`、`base`、`theme`。
+
+- `utilities`：功能类
+- `components`：自定义的 CSS 类
+- `base`：基础样式
+- `theme`：CSS 变量
+
+### 基础样式
+
+`base` layer 是基础样式。Tailwind CSS 定义了一套 [基础样式](https://tailwindcss.com/docs/preflight)。我们也可以添加自己的基础样式：
+
+```css
+@layer base {
+  h1 {
+    font-size: var(--text-2xl);
+  }
+  h2 {
+    font-size: var(--text-xl);
+  }
+}
+```
+
+### 组合
+
+如果发现自己重复地写同样的一套  Tailwind CSS 的功能类，可以使用 `@apply` 指令，组合使用 Tailwind CSS 的功能类。比如下面的表单样式
+
+```css
+@layer components {
+  .input-base {
+    @apply mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm 
+            focus:outline-none focus:ring-indigo-500 focus:border-indigo-500;
+  }
+}
+```
 
 ## References
 
@@ -1067,4 +1146,6 @@ Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/
 - [CSS-in-JS Libraries](https://bestofjs.org/projects?tags=css-in-js)
 - [CSS nesting](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_nesting)
 - [Using CSS custom properties (variables)](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)
+- [CSS container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries)
 - [Ant Design](https://ant-design.antgroup.com/docs/react/customize-theme-cn)
+

@@ -370,19 +370,19 @@ const deleteUsers = (response, request, id) => {
 
 关系型数据库使用结构化表格存储数据，适合需要事务支持或复杂查询的应用。
 
-Node.js 中与 SQL 数据库配合常用的库是 [Sequelize](https://sequelize.org/)、[TypeORM](https://typeorm.io/)、[Knex.js](http://knexjs.org/)、[Prisma](https://www.prisma.io/)、[Drizzle](https://orm.drizzle.team/) 等。
+Node.js 中与 SQL 数据库配合常用的库是 [`Sequelize`](https://sequelize.org/)、[`TypeORM`](https://typeorm.io/)、[`Knex.js`](http://knexjs.org/)、[`Prisma`](https://www.prisma.io/)、[`Drizzle`](https://orm.drizzle.team/) 等。
 
 - **MySQL / MariaDB**
   - 优势：高性能、开源、跨平台，MySQL 在 Web 应用中非常流行。
-  - 配合使用的 Node.js 驱动：[mysql2](https://github.com/sidorares/node-mysql2)（比原生 mysql 库性能更高，支持 Promise 和 async/await）
+  - 配合使用的 Node.js 驱动：[`mysql2`](https://github.com/sidorares/node-mysql2)（比原生 mysql 库性能更高，支持 Promise 和 async/await）
 
 - **PostgreSQL**
   - 优势：支持复杂查询、ACID 事务、扩展性好，适合需要更高级 SQL 功能的应用。
-  - 配合使用的 Node.js 驱动：[pg](https://node-postgres.com/) 和 [postgres](https://github.com/porsager/postgres)
+  - 配合使用的 Node.js 驱动：[`pg`](https://github.com/brianc/node-postgres) 和 [`postgres`](https://github.com/porsager/postgres)
 
 - **SQLite**
   - 优势：轻量级，无需单独服务器，适合小型应用或嵌入式应用。
-  - 配合使用的 Node.js 驱动：[sqlite3](https://github.com/TryGhost/node-sqlite3)
+  - 配合使用的 Node.js 驱动：[`sqlite3`](https://github.com/TryGhost/node-sqlite3)
 
 #### NoSQL 数据库
 
@@ -390,13 +390,13 @@ NoSQL 数据库适合处理非结构化或半结构化数据。它们更灵活�
 
 - **MongoDB**
   - 优势：灵活的文档模型（JSON-like），易于扩展，适合处理多变的非结构化数据。
-  - 配合使用的 Node.js 驱动：[Mongoose](https://mongoosejs.com/) 和 [node-mongodb-native](https://github.com/mongodb/node-mongodb-native)（MongoDB 官方驱动）
+  - 配合使用的 Node.js 驱动：[`Mongoose`](https://mongoosejs.com/) 和 [`node-mongodb-native`](https://github.com/mongodb/node-mongodb-native)（MongoDB 官方驱动）
 - **Redis**
   - 优势：内存型数据库，支持数据持久化，速度极快，适合缓存、会话管理或需要快速数据访问的应用。
-  - 配合使用的 Node.js 驱动：[ioredis](https://github.com/luin/ioredis)（高性能 Redis 客户端）或 [redis](https://www.npmjs.com/package/redis)（官方驱动）
+  - 配合使用的 Node.js 驱动：[`ioredis`](https://github.com/luin/ioredis)（高性能 Redis 客户端）或 [`redis`](https://www.npmjs.com/package/redis)（官方驱动）
 - **Cassandra**
   - 优势：分布式设计，适合大规模数据写入和多数据中心部署的应用。
-  - 配合使用的 Node.js 驱动：[cassandra-driver](https://www.npmjs.com/package/cassandra-driver)
+  - 配合使用的 Node.js 驱动：[`cassandra-driver`](https://www.npmjs.com/package/cassandra-driver)
 
 #### 时序数据库
 
@@ -404,7 +404,7 @@ NoSQL 数据库适合处理非结构化或半结构化数据。它们更灵活�
 
 - **InfluxDB**
   - 优势：专为时间序列数据设计，支持高效的读写操作和时间序列分析。
-  - 配合使用的 Node.js 驱动：[influx](https://www.npmjs.com/package/influx)
+  - 配合使用的 Node.js 驱动：[`influx`](https://www.npmjs.com/package/influx)
 
 #### 图数据库
 
@@ -412,7 +412,7 @@ NoSQL 数据库适合处理非结构化或半结构化数据。它们更灵活�
 
 - **Neo4j**
   - 优势：擅长处理关系密集型数据，适合图结构的数据。
-  - 配合使用的 Node.js 驱动：[neo4j-driver](https://www.npmjs.com/package/neo4j-driver)（Neo4j 官方驱动）
+  - 配合使用的 Node.js 驱动：[`neo4j-driver`](https://www.npmjs.com/package/neo4j-driver)（Neo4j 官方驱动）
 
 #### 全文搜索引擎
 
@@ -420,7 +420,7 @@ NoSQL 数据库适合处理非结构化或半结构化数据。它们更灵活�
 
 - **Elasticsearch**
   - 优势：强大的全文搜索和分析功能，适合大规模文本检索和日志分析。
-  - 配合使用的 Node.js 驱动：[@elastic/elasticsearch](https://www.npmjs.com/package/@elastic/elasticsearch)（官方驱动）
+  - 配合使用的 Node.js 驱动：[`@elastic/elasticsearch`](https://www.npmjs.com/package/@elastic/elasticsearch)（官方驱动）
 
 **怎么选择？**
 
@@ -688,6 +688,6 @@ GitHub: [`cp3hnu/node-server`](https://github.com/cp3hnu/node-server)
 -  [Sequelize](https://sequelize.org/)
 -  [`TryGhost/sqlite3`](https://github.com/TryGhost/node-sqlite3)
 - [Express](https://expressjs.com/)
-- [sequelize vs typeorm vs knex vs prisma](https://npmtrends.com/knex-vs-prisma-vs-sequelize-vs-typeorm)
-- [feathers vs nestjs vs express vs fastify vs hapi vs koa vs sails](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)
-
+- [Prisma vs Sequelize vs TypeORM vs Knex  vs Drizzle](https://npmtrends.com/drizzle-orm-vs-knex-vs-prisma-vs-sequelize-vs-typeorm)
+- [Express vs NestJS vs Koa vs Fastify vs Feathers vs Hapi vs Sails](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)
+- [Pg vs Postgres](https://npmtrends.com/pg-vs-postgres)

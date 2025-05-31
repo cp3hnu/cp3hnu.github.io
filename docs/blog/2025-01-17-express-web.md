@@ -1,6 +1,6 @@
 ---
 pageClass: blog-page
-title: 使用 Express 创建 Web 服务（二）
+title: 使用 Express 创建 Web 服务
 tags:
   - server
   - node.js
@@ -11,9 +11,9 @@ location: ChangSha
 summary: Express 是 Node.js 的一个快速的，独立的，极简的 web 框架，非常适用于创建 web 服务，这篇文章我们将使用 Express 创建 web 服务。
 ---
 
-# 使用 Express 创建 Web 服务（二）
+# 使用 Express 创建 Web 服务
 
-上一篇文章 [使用 Express 创建 Web 服务（一）](/2024/12/12/express) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
+上一篇文章 [Learn Express](/2024/12/12/express) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
 
 首先我们先介绍一下模版引擎。
 
@@ -64,7 +64,7 @@ Vue 的开发者都知道，Vue 使用了 `template` 模板语法来简化字符
 
 Vue 模板语法还带来了语法高亮、错误提示、代码格式化、模块复用等优点。
 
-那 Express 可以使用模板语法呢？  正如上文 [使用 Express 创建 Web 服务（一）](./2024-12-12-express.md) 介绍的，Express 可以使用 [`pugjs/pug`](https://github.com/pugjs/pug)、[`mde/ejs`](https://github.com/mde/ejs)、[`handlebars-lang/handlebars.js`](https://github.com/handlebars-lang/handlebars.js)、[`marko-js/marko`](https://github.com/marko-js/marko)、[`mozilla/nunjucks`](https://github.com/mozilla/nunjucks) 以及 [`janl/mustache.js`](https://github.com/janl/mustache.js) 等模板引擎。
+那 Express 可以使用模板语法呢？  正如上文 [Learn Express](./2024-12-12-express.md) 介绍的，Express 可以使用 [`pugjs/pug`](https://github.com/pugjs/pug)、[`mde/ejs`](https://github.com/mde/ejs)、[`handlebars-lang/handlebars.js`](https://github.com/handlebars-lang/handlebars.js)、[`marko-js/marko`](https://github.com/marko-js/marko)、[`mozilla/nunjucks`](https://github.com/mozilla/nunjucks) 以及 [`janl/mustache.js`](https://github.com/janl/mustache.js) 等模板引擎。
 
 从 [npm trends](https://npmtrends.com/ejs-vs-handlebars-vs-marko-vs-mustache-vs-nunjucks-vs-pug) 中我可以看出，`pug` 有最多的 star，`ejs` 和 `handlebars.js` 有最多的下载量。`nunjucks` 类似于 Python 的模板引擎  [`jinja2`](http://jinja.pocoo.org/)
 
@@ -422,7 +422,7 @@ router.get('/signup', (req, res) => {
 
 1. 首先使用内置中间件 [`express.urlencoded()`](https://expressjs.com/en/5x/api.html#express.urlencoded) 处理 request body，处理后的数据存储在 `req.body` 属性
 1. 验证用户名、邮箱、密码必填，密码长度必须大于等于 6 位（可以自行扩展更复杂的密码校验）以及用户名/邮箱不能重复
-1. 创建用户，插入数据库。数据库仍然使用 [创建 Node.js 后台服务](./2024-09-17-nodejs-api) 介绍的 [Sequelize](https://sequelize.org/) + [sqlite3](https://github.com/TryGhost/node-sqlite3) 
+1. 创建用户，插入数据库。数据库仍然使用 [创建 Node.js 后台服务](./2024-09-17-nodejs-api) 介绍的 [Sequelize](https://sequelize.org/) + [sqlite3](https://github.com/TryGhost/node-sqlite3)
 
 ```js
 router.post('/signup', async (req, res) => {
@@ -466,7 +466,7 @@ router.post('/signup', async (req, res) => {
 })
 ```
 
-#### 登录与验证
+#### 认证与授权
 
 我们采用 session + cookie 的方式实现登录与验证，具有以下特点：
 
