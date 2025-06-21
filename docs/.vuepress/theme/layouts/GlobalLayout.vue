@@ -42,9 +42,8 @@
     word-wrap break-word
 
   .content-wrapper
-    padding 120px 15px 40px
+    padding 120px 350px 40px
     min-height calc(100vh - 160px)
-    max-width $contentWidth
     margin 0 auto
 
     @media (max-width: $MQMobile)

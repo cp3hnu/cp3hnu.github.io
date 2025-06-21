@@ -5,7 +5,7 @@ tags:
   - web
   - css
   - tailwind
-date: 2025-05-12
+date: 2025-06-12
 author: cp3hnu
 location: ChangSha
 summary: 在现代前端开发中，Tailwind CSS 正迅速成为最受欢迎的 CSS 框架之一。与传统框架不同，Tailwind CSS 采用了一种“功能类优先（Utility-First）”的设计思路，它通过提供大量小而精的原子类（如 text-center、bg-blue-500、p-4 等），让开发者可以在 HTML 中直接组合这些类快速构建出灵活且美观的用户界面。Tailwind CSS 避免了重复命名和层层嵌套的样式文件问题，大大提高了开发效率，也使得样式更易于维护和复用。

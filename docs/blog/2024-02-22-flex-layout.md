@@ -96,7 +96,7 @@ $$
 
 ## VuePress 中使用数学公式
 
-因为我的 Blog 是使用 VuePress 搭建的，一开始无法正确展示数学公式，查询资料得知需要这么配置
+因为我的 Blog 是使用 VuePress 搭建的，一开始无法正确展示数学公式，需要安装 [markdown-it-katex](https://github.com/waylonflinn/markdown-it-katex)。
 
 ### 安装组件
 

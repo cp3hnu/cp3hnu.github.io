@@ -39,6 +39,7 @@
     font-family PT Serif, Serif
     color $textColor
     position relative
+    max-width none
 
   @media (max-width: $MQMobile)
     .vuepress-blog-theme-content

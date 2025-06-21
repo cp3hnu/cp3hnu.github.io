@@ -322,10 +322,6 @@ body
 
 现在 HTML、CSS、JavaScript 都齐活了，我们来创建 Web 应用 - ToDo。我们将实现以下功能:
 
-- 注册
-- 登录
-- 任务
-
 ### 设计稿
 
 ToDo 应用的主要功能如下：
@@ -338,7 +334,7 @@ ToDo 应用的主要功能如下：
 
 ![](./assets/express-web-todos-sign-in.png)
 
-#### Todo 列表
+#### 任务列表
 
 ![](./assets/express-web-todos-tasks.png)
 

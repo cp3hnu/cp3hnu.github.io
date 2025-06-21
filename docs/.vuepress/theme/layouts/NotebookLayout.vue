@@ -68,15 +68,19 @@
     font-family PT Serif, Serif
     color $textColor
     position relative
-    max-width $contentWidth
+    max-width none
     margin 0 auto
     background-color $bgColor
     padding-top 2rem
     padding-bottom 2rem
+    padding-left 400px
+    padding-right 400px
 
   @media (max-width: $MQMobile)
     .vuepress-blog-theme-sidebar-content
       padding-top 4.0rem
+      padding-left 16px
+      padding-right 16px
 
   .back-to-list
     font-size 16px
