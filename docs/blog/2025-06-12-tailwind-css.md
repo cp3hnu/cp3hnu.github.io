@@ -1131,6 +1131,24 @@ Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/
 }
 ```
 
+## 其它问题
+
+##### Tailwind CSS 中自定义的 `@rules`，比如 `@apply`，VSCode 不能识别 `Unknown at rule @themecss(unknownAtRules)`。
+
+目前有两种解决方案：
+
+1. 在 VSCode 的配置文件 `settings.json` 文件里添加下面的配置项
+
+   ```json
+   "files.associations": {
+     "*.css": "tailwindcss"
+   }
+   ```
+
+2. 建立新的语言模式。`cmd` + `shift` + `p` (Mac)，输入 `Change Language Mode`，然后在下拉列表中选择 "Tailwind CSS"
+
+
+
 ## References
 
 - [Tailwind CSS](https://tailwindcss.com/)
