@@ -106,10 +106,12 @@ Next.js 自动为我配置了 Typescript、ESLint、Tailwind CSS、Turbopack、A
 
 #### 安装
 
-首先安装  [`drizzle-orm`](https://github.com/drizzle-team/drizzle-orm) 和 [`postgres`](https://github.com/porsager/postgres)
+首先安装 [`postgres`](https://github.com/porsager/postgres)。
+
+> 也可以使用 [node-postgres](https://github.com/brianc/node-postgres)
 
 ```sh
-$ npm i drizzle-orm postgres
+$ npm i postgres
 ```
 
 #### 创建数据库

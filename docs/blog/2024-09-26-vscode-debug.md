@@ -143,7 +143,7 @@ $ nodemon --inspect index.js
 
 启动配置是在 VS Code 中设置调试的传统方式，可以为您提供运行复杂应用程序的配置选项。
 
-在上一篇文章 [创建 Node.js 服务](/2024/09/17/nodejs-web/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中，我们介绍了怎么创建启动配置，但是只配置了 `Node.js: 启动程序`，其实 VS Code 还有很多的配置选项。
+在上一篇文章 [创建 Node.js 服务](/2024/09/17/nodejs-api/#vs-code-%E8%B0%83%E8%AF%95-node-js) 中，我们介绍了怎么创建启动配置，但是只配置了 `Node.js: 启动程序`，其实 VS Code 还有很多的配置选项。
 
 ![](./assets/vscode-nodejs-launch-config.png)
 
