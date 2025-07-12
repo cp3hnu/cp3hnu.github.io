@@ -23,7 +23,7 @@ summary: 这篇文章将详细介绍 Next.js 项目的代码格式化配置，�
 Would you like to use ESLint? No / Yes
 ```
 
-`create-next-app` 帮我们安装了 [`@eslint/eslintrc`](https://github.com/eslint/eslintrc)、[`eslint`](https://github.com/eslint/eslint) 和 `eslint-config-next` 三个 eslint 相关的库
+`create-next-app` 帮我们安装了 [`@eslint/eslintrc`](https://github.com/eslint/eslintrc)、[`eslint`](https://github.com/eslint/eslint) 和 `eslint-config-next` 三个 ESLint 相关的库
 
 ```json
 {
@@ -299,7 +299,7 @@ export default eslintConfig;
 $ npm i -D husky lint-staged
 ```
 
-### **`lint-staged`** 配置
+### `lint-staged` 配置
 
 `lint-staged` 配置有[多种方式](https://github.com/lint-staged/lint-staged?tab=readme-ov-file#configuration)，为了保持项目风格的统一，我们使用 `lint-staged.config.mjs` 配置文件
 
@@ -329,7 +329,7 @@ export default lintStagedConfig = {
 }
 ```
 
-### **`Husky`** 配置
+### `Husky` 配置
 
 配置 `Husky` 很简单，安装 `Husky` 之后，运行
 
@@ -383,9 +383,68 @@ export default [
 ];
 ```
 
-### 更多
+#### 结果示例
 
-.......
+它会把如下 `import` 语句
+
+```js
+import z from './z';
+import fs from 'fs';
+import a from './a';
+import react from 'react';
+```
+
+变成
+
+```js
+import fs from 'fs';
+import react from 'react';
+
+import a from './a';
+import z from './z';
+```
+
+它的规则是，先分组，再以字母顺序排列。
+
+默认的分组如下：
+
+```js
+[
+  // Side effect imports.
+  // 例如：import "./setup"
+  ["^\\u0000"],
+  // Node.js builtins prefixed with `node:`. 
+  // 例如：import * as fs from "node:fs"
+  ["^node:"],
+  // Packages.
+  // Things that start with a letter (or digit or underscore), or `@` followed by a letter.
+  // 例如: import react from "react"
+  ["^@?\\w"],
+  // Absolute imports and other imports such as Vue-style `@/foo`.
+  // Anything not matched in another group.
+  // 例如 import foo from "/foo"，或者 import foo from "@/foo
+  ["^"],
+  // Relative imports.
+  // Anything that starts with a dot.
+  // 例如 import a from "./a"
+  ["^\\."],
+];
+```
+
+每个分组之间会有一个空行，例如上面的第 2 行与第 4 行之间有个空行，如果不想要这个空行，可以修改 `group` 的配置，将他们放在同一个数组里。
+
+```js
+rules: {
+  "simple-import-sort/imports": [
+    "error",
+    {
+      groups: [["^\\u0000", "^node:", "^@?\\w", "^", "^\\."]],
+    },
+  ]
+}
+```
+
+更多详情，请参考 [How to remove newline between import groups?](https://github.com/lydell/eslint-plugin-simple-import-sort/issues/25#issuecomment-625397779)
 
 ## References
 
@@ -399,6 +458,7 @@ export default [
 - [`eslint-plugin-prettier`](https://github.com/prettier/eslint-plugin-prettier)
 - [`prettier-eslint`](https://github.com/prettier/prettier-eslint)
 - [`eslint-plugin-simple-import-sort`](https://github.com/lydell/eslint-plugin-simple-import-sort)
+- [`eslint-plugin-import`](https://github.com/import-js/eslint-plugin-import)
 - [VSCode Plugin: Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [VSCode Plugin: ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [VSCode Plugin: Prettier ESLint](https://marketplace.visualstudio.com/items?itemName=rvest.vs-code-prettier-eslint)

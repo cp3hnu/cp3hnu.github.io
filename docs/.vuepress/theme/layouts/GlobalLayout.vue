@@ -1,6 +1,7 @@
 <template>
   <div id="vuepress-theme-blog__global-layout">
     <Header />
+    <div id="docsearch">test</div>
     <MobileHeader
       :is-open="isMobileHeaderOpen"
       @toggle-sidebar="isMobileHeaderOpen = !isMobileHeaderOpen"
@@ -15,6 +16,8 @@
   import GlobalLayout from '@app/components/GlobalLayout.vue'
   import Header from '@theme/components/Header.vue'
   import MobileHeader from '@theme/components/MobileHeader.vue'
+  import docsearch from '@docsearch/js';
+  import '@docsearch/css';
 
   export default {
     components: {
@@ -33,6 +36,12 @@
       this.$router.afterEach(() => {
         this.isMobileHeaderOpen = false
       })
+      docsearch({
+        container: '.search-box',
+        appId: 'DU4VGYODOQ',
+        apiKey: '94934dad24446afb9099892b125c6207',
+        indexName: 'cp3hnu_github_io_du4vgyodoq_pages',
+      });
     },
   }
 </script>
