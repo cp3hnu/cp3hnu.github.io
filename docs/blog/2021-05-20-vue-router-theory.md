@@ -392,7 +392,7 @@ router.push({ name: 'User', params: { name: 'eduardo' }, query: {age: 18, weight
 1. 如果是 `replace: true` 或者是第一次导航（ 在 [install](#install%20方法) 方法中执行的），执行 `routerHistory.replace`，否则执行 `routerHistory.push`
 2. `currentRoute` 记录目的地路由记录
 3. `handleScroll` 处理滑动
-3. `markAsReady` 建立 `popstate` 事件处理，详情见[Vue Router 4.x 导航实现](./2021-06-18-vue-router-navigate)
+3. `markAsReady` 建立 `popstate` 事件处理，详情见[Vue Router 4.x 导航实现](/2021/06/18/vue-router-navigate)
 
 ```typescript
 function finalizeNavigation(

@@ -15,7 +15,7 @@ summary: 这篇文章我们来研究一下 Ant Design 怎样以函数的方式�
 
 [Ant Design](https://ant.design/index-cn/) 的 [Modal](https://ant.design/components/modal-cn) 提供了一系列静态方法（如 [`Modal.confirm`](https://ant.design/components/modal-cn#modalmethod) ）打开一个 Modal，但是在实际的应用中，我们都需要自定义 Modal，不过很可惜，Ant Design 没有提供方法并以函数的方式打开自定义的 Modal，这篇文章我们来研究一下 Ant Design 怎样以函数的方式打开自定义的 Modal。
 
->  如果你使用 ElementUI 并且想要以函数的方式打开 Dialog，可以参考我的另一篇文章 [ElementUI 以函数的方式打开 Dialog](./2022-03-02-elementui-dialog.md)。
+>  如果你使用 ElementUI 并且想要以函数的方式打开 Dialog，可以参考我的另一篇文章 [ElementUI 以函数的方式打开 Dialog](/2022/03/02/elementui-dialog/)。
 
 ## 现状
 

@@ -13,7 +13,7 @@ summary: Vue 3 的新特性一网打尽
 
 Vue 3 最大的变化是改变了底层响应性机制和新增了组合式 API。
 
-Vue 3 响应性原理请点 **[这里](./2021-04-05-vue3-reactive-theory/)**
+Vue 3 响应性原理请点 **[这里](/2021/04/05/vue3-reactive-theory/)**
 
 ## 组合式 API
 

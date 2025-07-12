@@ -316,11 +316,11 @@ function foo() {
 }
 ```
 
-但是经我测试，还是跟 `regenerator` 为 `true` 时一样。更多详情请参考 [Babel Regenerator and Polyfills](./2024-01-20-babel-regenerator-and-polyfills/).
+但是经我测试，还是跟 `regenerator` 为 `true` 时一样。更多详情请参考 [Babel Regenerator and Polyfills](/2024/01/20/babel-regenerator-and-polyfills/).
 
 ##### **`corejs`**
 
-有三个值，`false`、`2`、`3`，这个与 [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 的 `corejs` 有冲突，多用于 library。更多详情请参考 [Babel Regenerator and Polyfills](./2024-01-20-babel-regenerator-and-polyfills/).
+有三个值，`false`、`2`、`3`，这个与 [`@babel/preset-env`](https://babeljs.io/docs/babel-preset-env) 的 `corejs` 有冲突，多用于 library。更多详情请参考 [Babel Regenerator and Polyfills](/2024/01/20/babel-regenerator-and-polyfills/).
 
 **`version`**
 

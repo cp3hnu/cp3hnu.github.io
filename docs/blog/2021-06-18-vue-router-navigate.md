@@ -71,7 +71,7 @@ function listen(callback: NavigationCallback) {
 }
 ```
 
-那什么时候调用 `listen` 方法添加 `popstate` 事件处理器呢？通过上一篇 [Vue Router 4.x 实现原理](./2021-05-20-vue-router-theory/) 我们知道在 `install` 方法中，会进行首次导航，导航到用户在浏览器中输入的地址，在首次导航时就会添加 `popstate` 事件处理器。
+那什么时候调用 `listen` 方法添加 `popstate` 事件处理器呢？通过上一篇 [Vue Router 4.x 实现原理](/2021/05/20/vue-router-theory/) 我们知道在 `install` 方法中，会进行首次导航，导航到用户在浏览器中输入的地址，在首次导航时就会添加 `popstate` 事件处理器。
 
 Vue Router 在编程式导航 `push` 的 `finalizeNavigation ` 方法的最后会调用 `markAsReady` 方法。 `markAsReady` 方法调用 `setupListeners` 方法，添加 `popstate` 事件处理器。
 
