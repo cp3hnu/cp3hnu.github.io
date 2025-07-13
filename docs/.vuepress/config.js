@@ -20,7 +20,16 @@ module.exports = {
       }
     ],
     "@vuepress/back-to-top",
-    [require('./vuepress-plugin-clipboard/index.js')]
+    [require('./vuepress-plugin-clipboard/index.js')],
+    [
+      'sitemap',
+      {
+        hostname: 'https://cp3hnu.github.io', // ✅ 你的站点地址
+        exclude: [
+          '/tag/',
+        ],
+      },
+    ],
   ],
   themeConfig: {
     nav: [
