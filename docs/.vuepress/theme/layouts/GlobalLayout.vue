@@ -1,7 +1,6 @@
 <template>
   <div id="vuepress-theme-blog__global-layout">
     <Header />
-    <div id="docsearch">test</div>
     <MobileHeader
       :is-open="isMobileHeaderOpen"
       @toggle-sidebar="isMobileHeaderOpen = !isMobileHeaderOpen"
@@ -41,6 +40,7 @@
         appId: 'DU4VGYODOQ',
         apiKey: '94934dad24446afb9099892b125c6207',
         indexName: 'cp3hnu_github_io_du4vgyodoq_pages',
+        maxResultsPerGroup: 10
       });
     },
   }

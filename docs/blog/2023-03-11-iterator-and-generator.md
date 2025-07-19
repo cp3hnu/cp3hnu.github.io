@@ -399,7 +399,7 @@ console.log(g.next());  // { done: true, value: undefined }
 
 ## 异步迭代器和生成器
 
-请参考 [Asynchronous Iteration](/2022/04/09/what's-new-ecmascript/#asynchronous-iteration)
+请参考 [Asynchronous Iteration](/2022/04/09/what-s-new-ecmascript/#asynchronous-iteration)
 
 ## References
 

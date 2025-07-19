@@ -25,7 +25,7 @@ Vite 给我的直观感受就是开发时的快速构建，它使用了 [esbuild
 
 ![](./assets/vite-project-esbuild.png)
 
-Vite 和 Vue-CLI 都是 Vue 团队开发的，只是 Vite 使用 esbuild + Rollup，而 Vue-CLI 使用 webpack。因此里面的很多配置是相似的，比如说 [环境变量和模式](https://cn.vitejs.dev/guide/env-and-mode.html)。我之前也写过一篇 [Vue-CLI 搭建 Web 框架配置工具](/2020/12/15/vue-cli-tools)，里面很多的工具也适用于 Vite 工程， 大家有兴趣可以去看看。
+Vite 和 Vue-CLI 都是 Vue 团队开发的，只是 Vite 使用 esbuild + Rollup，而 Vue-CLI 使用 webpack。因此里面的很多配置是相似的，比如说 [环境变量和模式](https://cn.vitejs.dev/guide/env-and-mode.html)。我之前也写过一篇 [Vue-CLI 搭建 Web 框架配置工具](/2020/12/15/vue-cli-tools/)，里面很多的工具也适用于 Vite 工程， 大家有兴趣可以去看看。
 
 ## 创建项目
 

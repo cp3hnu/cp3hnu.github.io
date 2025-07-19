@@ -418,7 +418,7 @@ router.get('/signup', (req, res) => {
 
 1. 首先使用内置中间件 [`express.urlencoded()`](https://expressjs.com/en/5x/api.html#express.urlencoded) 处理 request body，处理后的数据存储在 `req.body` 属性
 1. 验证用户名、邮箱、密码必填，密码长度必须大于等于 6 位（可以自行扩展更复杂的密码校验）以及用户名/邮箱不能重复
-1. 创建用户，插入数据库。数据库仍然使用 [创建 Node.js 后台服务](/2024/09/17/nodejs-api) 介绍的 [Sequelize](https://sequelize.org/) + [sqlite3](https://github.com/TryGhost/node-sqlite3)
+1. 创建用户，插入数据库。数据库仍然使用 [创建 Node.js 后台服务](/2024/09/17/nodejs-api/) 介绍的 [Sequelize](https://sequelize.org/) + [sqlite3](https://github.com/TryGhost/node-sqlite3)
 
 ```js
 router.post('/signup', async (req, res) => {

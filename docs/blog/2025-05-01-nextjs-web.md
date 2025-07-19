@@ -13,11 +13,11 @@ summary: 在使用 Express 创建 Web 服务中，我们使用 Express 创建了
 
 # 使用 Next.js 创建 Web 应用
 
-在 [使用 Express 创建 Web 服务](/2025/01/17/express-web) 中，我们使用 Express 创建了一个 ToDo 的 Web 服务。使用 Express 时，我们需要自己处理模板（HTML）、样式（CSS）、脚本（JavaScript）、路由、错误处理等等。而 Next.js 框架已经提供了上面的这些功能，我们只要专注于业务实现。这篇文章我们将使用 Next.js 创建 Web 应用，看看它能否帮助我们实现快速开发。
+在 [使用 Express 创建 Web 服务](/2025/01/17/express-web/) 中，我们使用 Express 创建了一个 ToDo 的 Web 服务。使用 Express 时，我们需要自己处理模板（HTML）、样式（CSS）、脚本（JavaScript）、路由、错误处理等等。而 Next.js 框架已经提供了上面的这些功能，我们只要专注于业务实现。这篇文章我们将使用 Next.js 创建 Web 应用，看看它能否帮助我们实现快速开发。
 
 ## 需求
 
-和 [使用 Express 创建 Web 服务](/2025/01/17/express-web) 一样，我们实现一个 Todo Web 应用
+和 [使用 Express 创建 Web 服务](/2025/01/17/express-web/) 一样，我们实现一个 Todo Web 应用
 
 ### 设计稿
 

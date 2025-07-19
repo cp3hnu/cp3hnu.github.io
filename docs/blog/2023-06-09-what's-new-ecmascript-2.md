@@ -183,7 +183,7 @@ const billion = 1_000_000_000;
 
 ES2021 使用 `WeakRef` 创建一个目标对象（target object）的弱引用，和 `WeakMap` 和 `WeakSet` 类似，`WeakRef` 不会阻止目标对象被回收
 
-> 这个功能[非必要不使用](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef#avoid_where_possible)，而且使用时也务必谨慎小心，不要依赖垃圾回收机制的具体实现，这里是一些使用时的 [注意事项]((https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef#notes_on_weakrefs))
+> 这个功能[非必要不使用](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef#avoid_where_possible)，而且使用时也务必谨慎小心，不要依赖垃圾回收机制的具体实现，这里是一些使用时的 [注意事项](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakRef#notes_on_weakrefs)
 
 使用 `WeakRef` 的 `deref()` 方法获取目标对象
 

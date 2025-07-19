@@ -13,9 +13,9 @@ summary: 上篇文章 UmiJS + Storybook 搭建组件库文档，我使用了 Sto
 
 # 服务器部署 Storybook 文档
 
-上篇文章 [UmiJS + Storybook 搭建组件库文档](/2025/03/15/umijs-storybook)，我使用了 Storybook 生成了 UmiJS 项目的组件库文档，这篇文章我将部署 Storybook 文档到内部服务器上。
+上篇文章 [UmiJS + Storybook 搭建组件库文档](/2025/03/15/umijs-storybook/)，我使用了 Storybook 生成了 UmiJS 项目的组件库文档，这篇文章我将部署 Storybook 文档到内部服务器上。
 
-> 如果想要发布到外网，可以使用 Chromatic 或者 Vercel 托管服务，详情请参考我的这篇文章 [Storybook 搭建组件库文档](/2023/09/02/storybook-in-action#%E5%8F%91%E5%B8%83)。
+> 如果想要发布到外网，可以使用 Chromatic 或者 Vercel 托管服务，详情请参考我的这篇文章 [Storybook 搭建组件库文档](/2023/09/02/storybook-in-action/#%E5%8F%91%E5%B8%83)。
 
 部署 Storybook 文档到内部服务器有多种方式，下面我将分别介绍以下几种方式：
 

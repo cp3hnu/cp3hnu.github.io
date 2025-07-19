@@ -19,7 +19,7 @@ summary: 我从 Storybook 6 开始关注 Storybook，它是一个很好的撰写
 > 这是我写的关于 Storybook 的第三篇文章，前两篇分别是
 >
 > - [Storybook](/2023/01/04/storybook/)，介绍 Storybook
-> - [Storybook 搭建组件库文档](/2023/09/02/storybook-in-action)，搭建自己的组件库文档，当时使用是 Webpack 4 + Storybook 6.5
+> - [Storybook 搭建组件库文档](/2023/09/02/storybook-in-action/)，搭建自己的组件库文档，当时使用是 Webpack 4 + Storybook 6.5
 >
 > 在我学习 Storybook 的过程中，Storybook 从 6.5 升级到 7.4，再升级到目前最新的 8.5，Storybook 的功能越来越强大，越来越好用。
 

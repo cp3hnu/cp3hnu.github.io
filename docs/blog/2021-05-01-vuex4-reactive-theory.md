@@ -88,7 +88,7 @@ export function createStore(options) {
 
 ## 为什么 store.state 具有响应性
 
-我们知道 Vuex 3 通过创建一个 Vue 实例，并将 `state` 传入 `data` 函数，从而让 `state` 具有响应性。Vue 3 改变了[响应性原理](/2021/04/05/vue3-reactive-theory)，所以我们猜测 Vuex 4 将使用 `reactive` 让 `state` 具有响应性，下面是 Store 的构造函数
+我们知道 Vuex 3 通过创建一个 Vue 实例，并将 `state` 传入 `data` 函数，从而让 `state` 具有响应性。Vue 3 改变了[响应性原理](/2021/04/05/vue3-reactive-theory/)，所以我们猜测 Vuex 4 将使用 `reactive` 让 `state` 具有响应性，下面是 Store 的构造函数
 
 ```js
 export class Store {

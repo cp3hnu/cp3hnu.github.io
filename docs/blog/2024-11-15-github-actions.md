@@ -298,7 +298,7 @@ jobs:
 
 这里的操作是指 GitHub Actions 自定义应用程序，是一组预先创建的可重用作业或代码，用于在工作流中执行特定任务。
 
-操作可以是 GitHub Actions 官方的，比如 [`actions/checkout`](https://github.com/actions/checkout)、[`actions/setup-node`](actions/setup-node) 等，也可以是社区的，比如 [`peaceiris/actions-gh-pages`](https://github.com/peaceiris/actions-gh-pages)，同时我们也可以创建自己的操作。
+操作可以是 GitHub Actions 官方的，比如 [`actions/checkout`](https://github.com/actions/checkout)、[`actions/setup-node`](https://github.com/actions/setup-node) 等，也可以是社区的，比如 [`peaceiris/actions-gh-pages`](https://github.com/peaceiris/actions-gh-pages)，同时我们也可以创建自己的操作。
 
 可以通过 [GitHub Marketplace](https://github.com/marketplace/actions/) 来查找 GitHub 社区创建的操作。
 
