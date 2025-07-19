@@ -407,4 +407,4 @@ console.log(g.next());  // { done: true, value: undefined }
 - [Iterators and generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)
 
 - [Iteration protocols](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols)
-- [Asynchronous Iteration](/2022/04/09/what's-new-ecmascript/#asynchronous-iteration)
+- [Asynchronous Iteration](/2022/04/09/what-s-new-ecmascript/#asynchronous-iteration)

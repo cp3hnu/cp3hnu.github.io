@@ -13,7 +13,7 @@ summary: Express 是 Node.js 的一个快速的，独立的，极简的 web 框�
 
 # 使用 Express 创建 Web 服务
 
-上一篇文章 [Learn Express](/2024/12/12/express) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
+上一篇文章 [Learn Express](/2024/12/12/express/) 详细介绍了 Express 框架，这篇文章我们使用 Express 创建 Web 服务。
 
 首先我们先介绍一下模版引擎。
 
@@ -64,7 +64,7 @@ Vue 的开发者都知道，Vue 使用了 `template` 模板语法来简化字符
 
 Vue 模板语法还带来了语法高亮、错误提示、代码格式化、模块复用等优点。
 
-那 Express 可以使用模板语法呢？  正如上文 [Learn Express](/2024/12/12/express) 介绍的，Express 可以使用 [`pugjs/pug`](https://github.com/pugjs/pug)、[`mde/ejs`](https://github.com/mde/ejs)、[`handlebars-lang/handlebars.js`](https://github.com/handlebars-lang/handlebars.js)、[`marko-js/marko`](https://github.com/marko-js/marko)、[`mozilla/nunjucks`](https://github.com/mozilla/nunjucks) 以及 [`janl/mustache.js`](https://github.com/janl/mustache.js) 等模板引擎。
+那 Express 可以使用模板语法呢？  正如上文 [Learn Express](/2024/12/12/express/) 介绍的，Express 可以使用 [`pugjs/pug`](https://github.com/pugjs/pug)、[`mde/ejs`](https://github.com/mde/ejs)、[`handlebars-lang/handlebars.js`](https://github.com/handlebars-lang/handlebars.js)、[`marko-js/marko`](https://github.com/marko-js/marko)、[`mozilla/nunjucks`](https://github.com/mozilla/nunjucks) 以及 [`janl/mustache.js`](https://github.com/janl/mustache.js) 等模板引擎。
 
 从 [npm trends](https://npmtrends.com/ejs-vs-handlebars-vs-marko-vs-mustache-vs-nunjucks-vs-pug) 中我可以看出，`pug` 有最多的 star，`ejs` 和 `handlebars.js` 有最多的下载量。`nunjucks` 类似于 Python 的模板引擎  [`jinja2`](http://jinja.pocoo.org/)
 

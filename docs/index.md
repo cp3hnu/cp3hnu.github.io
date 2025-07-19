@@ -31,14 +31,14 @@ summary: 知之者不如好之者，好之者不如乐之者
             logo: require('./word-card/logo.png'),
             title: '英语单词卡',
             detail: '专为3~8岁儿童打造的一款英语启蒙学习软件，从日常生活中学习英语',
-            route: '/word-card'
+            route: '/word-card/'
           },
           {
             id: 2,
             logo: require('./starry/logo.png'),
             title: 'Starry',
             detail: 'Group, manage and read your starred repositories on GitHub',
-            route: '/starry'
+            route: '/starry/'
           }
         ]
       }
