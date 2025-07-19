@@ -395,6 +395,20 @@ camelCaseAttributes: ["hierarchy", "content"],
 
 [`typoTolerance`](https://www.algolia.com/doc/api-reference/api-parameters/typoTolerance/) 参数控制是否允许错别字。
 
+## 验证
+
+### 验证 Crawler 配置
+
+可以在 Crawler 的 "Editor" 页面验证 Crawler 配置
+
+![](./assets/doc-serach-url-test.png)
+
+### 验证 DocSearch 搜索
+
+可以在 Index 页面进行搜索验证
+
+![](./assets/doc-search-search-test.png)
+
 ## 创建 Sitemaps
 
 通过上一步配置 Crawler，现在搜索时不会报错了，而且可以搜索到内容了，但是在我使用的过程中发现，有些页面的内容搜索不到，通过查看 Crawler 的 `Monitoring tool` 或者 `URL inspector` 发现有些页面并没有被抓取。
