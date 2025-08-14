@@ -108,7 +108,7 @@ Next.js 自动为我配置了 Typescript、ESLint、Tailwind CSS、Turbopack、A
 
 首先安装 [`postgres`](https://github.com/porsager/postgres)。
 
-> 也可以使用 [node-postgres](https://github.com/brianc/node-postgres)
+> 也可以使用 [`node-postgres`](https://github.com/brianc/node-postgres)
 
 ```sh
 $ npm i postgres
@@ -838,11 +838,11 @@ export default sql;
 
 ## Source Code
 
-[nextjs-todo](https://github.com/cp3hnu/nextjs-todo)
+[`cp3hnu/nextjs-todo`](https://github.com/cp3hnu/nextjs-todo)
 
 ## 应用地址
 
-[nextjs-todo](https://nextjs-todo-liard-one.vercel.app/)
+https://nextjs-todo-liard-one.vercel.app/
 
 ## References
 
@@ -860,7 +860,7 @@ export default sql;
 - [PostgreSQL](https://www.postgresql.org/)
 -  [`drizzle-orm`](https://github.com/drizzle-team/drizzle-orm)
 - [`postgres.js`](https://github.com/porsager/postgres)
-- [node-postgres](https://github.com/brianc/node-postgres)
+- [`node-postgres`](https://github.com/brianc/node-postgres)
 - [`bcrypt.js`](https://github.com/dcodeIO/bcrypt.js)
 - [`bcrypt-ts`](https://github.com/Mister-Hope/bcrypt-ts)
 - [`Jose`](https://github.com/panva/jose)

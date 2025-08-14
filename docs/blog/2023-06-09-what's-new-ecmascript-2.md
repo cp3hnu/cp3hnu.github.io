@@ -17,7 +17,7 @@ summary: 学习总结 ECMAScript 从 2021 年到 2025 年引入的新特性
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2021 ~ 2025 所有通过的提案
 
-[这里](https://www.joylearn123.com/What-s-New-in-ECMAScript/) 是我写的下面这些新特性的 playground，方便查看运行结果
+[这里](https://cp3hnu.github.io/What-s-New-in-ECMAScript/) 是我写的下面这些新特性的 playground，方便查看运行结果
 
 > 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
 
@@ -1177,7 +1177,13 @@ console.log(view4[7]); // 0
 
 敬请期待...
 
+## Source Code
 
+[`cp3hnu/What-s-New-in-ECMAScript`](https://github.com/cp3hnu/What-s-New-in-ECMAScript)
+
+## 应用地址
+
+https://cp3hnu.github.io/What-s-New-in-ECMAScript/
 
 ## References
 

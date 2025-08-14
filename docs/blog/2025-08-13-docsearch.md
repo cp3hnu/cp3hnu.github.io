@@ -3,6 +3,7 @@ pageClass: blog-page
 title: Blog 集成 Algolia DocSearch
 tags:
   - web
+  - algolia
   - doc-search
 date: 2025-08-13
 author: cp3hnu
@@ -109,17 +110,19 @@ Your Algolia index name.
 
 这个就是要填写的 `indexName` 参数。
 
-将这个值填写到 JS 代码里，运行程序，开始搜索。没有搜索到结果，并且控制台报错：
+将这个值填写到 JS 代码里，运行程序，就能搜索到内容了。
+
+如果没有搜索到结果，并且控制台报错：
 
 ```
 Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'lvl0')
 ```
 
-出错原因是索引（Index）数据库里的数据没有返回 **hierarchy** 字段，导致读取 **hierarchy.lvl0** 时报错。根本原因可能是我在创建 Crawrler 时，网页内容类型（What types of content do you want to crawl?）选择了 "General web pages"。如果您和我一样也选错了类型，不要慌，我们还可以手动修改 Crawler 配置。
+出错是因为索引（Index）数据库里的数据没有返回 **hierarchy** 字段，导致读取 **hierarchy.lvl0** 时报错。原因可能是在创建 Crawrler 时，网页内容类型（What types of content do you want to crawl?）选择了 "General web pages"，或者选错了模版。不要慌，我们还可以手动修改 Crawler 配置。
 
 ## 手动配置 Crawler
 
-进入 Crawler 页面，选择 "Configuration" 进行可视化配置，选择 "Editor" 进行代码配置。我们直接选择代码配置，他的功能更全。复制 [Vuepress v1 Template](https://docsearch.algolia.com/docs/templates#vuepress-v1-template) 的配置到 Editor。
+进入 Crawler 页面，选择 "Configuration" 进行可视化配置，或者选择 "Editor" 进行代码配置。我们直接选择代码配置，他的功能更全。复制 [Vuepress v1 Template](https://docsearch.algolia.com/docs/templates#vuepress-v1-template) 的配置到 Editor。
 
 ```js
 new Crawler({
@@ -224,9 +227,11 @@ new Crawler({
 });
 ```
 
+然后重新运行 "Crawling"，抓取 Blog 内容，生成新的索引数据库。再去搜索，这个时候应该就可以搜索到内容了。
+
 ### Crawler 的配置项
 
-Crawler 的配置项比较多，完整列表请参考 [Crawler Configuration](https://www.algolia.com/doc/tools/crawler/apis/configuration/)。这里讲解几个比较重要的。
+下面介绍一下 Crawler 的配置项。Crawler 的配置项比较多，完整列表请参考 [Crawler Configuration](https://www.algolia.com/doc/tools/crawler/apis/configuration/)。这里讲解几个比较重要的。
 
 #### `startUrls`
 
@@ -423,7 +428,9 @@ camelCaseAttributes: ["hierarchy", "content"],
 }
 ```
 
-如果漏掉的 URL 很多，一个一个添加太麻烦了。更好的方式是使用 Sitemaps。Sitemaps 是网站管理员告知搜索引擎，网站有哪些页面可以抓取。Crawler 也使用 Sitemaps 抓取页面内容。
+如果漏掉的 URL 很多，一个一个添加太麻烦了。更好的方式是使用 Sitemaps。
+
+Sitemaps 是网站管理员告知搜索引擎，网站有哪些页面可以抓取。Crawler 也使用 Sitemaps 抓取页面内容。
 
 VuePress v1 可以使用 [`vuepress-plugin-sitemap`](https://github.com/ekoeryanto/vuepress-plugin-sitemap) 插件帮我们创建 Sitemaps。
 
@@ -496,6 +503,9 @@ recordExtractor: ({ url, $, contentLength, fileType }) => {
 }
 ```
 
+## 总结
+
+至此，我的 Blog 网站和那些知名的技术网站一样，实现了文档搜索。
 
 ## References
 
