@@ -1147,8 +1147,6 @@ Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/
 
 2. 建立新的语言模式。`cmd` + `shift` + `p` (Mac)，输入 `Change Language Mode`，然后在下拉列表中选择 "Tailwind CSS"
 
-
-
 ## References
 
 - [Tailwind CSS](https://tailwindcss.com/)
