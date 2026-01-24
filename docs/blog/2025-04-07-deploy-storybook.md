@@ -3,7 +3,7 @@ pageClass: blog-page
 title: 服务器部署 Storybook 文档
 tags:
   - web
-  - react
+  - test
   - storybook
 date: 2025-04-07
 author: cp3hnu

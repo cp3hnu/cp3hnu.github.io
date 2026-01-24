@@ -5,7 +5,7 @@ tags:
   - web
   - javascript
   - ECMAScript
-date: 2026-06-09
+date: 2024-10-08
 author: cp3hnu
 location: ChangSha
 summary: 学习总结 ECMAScript 从 2024 年到 2025 年引入的新特性

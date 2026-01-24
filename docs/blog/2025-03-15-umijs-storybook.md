@@ -3,7 +3,7 @@ pageClass: blog-page
 title: UmiJS + Storybook 搭建组件库文档
 tags:
   - web
-  - react
+  - test
   - umijs
   - storybook
 date: 2025-03-15
