@@ -426,10 +426,10 @@ namespace Private {
 
 ```html
 <div>
-	<h1>标题</h1>
-	<p>这是段落</p>
-	<span>这是正文</span>
-	<img src="http://localhost:8000/image/example.jpg" />
+  <h1>标题</h1>
+  <p>这是段落</p>
+  <span>这是正文</span>
+  <img src="http://localhost:8000/image/example.jpg" />
 <div>
 ```
 
@@ -464,7 +464,6 @@ class ArticleWidget extends Widget {
 }
 
 export default ArticleWidget;
-
 ```
 
 2. 然后挂载到 Document
@@ -673,7 +672,6 @@ export async function main() {
   // 4. 实例化 Jupyter Application
   const lab = new JupyterLab({
     pluginRegistry,
-    serviceManager,
     mimeExtensions,
     ...
   });
@@ -931,9 +929,9 @@ c.ServerApp.port = 9999
 
 ```json
 {
-    "ServerApp": {
-        "port": 9999
-    }
+  "ServerApp": {
+    "port": 9999
+  }
 }
 ```
 

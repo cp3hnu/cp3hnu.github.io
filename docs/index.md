@@ -3,6 +3,7 @@ sidebar: false
 pageClass: index-page
 summary: 知之者不如好之者，好之者不如乐之者
 ---
+
 <template>
   <div>
     <div class="background-image-div">
@@ -39,6 +40,13 @@ summary: 知之者不如好之者，好之者不如乐之者
             title: 'Starry',
             detail: 'Group, manage and read your starred repositories on GitHub',
             route: '/starry/'
+          },
+          {
+            id: 3,
+            logo: require('./new-in-js/logo.png'),
+            title: 'New In JS',
+            detail: 'A collection of new features in ECMAScript',
+            route: '/new-in-js/'
           }
         ]
       }
@@ -89,9 +97,9 @@ summary: 知之者不如好之者，好之者不如乐之者
     width: 100%;
     margin-top: 50px;
     box-sizing: border-box;
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
   .product-list a {
@@ -99,8 +107,8 @@ summary: 知之者不如好之者，好之者不如乐之者
   }
 
   .product-link {
-    width: 30%;
-    min-width: 300px;
+    min-width: 0;
+
   }
 
   .product-list a:hover {
