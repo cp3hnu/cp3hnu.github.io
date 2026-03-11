@@ -17,7 +17,7 @@ summary: 学习总结 ECMAScript 从 2024 年到 2025 年引入的新特性
 
 [这里](https://github.com/tc39/proposals/blob/main/finished-proposals.md) 是 ECMAScript 2024 ~ 2025 所有通过的提案
 
-[这里](https://cp3hnu.github.io/What-s-New-in-ECMAScript/) 是我写的下面这些新特性的 playground，方便查看运行结果
+[这里](https://new-in-ecmascript.vercel.app/) 是我做的一个 web 应用，可以运行代码，查看结果
 
 > 使用这些新特性之前，建议用 [CanIUse](https://caniuse.com/)，查一下浏览器的兼容性
 
@@ -482,22 +482,349 @@ console.log(view4[1]); // 2
 console.log(view4[7]); // 0
 ```
 
+## ES2025 (ES 16)
+
+ES2025 新增 **10** 组新特性
+
+- [New Set methods](https://github.com/tc39/proposal-set-methods)
+- [Import Attributes](https://github.com/tc39/proposal-import-attributes)
+- [JSON Modules](https://github.com/tc39/proposal-json-modules)
+- [Sync Iterator helpers](https://github.com/tc39/proposal-iterator-helpers)
+- [`Promise.try`](https://github.com/tc39/proposal-promise-try)
+- [Duplicate named capture groups](https://github.com/tc39/proposal-duplicate-named-capturing-groups)
+- [RegExp Modifiers](https://github.com/tc39/proposal-regexp-modifiers)
+- [`RegExp.escape`](https://github.com/tc39/proposal-regex-escaping)
+- [Float16 on TypedArrays, DataView, `Math.f16round`](https://github.com/tc39/proposal-float16array)
+- [Redeclarable global `eval`-introduced `var`s](https://github.com/tc39/proposal-redeclarable-global-eval-vars)
+
+### New Set methods
+
+[`Set`](https://kapeli.com/dash_share?docset_file=JavaScript&docset_name=JavaScript&path=developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set.html&platform=javascript&repo=Main&source=developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) 类新增下面这些实例方法。感叹一句，集合类型终于有集合操作了。
+
+- **`union(other)`** - 并集
+- **`intersection(other)`** - 交集
+- **`difference(other)`** - 差集
+- **`symmetricDifference(other)`** - 对称差集
+- **`isSubsetOf(other)`** - 是否是子集
+- **`isSupersetOf(other)`** - 是否是父集
+- **`isDisjointFrom(other)`** - 是否不相交，即 A ∩ B = ∅
+
+```js
+const aSet = new Set([1,2,3,4,5]) 
+const bSet = new Set([2,4,6,8,10]) 
+
+// 并集
+const unionSet = aSet.union(bSet); // 1,2,3,4,5,6,8,10
+// 交集
+const intersectionSet = aSet.intersection(bSet); // 2,4
+// 差集
+const differenceSet = aSet.difference(bSet); // 1,3,5 
+// 对称差集
+const symmetricDifferenceSet = aSet.symmetricDifference(bSet); // 1,3,5,6,8,10
+// 是否是子集
+const isSubset1 = aSet.isSubsetOf(bSet); // false
+const isSubset2 = aSet.isSubsetOf(unionSet); // true
+// 是否是父集
+const isSuperset1 = aSet.isSupersetOf(bSet); // false
+const isSuperset2 = unionSet.isSupersetOf(aSet); // true
+// 是否不相交，即 A ∩ B = ∅
+const isDisjointFrom1 = aSet.isDisjointFrom(bSet); // false
+const isDisjointFrom2 = aSet.isDisjointFrom(new Set([6,7,8,9,10])); // true
+```
+
+### Import Attributes 和 JSON Modules
+
+浏览器以前并不原生支持导入非 JS 文件。我们之所以能够导入 JSON 文件，是因为用了 Webpack/Vite 这样的打包工具。
+
+因此 ECMAScript 2025 引入了新的导入属性，它告诉运行时应该如何加载模块。这确保模块始终得到严格验证，并防止任何安全风险。
+
+语法如下：
+
+```js
+import config from "./config.json" with { type: "json" };
+// 动态导入
+const jsonConfig = await import("./config.json", { with: { type: "json" } })
+// 从另一个模块重新导出
+export { config } from "./config.json" with { type: "json" };
+```
+
+`type` 属性用于指示模块类型，目前只支持 JSON 模块，以后可能会添加更多类型。
+
+### Sync Iterator helpers
+
+迭代器（[Iterator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator)）新增下面的这些方法：
+
+- **`map()`** - 映射
+- **`filter()`** - 过滤
+- **`take()`** - 返回前 n 个元素
+- **`drop()`** - 丢弃前 n 个元素
+- **`flatMap()`** - 扁平映射
+- **`reduce()`** - 叠加器
+- **`toArray()`** - 转换为 Array
+- **`forEach()`** - 遍历迭代器
+- **`some()`** - 检查迭代器中是否存在符合要求的值
+- **`every()`** - 检查迭代器的每个值是否都符合要求
+- **`find()`** - 查找第一个符合要求的元素
+- **`Iterator.from()`** - 静态方法，从“类似迭代器”的对象或迭代器中创建一个新的迭代器
+
+什么是迭代器，可以参考 [这里](/2023/03/11/iterator-and-generator/)，例如下面就是一个迭代器：
+
+```js
+function* naturals() {
+  let i = 0;
+  while (true) {
+    yield i;
+    i += 1;
+  }
+}
+```
+
+以前要实现上面的功能，需要先转化为 Array 对象
+
+```js
+const array = Array.from(naturals());
+const result = array.map(v => v + 1);
+```
+
+但是将迭代器转换为数组，会失去迭代器的**惰性求值**和**可能无限循环**的特性。
+
+比如上面的代码就会报错，因为这是一个无限循环的迭代器
+
+```
+Error: Invalid array length
+```
+
+如果使用迭代器方法，就能保持迭代器的**惰性求值**的特性
+
+```js
+const iterator = naturals().map(v => v + 1);
+console.log(iterator.next()) // { "value": 1, "done": false }
+```
+
+另一个与数组不同的是，这些方法都会消耗迭代器，例如：
+
+```js
+function* naturals() {
+  let i = 0;
+  while (i < 10) {
+    yield i;
+    i += 1;
+  }
+}
+
+
+const iterator = naturals();
+const ite1 = iterator.map(v => v + 1);
+console.log(ite1.next()) // { "value": 1, "done": false }
+const ite2 = iterator.map(v => v + 1);
+console.log(ite2.next()) // { "value": 2, "done": false }
+
+const array = Array.from(naturals())
+const arr1 = array.map(v => v + 1) 
+console.log(arr1[0]) // 1
+const arr2 = array.map(v => v + 1)
+console.log(arr2[0]) // 1
+```
+
+**注意：** `reduce()`、`toArray()`、`forEach()`、`every()` 方法以及某些情况（找不到符合要求）下的 `some()`、`find()` 方法不能用于无限迭代器。
+
+除此之外，还有一些关于迭代器的第三方库
+
+- [`nvie/itertools`](https://github.com/nvie/itertools)
+
+### `Promise.try`
+
+[`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) 新增 [`try()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/try) 静态方法。
+
+`Promise.try()` 静态方法接受任何类型的回调（返回/抛出，同步/异步），并将其结果包装在 [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) 中。
+
+语法如下：
+
+```js
+Promise.try(func, arg1, arg2, /* …, */ argN)
+```
+
+假如有一个接受回调函数的 API，该回调函数可能是同步的，也可能是异步的。你希望通过将结果封装在 Promise 中来统一处理所有情况。最直接的方法可能是 [`Promise.resolve(func())`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve) 。
+
+但是问题在于，如果 `func()` 同步抛出错误，这个错误不会被捕获并转换为 reject 的 Promise。
+
+```js
+function syncThrows() { throw new Error("Synchronous error!"); }
+
+Promise.resolve(syncThrows()) // error thrown before Promise.resolve can run
+  .catch(error => console.log("Caught:", error.message));
+
+
+// Output
+  > Uncaught Error: Synchronous error!
+    at syncThrows (<anonymous>:1:31)
+    at <anonymous>:1:17 
+```
+
+为了解决这个问题，常见的做法是将函数调用结果提升到一个 Promise 中
+
+```js
+new Promise((resolve) => resolve(func()));
+```
+
+例如：
+
+```js
+new Promise(resolve => resolve(syncThrows()))
+ .catch(error => console.log("Caught:", error.message)); // Caught: Synchronous error!
+```
+
+`Promise.try()` 方法等同于 `new Promise((resolve) => resolve(func()));` 但是 `Promise.try()` 方法更简洁易读。
+
+```js
+function syncReturns() { 
+  return 42; 
+}
+function syncThrows()  { 
+  throw new Error("Synchronous error!"); 
+}
+function asyncReturns() { 
+  return Promise.resolve("Async result"); 
+}
+
+// Synchronous return
+Promise.try(() => syncReturns())
+  .then(result => console.log("Result:", result)) // Result: 42
+  .catch(err => console.error("Error:", err.message));
+
+// Synchronous throw
+Promise.try(() => syncThrows())
+  .then(result => console.log("Result:", result))
+  .catch(err => console.error("Caught:", err.message)); // Caught: Synchronous error!
+
+// Asynchronous return
+Promise.try(() => asyncReturns())
+  .then(result => console.log("Result:", result)) // Result: Async result
+  .catch(err => console.error("Error:", err.message));
+```
+
+### Duplicate named capture groups
+
+以前，在 JavaScript 中，正则表达式中命名的捕获组必须是唯一的。因此下面这个正则表达式在以前是错误的，因为重复使用了 `year` 组名称。
+
+```js
+const reg = /(?<year>[0-9]{4})-[0-9]{2}|[0-9]{2}-(?<year>[0-9]{4})/
+```
+
+但有时需要匹配多种格式表示的内容（如上所示）。因此 ECMAScript 2025 支持了这种写法。
+
+```js
+const reg = /(?<year>[0-9]{4})-[0-9]{2}|[0-9]{2}-(?<year>[0-9]{4})/
+const result1 = reg.exec("2025-10");
+const result2 = reg.exec("10-1986");
+```
+
+**注意：** 仅允许在不同的匹配项里（`|` 分割）  使用重复名称，单个匹配项还是不能使用相同的名称。
+
+### RegExp Modifiers
+
+我们一直将表达式标志（例如 `i`、`m`、`s` 等）应用于整个正则表达式。
+
+```js
+const pattern = /abc/i;
+```
+
+在 ECMAScript 2025 中，子表达式也能添加标志，这使我们能够更精细地控制模式中不同片段的匹配方式。
+
+- `(?imsx:subexpression)`：添加标志
+- `(?-imsx:subexpression)`：取消标志
+
+```js
+const re1 = /^[a-z](?-i:[a-z])$/i;
+console.log(re1.test("ab")); // true
+console.log(re1.test("Ab")); // true
+console.log(re1.test("aB")); // false
+
+const re2 = /^(?i:[a-z])[a-z]$/;
+console.log(re2.test("ab")); // true
+console.log(re2.test("Ab")); // true
+console.log(re2.test("aB")); // false
+```
+
+目前只支持  `i`、`m`、`s` 、`x` 四个。更多详情，请参考 [Supported Modifier Flags](https://github.com/tc39/proposal-regexp-modifiers/issues/1)
+
+### `RegExp.escape`
+
+当我们不希望字符串中一些特殊字符（如 `.`、`*` 等）充当正则表达式运算符是。一般我们使用正则表达式转义：
+
+```js
+const reg = /file\./;
+// 或者更麻烦的
+const reg = new RegExp("file\\.");
+```
+
+现在有了更方便的方式，`RegExp.escape()`。这个静态函数返回的是已转义的字符串。
+
+```js
+const string = RegExp.escape("file.");
+console.log(string); // file\.
+```
+举个例子：
+```js
+const userInput = 'file\\.';
+const text = "Please open the file.txt now! Don't open image files";
+const pattern = new RegExp(userInput, 'g'); 
+const newText = text.replace(pattern, "sample.");
+console.log(newText); // Please open the sample.txt now! Don't open image sample.
+
+const pattern = new RegExp(RegExp.escape(userInput));
+const newText = text.replace(pattern, "sample.");
+console.log(newText); 
+```
+
+### Float16 on TypedArrays, DataView, `Math.f16round`
+
+- [`TypedArray`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray) 新增 [`Float16Array`](dfile:///Users/cp3hnu/Library/Application Support/Dash/DocSets/JavaScript/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float16Array.html) 类型
+- [`DataView`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) 新增 [`DataView.prototype.getFloat16()`](dfile:///Users/cp3hnu/Library/Application Support/Dash/DocSets/JavaScript/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/getFloat16.html) 和 [`DataView.prototype.setFloat16()`](dfile:///Users/cp3hnu/Library/Application Support/Dash/DocSets/JavaScript/JavaScript.docset/Contents/Resources/Documents/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView/setFloat16.html) 方法
+- Math 新增 [`Math.f16round()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/f16round) 方法
+
+该特性在 GPU 操作中非常有用，在这种操作中，通常不需要全精度计算，但内存限制却很严重。
+
+### Redeclarable global `eval`-introduced `var`s
+
+以前，在全局范围执行以下操作是错误的：
+
+1. 使用 `let` 或 `const` 重新声明同名的 `var` 或 `function` 绑定
+2. 使用 `let` 或 `const` 重新声明同名的一个不可配置的全局属性
+3. 使用 `let` 或 `const` 重新声明同名的 `let` 或 `const` 绑定
+
+而现在允许使用 `let` 或 `const` 重新声明同名的全局范围的 `var` 或 `function` 绑定
+
+```html
+<script>
+	eval("var x = 'var'");
+</script>
+<script>
+  let x = 'let';
+  console.log(x);            // 'let'
+  console.log(globalThis.x); // 'var'
+</script>
+```
+
 ## Source Code
 
 [`cp3hnu/What-s-New-in-ECMAScript`](https://github.com/cp3hnu/What-s-New-in-ECMAScript)
 
 ## 应用地址
 
-[What-s-New-in-ECMAScript/](https://cp3hnu.github.io/What-s-New-in-ECMAScript/)
+[New-In-JS/](https://new-in-ecmascript.vercel.app/)
 
 ## References
 
 - [tc39/finished-proposals](https://github.com/tc39/proposals/blob/main/finished-proposals.md)
 - [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [What's New in ES2024](https://pawelgrzybek.com/whats-new-in-ecmascript-2024/)
+- [New features in ECMAScript 2025](https://blog.saeloun.com/2025/07/08/new-features-in-ecmascript-2025/)
 - [CanIUse](https://caniuse.com/)
 - [Compat-Table](https://compat-table.github.io/compat-table/es2016plus/)
 - [node.green](https://node.green/)
 - [core-js](https://github.com/zloirock/core-js)
 - [Polyfill.io](https://polyfill.io/)
+- [es-shims](https://github.com/es-shims)
 - [RegExp `v` flag with set notation and properties of strings](https://v8.dev/features/regexp-v-flag)
+- [`nvie/itertools`](https://github.com/nvie/itertools)

@@ -28,33 +28,35 @@ summary: 上篇文章 UmiJS + Storybook 搭建组件库文档，我使用了 Sto
 
 `storybook build` 编译 Storybook 生成的是静态 HTML/CSS/JS 文件，可以通过 [`http-server`](https://github.com/http-party/http-server)、[`serve`](https://github.com/vercel/serve) 或者 [`live-server`](https://github.com/tapio/live-server) 等 [Node.js](https://nodejs.org/) 服务开启一个 HTTP 静态服务。
 
+### 操作步骤
+
 操作步骤如下：
 
-##### 1. 构建 Storybook
+#### 1. 构建 Storybook
 
 ```sh
 $ npm run storybook-build
 ```
 
-##### 2. 把 `storybook-static` 上传到服务器
+#### 2. 把 `storybook-static` 上传到服务器
 
 ```sh
 $ scp -r storybook-static/* user@your-server-ip:/remote-dir
 ```
 
-##### 3. 登录服务器
+#### 3. 登录服务器
 
  ```sh
  $ ssh user@your-server-ip
  ```
 
-##### 4. 安装 `http-server`
+#### 4. 安装 `http-server`
 
 ```sh
 $ sudo npm install -g http-server
 ```
 
-##### 5. 运行 `http-server`
+#### 5. 运行 `http-server`
 
 ```sh
 $ cd /remote-dir
@@ -74,36 +76,38 @@ Nginx 的主要功能有：
 - **负载均衡**：将请求分发到多台服务器上，提高系统的可用性和处理能力。
 - **HTTPS 支持**：可以很方便地配置 SSL，实现安全的 HTTPS 访问。
 
+### 操作步骤
+
 操作步骤如下：
 
 > 前三步是一样的，构建 Storybook、上传到服务器、登录服务器
 
-##### 1. 构建 Storybook
+#### 1. 构建 Storybook
 
 ```sh
 $ npm run storybook-build
 ```
 
-##### 2. 把 `storybook-static` 上传到服务器
+#### 2. 把 `storybook-static` 上传到服务器
 
 ```sh
 $ scp -r storybook-static/* user@your-server-ip:/remote-dir
 ```
 
-##### 3. 登录服务器
+#### 3. 登录服务器
 
  ```sh
 $ ssh user@your-server-ip
  ```
 
-##### 4. 安装 Nginx（如果没有）
+#### 4. 安装 Nginx（如果没有）
 
 ```sh
 $ sudo apt update
 $ sudo apt install nginx
 ```
 
-##### 5. 配置 Nginx
+#### 5. 配置 Nginx
 
 ```sh
 $ sudo vim /etc/nginx/sites-available/storybook
@@ -122,7 +126,7 @@ server {
 }
 ```
 
-##### 6. 启动 Nginx
+#### 6. 启动 Nginx
 
 ```sh
 $ sudo ln -s /etc/nginx/sites-available/storybook /etc/nginx/sites-enabled/
@@ -150,25 +154,27 @@ Docker 的主要功能有：
 
 >  前三步是一样的，构建 Storybook、上传到服务器、登录服务器
 
-##### 1. 构建 Storybook
+### 操作步骤
+
+#### 1. 构建 Storybook
 
 ```sh
 $ npm run storybook-build
 ```
 
-##### 2. 把 `storybook-static` 上传到服务器
+#### 2. 把 `storybook-static` 上传到服务器
 
 ```sh
 $ scp -r storybook-static/* user@your-server-ip:/remote-dir
 ```
 
-##### 3. 登录服务器
+#### 3. 登录服务器
 
  ```sh
 $ ssh user@your-server-ip
  ```
 
-##### 4. 安装和启用 Docker（如果没有）
+#### 4. 安装和启用 Docker（如果没有）
 
 ```sh
 # 安装
@@ -179,7 +185,7 @@ $ sudo dockerd &
 $ docker ps 
 ```
 
-##### 5. 用 Docker 运行 Nginx 容器
+#### 5. 用 Docker 运行 Nginx 容器
 
 ```sh
 docker run -d \
@@ -204,6 +210,8 @@ docker run -d \
 | `:ro`                   | 设置挂载为只读（readonly），防止容器内修改主机文件   |
 
 然后就可以通过 http://your-server-ip:6006/ 访问 Storybook 生成的组件库文档了。
+
+### 脚本
 
 为了简便，可以写一个脚本
 
@@ -272,7 +280,7 @@ Colima 的配置文件路径是 `~/.colima/default/colima.yaml`
 
 ### 操作步骤
 
-##### 1. 新建 Dockerfile
+#### 1. 新建 Dockerfile
 
 ```dockerfile
 # Dockerfile
@@ -282,37 +290,39 @@ COPY storybook-static/ /usr/share/nginx/html
 
 `nginx:alpine` 和 `nginx` 的区别是 `nginx:alpine` 是基于 **Alpine Linux** 的镜像，体积小，而 `nginx` 拉取的是 `nginx:latest`，默认基于 **Debian** 的完整版镜像，体积大。对应 Storybook 生成的静态资源，使用 `nginx:alpine` 就够了。
 
-##### 2.  构建 Storybook
+#### 2.  构建 Storybook
 
 ```sh
 $ npm run storybook-build
 ```
 
-##### 3. 构建镜像
+#### 3. 构建镜像
 
 ```sh
 $ docker build -t storybook-app:latest .
 ```
 
-##### 4. 保存为压缩文件
+#### 4. 保存为压缩文件
 
 ```sh
 $ docker save storybook-app:latest | gzip > storybook-app.tar.gz
 ```
 
-##### 5. 上传服务器 
+#### 5. 上传服务器
 
 ```sh
 $ scp storybook-app.tar.gz user@your-server-ip:~/
 ```
 
-##### 6. 服务器上加载镜像并运行 
+#### 6. 服务器上加载镜像并运行
 
 ```sh
 $ ssh user@your-server-ip
 $ gunzip -c storybook-app.tar.gz | docker load
 $ docker run -d --name storybook -p 6006:80 storybook-app:latest
 ```
+
+### 脚本
 
 为了简便，可以写一个脚本
 
@@ -371,6 +381,7 @@ echo "🎉 全部完成！现在你可以访问：http://${SERVER_IP}:${PORT}"
 ```
 
 我们还可以添加更多功能，比如添加部署时间统计、成功/失败提示音等
+
 ```sh
 #!/bin/bash
 
@@ -444,6 +455,22 @@ elif command -v paplay &>/dev/null; then
 fi
 ```
 
+这里需要注意的是，因为镜像是运行在 Linux 服务器，所以使用了 `docker-buildx`
+
+- `linux/amd64`：Linux、Intel 芯片 Mac
+- `linux/arm64`：Apple 芯片 Mac
+
+```
+docker buildx build \
+  --platform linux/amd64 \
+  -t ${IMAGE_NAME}:${IMAGE_TAG} \
+  --load .
+```
+
+## 在服务器上构建镜像
+
+
+
 ## References
 
 - [`http-party/http-server`](https://github.com/http-party/http-server)
@@ -461,5 +488,7 @@ fi
 - [`abiosoft/colima`](https://github.com/abiosoft/colima)
 
 - [`rancher-sandbox/rancher-desktop`](https://github.com/rancher-sandbox/rancher-desktop)
+
+- [ChatGPT](https://chatgpt.com/share/69840ca1-fbf4-800e-9501-4b9fbaaa2461)
 
   

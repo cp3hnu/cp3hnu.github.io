@@ -5,7 +5,7 @@ tags:
   - web
   - react
   - jupyter
-date: 2026-02-20
+date: 2026-01-10
 author: cp3hnu
 location: ChangSha
 summary: 本文将使用 React 自定义 Jupyter notebook 的渲染与编辑功能，在接入 Jupyter Server 时，运行 notebook 里的代码。

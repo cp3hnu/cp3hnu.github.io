@@ -720,7 +720,7 @@ Symbol 能作为 WeakMap 的 key 这个新特性，能用于 [ShadowRealms](http
 
 ## 应用地址
 
-[What-s-New-in-ECMAScript/](https://cp3hnu.github.io/What-s-New-in-ECMAScript/)
+[New-In-JS/](https://new-in-ecmascript.vercel.app/)
 
 ## References
 
@@ -734,3 +734,4 @@ Symbol 能作为 WeakMap 的 key 这个新特性，能用于 [ShadowRealms](http
 -  [node.green](https://node.green/)
 -  [core-js](https://github.com/zloirock/core-js)
 -  [Polyfill.io](https://polyfill.io/)
+-  [es-shims](https://github.com/es-shims)
