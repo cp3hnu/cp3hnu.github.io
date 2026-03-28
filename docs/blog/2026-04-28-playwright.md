@@ -1,10 +1,10 @@
 ---
 pageClass: blog-page
-title: Storybook 组件测试
+title: Playwright 测试
 tags:
   - web
   - test
-  - storybook
+  - playwright
 date: 2026-12-20
 author: cp3hnu
 location: ChangSha
@@ -12,7 +12,4 @@ summary:
 
 ---
 
-# Storybook 组件测试
-
-
-
+# Playwright 测试

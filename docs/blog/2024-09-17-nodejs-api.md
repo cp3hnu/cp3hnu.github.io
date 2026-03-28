@@ -370,7 +370,7 @@ const deleteUsers = (response, request, id) => {
 
 关系型数据库使用结构化表格存储数据，适合需要事务支持或复杂查询的应用。
 
-Node.js 中与 SQL 数据库配合常用的库是 [`Sequelize`](https://sequelize.org/)、[`TypeORM`](https://typeorm.io/)、[`Knex.js`](http://knexjs.org/)、[`Prisma`](https://www.prisma.io/)、[`Drizzle`](https://orm.drizzle.team/) 等。
+Node.js 中与 SQL 数据库配合常用的库是 [`Prisma`](https://www.prisma.io/)、[`Drizzle`](https://orm.drizzle.team/)、[`TypeORM`](https://typeorm.io/)、[`Knex.js`](http://knexjs.org/)、[`Sequelize`](https://sequelize.org/) 等。
 
 - **MySQL / MariaDB**
   - 优势：高性能、开源、跨平台，MySQL 在 Web 应用中非常流行。

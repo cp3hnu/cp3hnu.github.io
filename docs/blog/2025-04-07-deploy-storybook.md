@@ -200,14 +200,14 @@ docker run -d \
 - `-p 6006:80`:  把服务器的端口 6006 映射到容器内部的端口 80 （Nginx 在这里监听）上。
 
 - `--name storybook`:  给 Docker 容器取一个自定义名字 storybook。
-- `-v /remote-dir:/usr/share/nginx/html:ro`: 把服务器上的 `/remote-dir` 文件夹，映射到容器内部的 `/usr/share/nginx/html` 目录，并设置为只读（readonly）模式。
+- `-v /remote-dir:/usr/share/nginx/html:ro`: 把服务器上的 `/remote-dir` 文件夹，映射到容器内部的 `/usr/share/nginx/html` 目录，并设置为只读（`ro`）模式。
 
 | 参数                    | 含义                                                 |
 | ----------------------- | ---------------------------------------------------- |
 | `-v`                    | Docker volume 挂载选项（volume = 共享/挂载一个目录） |
 | `/remote-dir`           | 主机上的目录（你的 Storybook 静态文件在这里）        |
 | `/usr/share/nginx/html` | 容器内部的目录（Nginx 默认会从这个路径读取网页内容） |
-| `:ro`                   | 设置挂载为只读（readonly），防止容器内修改主机文件   |
+| `:ro`                   | 设置挂载为只读，防止容器内修改主机文件               |
 
 然后就可以通过 http://your-server-ip:6006/ 访问 Storybook 生成的组件库文档了。
 

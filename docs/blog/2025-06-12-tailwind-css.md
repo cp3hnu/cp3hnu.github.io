@@ -1133,7 +1133,7 @@ Tailwind CSS 通过 [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/
 
 ## 其它问题
 
-##### Tailwind CSS 中自定义的 `@rules`，比如 `@apply`，VSCode 不能识别 `Unknown at rule @themecss(unknownAtRules)`。
+### Tailwind CSS 中自定义的 `@rules`，比如 `@apply`，VSCode 不能识别 `Unknown at rule @themecss(unknownAtRules)`。
 
 目前有两种解决方案：
 
