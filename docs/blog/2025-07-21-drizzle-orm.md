@@ -19,6 +19,8 @@ summary: Drizzle ORM 是一个专为现代 TypeScript 项目设计的轻量级 O
 
 这篇文章将结合我的实际开发经验，介绍在 Next.js 项目中如何集成 Drizzle ORM，并展示它在开发体验和可维护性方面带来的提升。
 
+> Drizzle-ORM 当前版本 0.44.1
+
 ## 连接数据库
 
 Drizzle-ORM 支持多种数据库的连接。
@@ -59,6 +61,8 @@ export default db;
 ```
 
 `casing: "snake_case"` 表示将数据库表列（column）使用 `snake_case` 格式命名，而对应的  JS 对象属性使用 `camelCase` 格式命名，比如数据库表列名是 `created_at`，对应的  JS 对象属性名称是 `createdAt`。更多详情请参考 [Camel and Snake casing](https://orm.drizzle.team/docs/sql-schema-declaration#camel-and-snake-casing)。
+
+> 记得先创建数据库
 
 4. 创建表结构文件（schema）
 
@@ -112,7 +116,7 @@ import { defineConfig } from "drizzle-kit";
 export default defineConfig({
   out: "./drizzle",
   schema: "./src/app/db/schema.ts", // 如果是多个 `schema` 文件，这里设置文件夹路径 `./src/app/db/schema`
-  dialect: "postgresql",
+  dialect: "postgresql", // 表示 postgresql 数据库
   dbCredentials: {
     url: process.env.DATABASE_URL!,
   },
@@ -1082,6 +1086,10 @@ GROUP BY
 
 Drizzle Queries 简化了多表的连接查询。
 
+## 数据库迁移
+
+Drizzle-ORM 使用  Drizzle Kit 工具进行数据库迁移，详情请参考 [Migrations with Drizzle Kit](https://orm.drizzle.team/docs/kit-overview)
+
 ## Drizzle Studio
 
 [Drizzle Studio](https://orm.drizzle.team/drizzle-studio/overview) 提供了在 Drizzle-ORM 项目中探索 SQL 数据库的一种新方式。
@@ -1094,7 +1102,7 @@ $ npx drizzle-kit studio
 
 ## 其它
 
-##### 如果数据库工具（比如 TablePlus）中文乱码，该怎么处理？
+**如果数据库工具（比如 TablePlus）中文乱码，该怎么处理？**
 
 设置 `encoding` 为 UTF8
 
@@ -1108,7 +1116,7 @@ SET client_encoding = 'UTF8';
 
 ## 应用地址
 
-https://nextjs-todo-liard-one.vercel.app/
+[https://nextjs-todo-liard-one.vercel.app/](https://nextjs-todo-liard-one.vercel.app/)
 
 ## References
 
@@ -1117,5 +1125,6 @@ https://nextjs-todo-liard-one.vercel.app/
 - [Drizzle Studio](https://orm.drizzle.team/drizzle-studio/overview)
 - [PostgreSQL 17.5 Documentation](https://www.postgresql.org/docs/current/index.html)
 - [`postgres.js`](https://github.com/porsager/postgres)
-- [`node-postgres`](https://github.com/brianc/node-postgres) 
+- [`node-postgres`](https://github.com/brianc/node-postgres)
+- [NPM Trends: pg vs postgres](https://npmtrends.com/pg-vs-postgres)
 - [`tsx`](https://github.com/privatenumber/tsx)

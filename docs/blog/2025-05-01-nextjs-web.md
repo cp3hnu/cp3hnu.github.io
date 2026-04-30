@@ -861,6 +861,7 @@ export default sql;
 -  [`drizzle-orm`](https://github.com/drizzle-team/drizzle-orm)
 - [`postgres.js`](https://github.com/porsager/postgres)
 - [`node-postgres`](https://github.com/brianc/node-postgres)
+- [NPM Trends: pg vs postgres](https://npmtrends.com/pg-vs-postgres)
 - [`bcrypt.js`](https://github.com/dcodeIO/bcrypt.js)
 - [`bcrypt-ts`](https://github.com/Mister-Hope/bcrypt-ts)
 - [`Jose`](https://github.com/panva/jose)
