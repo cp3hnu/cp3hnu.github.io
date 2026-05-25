@@ -1,12 +1,35 @@
 module.exports = {
   title: "Study & Product",
   description: "My Home Page",
+  locales: {
+    "/": {
+      lang: "zh-CN",
+      description: "个人技术博客",
+    },
+  },
   head: [
     ["link", { rel: "icon", href: "/favicon.png" }],
-    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
-    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }],
-    ['meta', { name: 'algolia-site-verification', content: '23333450F18E92C1' }]
-],
+    [
+      "link",
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css",
+      },
+    ],
+    [
+      "meta",
+      { name: "algolia-site-verification", content: "23333450F18E92C1" },
+    ],
+  ],
   evergreen: true,
   plugins: [
     [
@@ -15,19 +38,17 @@ module.exports = {
         selector: ".blog-page :not(a) > img",
         options: {
           margin: 16,
-          background: "rgba(0, 0, 0, 0.8)"
-        }
-      }
+          background: "rgba(0, 0, 0, 0.8)",
+        },
+      },
     ],
     "@vuepress/back-to-top",
-    [require('./vuepress-plugin-clipboard/index.js')],
+    [require("./vuepress-plugin-clipboard/index.js")],
     [
-      'sitemap',
+      "sitemap",
       {
-        hostname: 'https://cp3hnu.github.io', // ✅ 你的站点地址
-        exclude: [
-          '/tag/',
-        ],
+        hostname: "https://blog.cp3hnu.com", // ✅ 你的站点地址
+        exclude: ["/tag/"],
       },
     ],
   ],
@@ -37,17 +58,17 @@ module.exports = {
       { text: "Blog", link: "/blog/" },
       { text: "Notebook", link: "/notebook/" },
       { text: "About", link: "/about/" },
-      { text: "GitHub", link: "https://github.com/cp3hnu" }
+      { text: "GitHub", link: "https://github.com/cp3hnu" },
     ],
     directories: [
       {
         id: "blog",
         dirname: "blog",
-        path: "/blog/"
-      }
+        path: "/blog/",
+      },
     ],
     sitemap: {
-      hostname: "https://www.joylearn123.com/"
+      hostname: "https://blog.cp3hnu.com/",
     },
     dateFormat: "YYYY-MM-DD",
     sidebar: {
@@ -66,9 +87,9 @@ module.exports = {
             "book/chapter-8",
             "book/chapter-9",
             "book/chapter-10",
-            "book/chapter-11"
-          ]
-        }
+            "book/chapter-11",
+          ],
+        },
       ],
       "/notebook/wwdc/": [
         {
@@ -85,8 +106,8 @@ module.exports = {
                 "2017/documents/220",
                 "2017/documents/223",
                 "2017/documents/225",
-                "2017/documents/401"
-              ]
+                "2017/documents/401",
+              ],
             },
             {
               title: "2019",
@@ -113,20 +134,20 @@ module.exports = {
                 "2019/documents/410",
                 "2019/documents/413",
                 "2019/documents/416",
-                "2019/documents/511"
-              ]
+                "2019/documents/511",
+              ],
             },
             {
               title: "2020",
               collapsable: true,
               sidebarDepth: 0,
-              children: ["2020/documents/10143"]
-            }
-          ]
-        }
+              children: ["2020/documents/10143"],
+            },
+          ],
+        },
       ],
       // fallback
-      "/": "auto"
+      "/": "auto",
     },
     smoothScroll: true,
     globalPagination: {
@@ -136,11 +157,11 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     toc: {
-      includeLevel: [2, 3, 4]
-    }
+      includeLevel: [2, 3, 4],
+    },
   },
   extendMarkdown(md) {
     md.set({ html: true });
     md.use(require("markdown-it-katex"));
-},
+  },
 };
