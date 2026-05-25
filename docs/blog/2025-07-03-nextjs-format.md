@@ -163,7 +163,7 @@ export default [
 接下来我们需要安装 [`Prettier`](https://prettier.io/) 及相关库
 
 ```sh
-$ npm install -D prettier eslint-config-prettier eslint-plugin-prettier
+$ npm install -D prettier eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss
 ```
 
 [**`eslint-config-prettier`**](https://github.com/prettier/eslint-config-prettier)
@@ -306,27 +306,9 @@ $ npm i -D husky lint-staged
 ```js
 // lint-staged.config.mjs
 export default lintStagedConfig = {
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": ["npm run lint-fix"],
-    "*.{json,css,md}": ["npm run format-fix"],
-  },
+ "*.{js,jsx,ts,tsx}": ["npm run lint-fix"],
+ "*.{json,css,md}": ["npm run format-fix"],
 };
-```
-
-添加 `NPM Scripts`
-
-```json
-// package.json
-{
-  "name": "nextjs-todo",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "lint-fix": "next lint --fix --ext .js,.ts,.jsx,.tsx",
-    "format-fix": "prettier --write ."
-  }
-}
 ```
 
 ### `Husky` 配置
@@ -349,6 +331,30 @@ npx lint-staged
 当我们提交代码时， `Lint-Staged` 和 `Husky` 将帮助我们进行代码校验与格式化，保障提交的代码没有格式问题。
 
 ![](./assets/nextjs-code-format.png)
+
+## `package.json`
+
+在 `package.json` 添加 `NPM Scripts`
+
+```json
+// package.json
+{
+  "name": "nextjs-todo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --ext .js,.ts,.jsx,.tsx",
+    "lint-fix": "next lint --fix --ext .js,.ts,.jsx,.tsx",
+    "format": "prettier --check .",
+    "format-fix": "prettier --write .",
+    "prepare": "husky"
+  },
+}
+```
 
 ## 其他
 

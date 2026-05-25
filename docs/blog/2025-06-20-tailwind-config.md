@@ -8,12 +8,12 @@ tags:
 date: 2025-06-20
 author: cp3hnu
 location: ChangSha
-summary: 学习怎么在实际项目中配置 Tailwind CSS。
+summary: 学习怎么在实际项目中自定义 Tailwind CSS。
 ---
 
 # Tailwind CSS 自定义
 
-上篇文章 [Learn Tailwind CSS](/2025/06/12/tailwind-css) 我们学习了 Tailwind CSS，这篇文章我们将学习怎么在实际项目中配置 Tailwind CSS。
+上篇文章 [Learn Tailwind CSS](/2025/06/12/tailwind-css) 我们学习了 Tailwind CSS，这篇文章我们将学习怎么在实际项目中自定义 Tailwind CSS。
 
 ## 自定义主题
 
