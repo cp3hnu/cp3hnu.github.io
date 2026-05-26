@@ -13,8 +13,8 @@ summary: What's New in ECMAScript
     <div class="description-div" style="margin-top: 10px;">
       <div>A collection of new features in ECMAScript.</div>
       <div style="margin-top: 30px;">
-       <a href="https://new-in-ecmascript.vercel.app/" target="_blank">Online</a>
-        <a style="margin-left: 10px;" href="https://cp3hnu.github.io/2022/04/09/what-s-new-ecmascript/" target="_blank">Document</a>
+       <a href="https://new-in-js.pages.dev/" target="_blank">Online</a>
+        <a style="margin-left: 10px;" href="https://blog.cp3hnu.com/2022/04/09/what-s-new-ecmascript/" target="_blank">Document</a>
       </div>
     </div>
     <div class="image-container">

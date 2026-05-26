@@ -4,7 +4,7 @@ title: Starry
 summary: Starry
 meta:
   - name: apple-itunes-app
-    content: app-id=1281893044, app-argument=https://www.joylearn123.com/starry/
+    content: app-id=1281893044, app-argument=https://blog.cp3hnu.com/starry/
 ---
 <template>
   <div class="page-container">
