@@ -1,0 +1,19 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "TRRMFNK2VK.com.meirenmei.ibeautyman",
+                "paths": ["/ibeauty-man/*"]
+            },
+            {
+                "appID": "59GR3MXAYN.com.funny.learning.wordcard",
+                "paths": ["/word-card/*"]
+            },
+            {
+                "appID": "59GR3MXAYN.com.cp3hnu.twinkle.mac",
+                "paths": ["/starry/*"]
+            }
+        ]
+    }
+}
