@@ -27,22 +27,29 @@ summary: 知之者不如好之者，好之者不如乐之者
     data() {
       return {
         products: [
-          {
-            id: 1,
-            logo: require('./word-card/logo.png'),
-            title: '英语单词卡',
-            detail: '专为3~8岁儿童打造的一款英语启蒙学习软件，从日常生活中学习英语',
-            route: '/word-card/'
-          },
-          {
-            id: 2,
-            logo: require('./starry/logo.png'),
-            title: 'Starry',
-            detail: 'Group, manage and read your starred repositories on GitHub',
-            route: '/starry/'
-          },
-          {
+          // {
+          //   id: 1,
+          //   logo: require('./word-card/logo.png'),
+          //   title: '英语单词卡',
+          //   detail: '专为3~8岁儿童打造的一款英语启蒙学习软件，从日常生活中学习英语',
+          //   route: '/word-card/'
+          // },
+          // {
+          //   id: 2,
+          //   logo: require('./starry/logo.png'),
+          //   title: 'Starry',
+          //   detail: 'Group, manage and read your starred repositories on GitHub',
+          //   route: '/starry/'
+          // },
+           {
             id: 3,
+            logo: require('./color-tools/logo.svg'),
+            title: 'Color Tools',
+            detail: '在创意与代码之间，让色彩准确而自由地流动',
+            route: '/color-tools/'
+          },
+          {
+            id: 4,
             logo: require('./new-in-js/logo.png'),
             title: 'New In JS',
             detail: 'A collection of new features in ECMAScript',
