@@ -56,7 +56,7 @@ module.exports = {
     nav: [
       { text: "Home", link: "/" },
       { text: "Blog", link: "/blog/" },
-      { text: "Notebook", link: "/notebook/" },
+      // { text: "Notebook", link: "/notebook/" },
       { text: "About", link: "/about/" },
       { text: "GitHub", link: "https://github.com/cp3hnu" },
     ],
