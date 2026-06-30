@@ -24,7 +24,12 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
         <img class="screenshot-image" src="./screenshot.png" />
       </div>
     </div>
-    <div class="features-section">
+    <div class="image-container">
+      <div class="screenshot-div">
+        <img class="screenshot-image" src="./tailwind-palette.png" />
+      </div>
+    </div>
+    <!-- <div class="features-section">
       <h2 class="features-title">功能介绍</h2>
       <div class="features-grid">
         <div class="feature-card" v-for="tool in tools" :key="tool.name">
@@ -32,7 +37,7 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
           <p class="feature-desc">{{ tool.description }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -58,24 +63,36 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
             description: "从基准色批量生成加深与变浅色阶，可调节加深/变浅程度",
           },
           {
-            name: "颜色拾取器",
-            description: "获取图片像素颜色，放大镜辅助精确定位，同步输出多种颜色格式",
+            name: "图片调色板",
+            description: "从图片中提取调色板，并且支持一键生成 Tailwind 色阶",
           },
-          {
-            name: "图片滤镜",
-            description: "修改图片颜色并实时预览滤镜效果，支持手动微调参数，快速得到目标色调",
-          },
-          {
+           {
             name: "颜色渐变",
             description: "快速创建线性、径向、锥形渐变色，轻松添加 Color Stop，支持实时预览以达到目标效果",
+          },
+          {
+            name: "SVG 换色",
+            description: "修改 SVG 文件填充与描边的颜色，支持实时预览与下载",
+          },
+          {
+            name: "颜色拾取器",
+            description: "获取图片像素颜色，放大镜辅助精确定位，同步输出多种颜色格式",
           },
           {
             name: "颜色滤镜",
             description: "通过源色与目标色，自动推算 hue-rotate、saturate、brightness 等 CSS filter 参数",
           },
           {
+            name: "图片滤镜",
+            description: "修改图片颜色并实时预览滤镜效果，支持手动微调参数，快速得到目标色调",
+          },
+          {
             name: "主题切换",
             description: "指定原主题色与新主题色，批量转换 CSS / Less / Sass 颜色变量，保持系统配色一致",
+          },
+          {
+            name: "对比度检查",
+            description: "检测文字色与背景色的 WCAG 2.x 对比度，判断 AA/AAA 是否达标",
           },
           {
             name: "主题资源",
