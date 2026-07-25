@@ -1088,7 +1088,191 @@ Drizzle Queries 简化了多表的连接查询。
 
 ## 数据库迁移
 
-Drizzle-ORM 使用  Drizzle Kit 工具进行数据库迁移，详情请参考 [Migrations with Drizzle Kit](https://orm.drizzle.team/docs/kit-overview)
+随着业务的迭代，数据库表结构（schema）也会不断变化，比如新增一张表、给某张表添加一列、修改列的类型等等。数据库迁移（migration）就是把这些 `schema` 的变更以一种可追踪、可回溯、可复现的方式同步到数据库中。
+
+Drizzle-ORM 使用 [Drizzle Kit](https://orm.drizzle.team/docs/kit-overview) 工具进行数据库迁移。Drizzle Kit 提供了两种迁移方案：
+
+- **`push`**：直接把 `schema` 的变更同步到数据库，不生成迁移文件。
+- **`generate` + `migrate`**：先根据 `schema` 的变更生成 SQL 迁移文件，再把迁移文件应用到数据库。
+
+更多详情请参考 [Migrations with Drizzle Kit](https://orm.drizzle.team/docs/kit-overview)。
+
+### push
+
+`push` 会对比 `schema` 文件和数据库当前的表结构，直接把差异同步到数据库，而不生成任何迁移文件。前面 [连接数据库](#连接数据库) 章节创建数据库表用的就是这个命令。
+
+```sh
+$ npx drizzle-kit push
+```
+
+因为不产生迁移文件、没有版本历史，`push` 非常适合本地开发时快速验证 `schema` 的改动（rapid prototyping）。但是也正因为没有版本历史，不便于团队协作和回溯，所以生产环境一般不推荐使用。
+
+### generate
+
+`generate` 会对比当前 `schema` 和上一次的快照（snapshot），把差异生成 SQL 迁移文件，但**不会**应用到数据库。
+
+```sh
+$ npx drizzle-kit generate
+```
+
+`generate` 的工作流程如下：
+
+```text
+┌────────────────────────┐                  
+│ $ drizzle-kit generate │                  
+└─┬──────────────────────┘                  
+  │                                           
+  └ 1. 读取之前的迁移文件夹
+    2. 对比当前 schema 和之前 schema 的差异
+    3. 如果有重命名，提示开发者确认
+  ┌ 4. 生成 SQL 迁移文件并持久化到磁盘
+  │    ┌─┴───────────────────────────────────────┐  
+  │      📂 drizzle       
+  │      └ 📂 0000_premium_mister_fear
+  │        ├ 📜 snapshot.json
+  │        └ 📜 migration.sql
+  v
+```
+
+执行后会在配置文件中 `out` 指定的文件夹（这里是 `./drizzle`）下生成迁移文件：
+
+```
+📦 <project root>
+ ├ 📂 drizzle
+ │ ├ 📂 meta
+ │ │ ├ 📜 _journal.json
+ │ │ └ 📜 0000_snapshot.json
+ │ └ 📜 0000_init.sql
+ ├ 📂 src
+ └ …
+```
+
+- `0000_init.sql`：本次变更对应的 SQL 语句。
+- `meta/0000_snapshot.json`：本次 `schema` 的快照，用于下次 `generate` 时对比差异。
+- `meta/_journal.json`：记录所有迁移的日志。
+
+可以使用 `--name` 参数给迁移文件命名：
+
+```sh
+$ npx drizzle-kit generate --name=add_task_status
+```
+
+生成的 SQL 迁移文件是纯文本，如果自动生成的语句不满足需求，你可以在应用之前手动修改。此外，还可以使用 `--custom` 参数生成一个空的迁移文件，用于编写自定义 SQL（比如数据填充 seed）。
+
+```sh
+$ npx drizzle-kit generate --custom --name=seed_users
+```
+
+### migrate
+
+`migrate` 把 `generate` 生成的、还未应用的 SQL 迁移文件应用到数据库。
+
+```sh
+$ npx drizzle-kit migrate
+```
+
+Drizzle Kit 会在数据库中维护一张 `__drizzle_migrations` 表，记录已经应用过的迁移。每次执行 `migrate` 时，它会对比迁移文件夹和这张表，只应用尚未执行的迁移，从而保证每个迁移只会被执行一次。
+
+> 因为迁移是通过 hash 来匹配的，所以**不要修改已经应用过的迁移文件**，否则 hash 对不上会导致迁移出错。如果需要调整，应该新增一个迁移。
+
+除了使用 `drizzle-kit migrate` 命令，还可以在代码中调用 `migrate()` 函数来应用迁移，这在部署（比如 CI/CD）时很有用。
+
+```ts
+// src/db/migrate.ts
+import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
+
+const db = drizzle(process.env.DATABASE_URL!);
+
+async function main() {
+  await migrate(db, { migrationsFolder: "./drizzle" });
+  console.log("Migration completed");
+  process.exit(0);
+}
+
+main().catch((error) => {
+  console.error("Migration failed", error);
+  process.exit(1);
+});
+```
+
+```sh
+$ npx tsx src/db/migrate.ts
+```
+
+### pull
+
+除了从 `schema` 生成迁移，Drizzle Kit 还支持反向操作 `pull`（即 introspect）：从已有的数据库反向生成 Drizzle 的 `schema` 文件和迁移文件，适用于把一个已经存在的数据库接入 Drizzle-ORM 的场景。
+
+```sh
+$ npx drizzle-kit pull
+```
+
+### 完整示例
+
+下面以 `generate` + `migrate` 的方式，给前面的任务表 `tasks` 新增一个状态列 `status`，走一遍完整的迁移流程。
+
+**1. 修改 `schema`**
+
+给 `tasks` 表添加一个 `status` 列，使用枚举类型，默认值为 `todo`。
+
+```ts
+// src/db/schema.ts
+import { sql } from "drizzle-orm";
+import { boolean, integer, pgEnum, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+
+// 新增枚举类型
+export const taskStatusEnum = pgEnum("task_status", ["todo", "doing", "done"]);
+
+export const tasks = pgTable("tasks", {
+  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer()
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+  title: varchar({ length: 255 }).notNull(),
+  description: text(),
+  completed: boolean().default(false),
+  // 新增列
+  status: taskStatusEnum().notNull().default("todo"),
+  createdAt: timestamp({ mode: "date", precision: 3, withTimezone: false })
+    .notNull()
+    .default(sql`(now() at time zone 'utc')`),
+  updatedAt: timestamp({ mode: "date", precision: 3, withTimezone: false })
+    .notNull()
+    .default(sql`(now() at time zone 'utc')`)
+    .$onUpdate(() => new Date()),
+});
+```
+
+**2. 生成迁移文件**
+
+```sh
+$ npx drizzle-kit generate --name=add_task_status
+```
+
+执行后会在 `drizzle` 文件夹下生成一个迁移文件，比如 `0001_add_task_status.sql`：
+
+```sql
+-- drizzle/0001_add_task_status.sql
+CREATE TYPE "public"."task_status" AS ENUM('todo', 'doing', 'done');--> statement-breakpoint
+ALTER TABLE "tasks" ADD COLUMN "status" "task_status" DEFAULT 'todo' NOT NULL;
+```
+
+同时 `drizzle/meta` 下会生成本次的快照 `0001_snapshot.json`，并更新 `_journal.json`。
+
+**3. 应用迁移**
+
+```sh
+$ npx drizzle-kit migrate
+```
+
+这时 Drizzle Kit 会把 `0001_add_task_status.sql` 应用到数据库，`tasks` 表就多了一个 `status` 列。同时在 `__drizzle_migrations` 表里记录这条迁移，下次执行 `migrate` 时就不会重复应用了。
+
+**4. 后续变更**
+
+之后如果再修改 `schema`（比如再加一列），只需重复「改 `schema` → `generate` → `migrate`」这三步即可。每次 `generate` 都会基于上一次的快照对比出差异，生成 `0002_xxx.sql`、`0003_xxx.sql` 等递增的迁移文件，从而形成一份完整、有序、可回溯的变更历史。
+
+> 如果只是本地开发想快速看效果，把上面第 2、3 步替换成一句 `npx drizzle-kit push` 即可。
 
 ## Drizzle Studio
 
