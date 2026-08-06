@@ -50,6 +50,13 @@ summary: 知之者不如好之者，好之者不如乐之者
           },
           {
             id: 4,
+            logo: require('./anki-words/logo.png'),
+            title: '单词乐园',
+            detail: '基于 FSRS 间隔重复算法，把单词记得更牢',
+            route: '/anki-words/'
+          },
+          {
+            id: 5,
             logo: require('./new-in-js/logo.png'),
             title: 'New In JS',
             detail: 'A collection of new features in ECMAScript',

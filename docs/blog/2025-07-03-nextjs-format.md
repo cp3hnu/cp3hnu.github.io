@@ -15,6 +15,8 @@ summary: 这篇文章将详细介绍 Next.js 项目的代码格式化配置，�
 
 这篇文章将详细介绍 Next.js 项目的代码格式化配置，需要使用 [`ESLint`](https://eslint.org/)、[`Prettier`](https://prettier.io/)、[`Husky`](https://typicode.github.io/husky/)、[`lint-staged`](https://github.com/lint-staged/lint-staged) 等工具。
 
+> Next.js 当前版本 v15.x
+
 ## 创建 Next.js 项目
 
 首先我们使用 `create-next-app` 工具创建的 Next.js 项目，并且在询问是否使用 ESLint  时，选择 `YES`
@@ -305,10 +307,12 @@ $ npm i -D husky lint-staged
 
 ```js
 // lint-staged.config.mjs
-export default lintStagedConfig = {
- "*.{js,jsx,ts,tsx}": ["npm run lint-fix"],
- "*.{json,css,md}": ["npm run format-fix"],
+const lintStagedConfig = {
+  "*.{js,jsx,ts,tsx}": ["npm run lint-fix"],
+  "*.{json,css,md}": ["npm run format-fix"],
 };
+
+export default lintStagedConfig;
 ```
 
 ### `Husky` 配置

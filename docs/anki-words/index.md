@@ -1,19 +1,19 @@
 ---
 pageClass: index-page
-title: Color Tools
+title: 单词乐园
 summary: 在创意与代码之间，让色彩准确而自由地流动。
 ---
 
 <template>
   <div class="page-container">
     <div class="logo-div" style="margin-top: 30px;">
-      <img src="./logo.svg" width="80" />
-      <div class="product-title">Color Tools</div>
+      <img src="./logo.png" width="80" />
+      <div class="product-title">单词乐园</div>
     </div>
     <div class="description-div" style="margin-top: 10px;">
-      <div>在创意与代码之间，让色彩准确而自由地流动</div>
+      <div>基于 FSRS 间隔重复算法，把单词记得更牢</div>
       <div class="cta-div">
-        <a class="cta-button" href="https://color.cp3hnu.com" target="_blank" rel="noopener noreferrer">
+        <a class="cta-button" href="https://words.cp3hnu.com" target="_blank" rel="noopener noreferrer">
           Let's go
           <span class="cta-arrow" aria-hidden="true">→</span>
         </a>
@@ -21,84 +21,46 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
     </div>
     <div class="image-container">
       <div class="screenshot-div">
-        <img class="screenshot-image" src="./screenshot.png" />
+        <p>首页</p>
+        <img class="screenshot-image" src="./screenshot-home.png" />
       </div>
     </div>
     <div class="image-container">
       <div class="screenshot-div">
-        <img class="screenshot-image" src="./tailwind-palette.png" />
+        <p>认读练习</p>
+        <img class="screenshot-image" src="./screenshot-read.png" />
       </div>
     </div>
-    <!-- <div class="features-section">
-      <h2 class="features-title">功能介绍</h2>
-      <div class="features-grid">
-        <div class="feature-card" v-for="tool in tools" :key="tool.name">
-          <h3 class="feature-name">{{ tool.name }}</h3>
-          <p class="feature-desc">{{ tool.description }}</p>
-        </div>
+    <div class="image-container">
+      <div class="screenshot-div">
+        <p>认读练习，查看答案，标记</p>
+        <img class="screenshot-image" src="./screenshot-read-answer.png" />
       </div>
-    </div> -->
+    </div>
+    <div class="image-container">
+      <div class="screenshot-div">
+        <p>默写练习</p>
+        <img class="screenshot-image" src="./screenshot-write.png" />
+      </div>
+    </div>
+     <div class="image-container">
+      <div class="screenshot-div">
+        <p>默写练习，查看答案，标记</p>
+        <img class="screenshot-image" src="./screenshot-write-answer.png" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     metaInfo: {
-      title: "Color Tools"
+      title: "单词乐园"
     },
-    name: "Color Tools",
+    name: "单词乐园",
     data() {
       return {
-        tools: [
-          {
-            name: "颜色转换",
-            description: "支持 Hex、RGB、HSL、HSV、HWB、Lab、LCH、OKLab、OKLCh 等多种格式互转",
-          },
-          {
-            name: "Tailwind 色阶",
-            description: "以单色生成 50–950 九档 Tailwind v4 色阶，自动推断颜色名称和色阶档位",
-          },
-          {
-            name: "明暗色阶",
-            description: "从基准色批量生成加深与变浅色阶，可调节加深/变浅程度",
-          },
-          {
-            name: "图片调色板",
-            description: "从图片中提取调色板，并且支持一键生成 Tailwind 色阶",
-          },
-           {
-            name: "颜色渐变",
-            description: "快速创建线性、径向、锥形渐变色，轻松添加 Color Stop，支持实时预览以达到目标效果",
-          },
-          {
-            name: "SVG 换色",
-            description: "修改 SVG 文件填充与描边的颜色，支持实时预览与下载",
-          },
-          {
-            name: "颜色拾取器",
-            description: "获取图片像素颜色，放大镜辅助精确定位，同步输出多种颜色格式",
-          },
-          {
-            name: "颜色滤镜",
-            description: "通过源色与目标色，自动推算 hue-rotate、saturate、brightness 等 CSS filter 参数",
-          },
-          {
-            name: "图片滤镜",
-            description: "修改图片颜色并实时预览滤镜效果，支持手动微调参数，快速得到目标色调",
-          },
-          {
-            name: "主题切换",
-            description: "指定原主题色与新主题色，批量转换 CSS / Less / Sass 颜色变量，保持系统配色一致",
-          },
-          {
-            name: "对比度检查",
-            description: "检测文字色与背景色的 WCAG 2.x 对比度，判断 AA/AAA 是否达标",
-          },
-          {
-            name: "主题资源",
-            description: "精选的前端组件库、设计系统和配色工具资源，帮助您快速找到完美的颜色方案",
-          },
-        ],
+        
       };
     },
   }
@@ -123,6 +85,7 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 40px;
   }
 
   .cta-div {
@@ -167,7 +130,6 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 40px;
   }
    .screenshot-div {
     display: flex;
@@ -242,5 +204,5 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
       grid-template-columns: 1fr;
     }
   }
- 
+
 </style>
