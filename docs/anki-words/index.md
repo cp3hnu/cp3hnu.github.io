@@ -33,7 +33,7 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
     </div>
     <div class="image-container">
       <div class="screenshot-div">
-        <p>认读练习，查看答案，标记</p>
+        <p>认读练习，查看答案，评分</p>
         <img class="screenshot-image" src="./screenshot-read-answer.png" />
       </div>
     </div>
@@ -45,7 +45,7 @@ summary: 在创意与代码之间，让色彩准确而自由地流动。
     </div>
      <div class="image-container">
       <div class="screenshot-div">
-        <p>默写练习，查看答案，标记</p>
+        <p>默写练习，查看答案，评分</p>
         <img class="screenshot-image" src="./screenshot-write-answer.png" />
       </div>
     </div>
