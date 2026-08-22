@@ -58,4 +58,14 @@ body
     padding-left 15px !important
     padding-right 15px !important
 
+/* Mermaid：width=100% 时去掉写死的 height，避免上下大块空白 */
+.mermaid-diagram
+  width 100%
+  overflow visible
+
+  svg
+    display block
+    width 100%
+    max-width 100%
+    height auto !important
 

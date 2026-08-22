@@ -29,6 +29,10 @@ summary: CopilotKit 是面向 Agent 应用的前端栈。本文将介绍它的�
 | Headless UI | 不要预置皮肤时，可以定制自己的 UI |
 | Any Agent | 后端只要支持 AG-UI，都可以接入 |
 
+## 实现效果
+
+
+
 ## 架构
 
 CopilotKit 采用三层结构：**Frontend**、**Runtime**、**Agent**，中间用 [AG-UI](https://docs.ag-ui.com/introduction) 事件协议连接。更多详情，请参考 [Architecture](https://docs.copilotkit.ai/ag2/concepts/architecture)。

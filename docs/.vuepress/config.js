@@ -51,6 +51,7 @@ module.exports = {
         exclude: ["/tag/"],
       },
     ],
+    "vuepress-plugin-mermaidjs",
   ],
   themeConfig: {
     nav: [
