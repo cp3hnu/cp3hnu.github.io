@@ -29,9 +29,15 @@ summary: CopilotKit 是面向 Agent 应用的前端栈。本文将介绍它的�
 | Headless UI | 不要预置皮肤时，可以定制自己的 UI |
 | Any Agent | 后端只要支持 AG-UI，都可以接入 |
 
-## 实现效果
+>  CopilotKit 当前版本 v1.68.1
 
+## 我的应用
 
+我使用 CopilotKit 创建了一个 [UI Design Studio Project](https://github.com/cp3hnu/CopilotKit-Demo)。效果如下：
+
+![](./assets/copilotkit-screenshot.gif)
+
+使用 Next.js + CopilotKit，实现左侧实时预览登录页，右侧侧边栏开启 agent 对话，agent 可改页面设计。
 
 ## 架构
 
@@ -114,9 +120,9 @@ sequenceDiagram
 
 ## 手动集成 CopilotKit
 
-### 默认集成
+### 内置模型
 
-默认集成天然支持 OpenAI、Anthropic、Google Gemini。下面以 Next.js + `BuiltInAgent` 为例，更多详情，请参考 [Quickstart](https://docs.copilotkit.ai/quickstart)。
+CopilotKit 天然支持 OpenAI、Anthropic、Google Gemini、MiniMax。下面以 Next.js + `BuiltInAgent` 为例，更多详情，请参考 [Quickstart](https://docs.copilotkit.ai/quickstart)。
 
 **前置条件**
 
@@ -144,7 +150,7 @@ OPENAI_API_KEY=your_openai_api_key
 ```ts
 import {
   CopilotRuntime,
-  copilotRuntimeNextJSAppRouterEndpoint,
+  createCopilotRuntimeHandler,
 } from "@copilotkit/runtime";
 import { BuiltInAgent } from "@copilotkit/runtime/v2";
 import { NextRequest } from "next/server";
@@ -158,7 +164,7 @@ const runtime = new CopilotRuntime({
 });
 
 export const POST = async (req: NextRequest) => {
-  const { handleRequest } = copilotRuntimeNextJSAppRouterEndpoint({
+  const { handleRequest } = createCopilotRuntimeHandler({
     runtime,
     endpoint: "/api/copilotkit",
   });
@@ -167,7 +173,7 @@ export const POST = async (req: NextRequest) => {
 };
 ```
 
-`BuiltInAgent` 底层用的是 Vercel AI SDK，内置 `openai:`、`anthropic:`、`google:` 等模型前缀，更多详情，请参考 [Model Selection](https://docs.copilotkit.ai/model-selection)。
+`BuiltInAgent` 底层用的是 Vercel AI SDK，内置 `openai:`、`anthropic:`、`google:`  和 `minimax:`模型前缀。更多详情，请参考 [Model Selection](https://docs.copilotkit.ai/model-selection)。
 
 4. 配置 CopilotKit Provider
 
@@ -215,7 +221,9 @@ $ npm run dev
 
 ### 接入其他模型
 
-任何 **OpenAI 兼容 API**，都可以用 `@ai-sdk/openai-compatible` 或 `@ai-sdk/openai` 的 `createOpenAI({ baseURL })` 包一层，再交给 `BuiltInAgent`。下面以千问为例说明怎么接入其他模型。更多详情，请参考 [Model Selection - Custom Models (AI SDK)](https://docs.copilotkit.ai/model-selection#custom-models-ai-sdk)。
+任何 **OpenAI 兼容 API**，都可以用 `@ai-sdk/openai-compatible` 或 `@ai-sdk/openai` 的 `createOpenAI({ baseURL })` 包一层，再交给 `BuiltInAgent`。
+
+下面以千问为例说明怎么接入其他模型。更多详情，请参考 [Model Selection - Custom Models (AI SDK)](https://docs.copilotkit.ai/model-selection#custom-models-ai-sdk)。
 
 1. 安装 AI SDK provider
 
@@ -300,15 +308,11 @@ $ npx copilotkit@latest create
 
 执行后会进入交互式向导，按提示选择项目名称、Agent 框架、前端模板等，生成一套已经接好 CopilotKit 的脚手架。
 
-1. App name
+1. 输入项目名称
 
-   输入项目名称
+2. 选择智能体框架
 
-2. Select agent framework
-
-   选择智能体框架，Copilotkit 提供了 21 agent framework，供我们选择。
-
-   下面是这 21 个 agent framework 的简单介绍
+   Copilotkit 提供了 21 agent framework，供我们选择。下面是这 21 个 agent framework 的简单介绍
 
 | 分类                    | 选项                                 | 简介                                                         |
 | ----------------------- | ------------------------------------ | ------------------------------------------------------------ |
@@ -334,24 +338,25 @@ $ npx copilotkit@latest create
 | **生成式 UI 专用**      | 🎨 A2UI                               | Agent-to-UI 模板，agent 直接描述/驱动 UI 结构，适合动态表单类场景 |
 |                         | ✨ Open Generative UI                 | 专为生成式 UI 优化的模板，配套 `useComponent` 等 hook，直接渲染真实 React 组件 |
 
-因为我对 JavaScript 比较熟悉，所以选择 **LangGraph (JavaScript)**
+因为我对 JavaScript 比较熟悉，所以我选择 **LangGraph (JavaScript)**
 
-3. CopilotKit account
+3. 创建 CopilotKit 账号，如果已经有了账号，直接进行验证
 
->  Threads and other Intelligence features need a free license, which is issued to your CopilotKit account.
+4. 创建或连接一个 **Intelligence project**
 
-创建 CopilotKit 账号，如果已经有了账号，需要验证
+这一步是在问：这套 App 的聊天记录，要存到云端的哪个「项目」里？
 
-4. Intelligence project
+可以把它想成 ChatGPT 的历史会话存放处。一个 Intelligence project 就是 CopilotKit 云端的一个小仓库，专门存这套 App 的对话历史（threads）、消息和分析数据。不接的话，聊天只活在当前浏览器里，一刷新就没了；接上之后，关掉页面再打开还能继续聊，换设备也能找回。
 
-> Connect this app to one of your existing projects, or create a new one.
-> An Intelligence project is where this app's threads, messages, and analytics are stored.
-
-创建或者连接 Intelligence project
+刚开始随便新建一个就行。后面如果有正式环境、测试环境，再分开建，免得聊天记录混在一起。更多说明见 [Cloud-Hosted Enterprise Intelligence](https://docs.copilotkit.ai/premium/managed-intelligence-platform)。
 
 5. 选择 Channel，可以先跳过
 
-6. 设置 `OPENAI_API_KEY`，如果暂时没有，也可以先跳过
+这一步是在问：要不要把 Agent 接到 Slack、Teams 这类聊天工具里？
+
+Channel 的意思是：用户不用打开你的网页，直接在 Slack / Teams 里跟 Agent 对话。CopilotKit 负责对接这些平台，消息转给你的 Agent，回复再发回对应的频道。刚搭脚手架、只想先在网页里试跑时，这一步可以跳过，以后要用再配。更多说明见 [Channels](https://docs.copilotkit.ai/channels)。
+
+6. 设置 `OPENAI_API_KEY`，如果暂时没有，也可以先跳过。
 
 向导结束后，CLI 会生成项目并安装依赖。进入目录后启动开发服务即可：
 
@@ -368,7 +373,7 @@ CLI 适合快速摸清整套结构；真正接到自己的业务里，还是要�
 
 完整 API 见 [References](https://docs.copilotkit.ai/reference)，选型可参考 [Which Hook for Which Job](https://docs.copilotkit.ai/concepts/which-hook)。
 
-### 组件
+### 组件一览
 
 | 组件 | 功能 |
 | --- | --- |
@@ -384,7 +389,7 @@ CLI 适合快速摸清整套结构；真正接到自己的业务里，还是要�
 | `CopilotChatView` | 聊天布局核心：消息区 + 输入区 + 建议 + 欢迎屏，支持 slot 定制 |
 | `CopilotChatInput` | 输入区：文本、发送、附件、语音转写等 |
 
-### Hook
+### Hook一览
 
 | Hook | 功能 |
 | --- | --- |
@@ -404,13 +409,15 @@ CLI 适合快速摸清整套结构；真正接到自己的业务里，还是要�
 | `useComponent` | 把 React 组件注册为工具 renderer，Agent 调用时在聊天里渲染该组件 |
 | `useRenderToolCall` | Headless 场景下获取工具调用的渲染函数，自行嵌入自定义聊天布局 |
 
+### Hook 详解
+
 真正把 Agent「接到产品」上的，通常是下面几个 Hook。
 
 #### `useFrontendTool`
 
 `useFrontendTool` 在浏览器里注册工具。Agent 调用后，`handler` 在客户端执行，可以直接读写 React 状态、改 UI。
 
-例如做一个登录页设计助手，可以注册两个工具：读当前配置、写回设计。
+例如我做的登录页设计助手，可以注册两个工具：读当前配置、修改设计。
 
 **读配置 `getDesignConfig`**
 
@@ -446,11 +453,13 @@ useFrontendTool({
 
 用户说「改成暗色主题」时，Agent 会先调 `getDesignConfig`，再调 `updateDesign`，左侧预览随即变化——这就是前端工具把 Agent 接到产品 UI 的典型路径。
 
+![](./assets/copilotkit-usefronttool.png)
+
 #### `useComponent`
 
 `useComponent` 让 Agent 通过调用工具的方式，直接在聊天中渲染 React 组件。
 
-参考 [Tool-based Generative UI](https://docs.copilotkit.ai/generative-ui/tool-based)。
+> 参考 [Tool-based Generative UI](https://docs.copilotkit.ai/generative-ui/tool-based)。
 
 定义工具：
 
@@ -475,7 +484,7 @@ useComponent({
 
 `useRenderTool` **只负责渲染**，不注册 `handler`。工具可以是前端定义的，也可以是服务端定义的。
 
-参考 [Tool-based Generative UI](https://docs.copilotkit.ai/generative-ui/tool-based)。
+> 参考 [Tool-based Generative UI](https://docs.copilotkit.ai/generative-ui/tool-based)。
 
 以 `get_weather` 为例：按城市展示一张天气卡片。
 
@@ -497,12 +506,39 @@ useRenderTool(
       if (status === "complete" && result) {
         const data = typeof result === "string" ? JSON.parse(result) : result;
         return (
-          <div className="rounded-lg border p-3">
-            <div className="text-sm text-gray-500">{data.city}</div>
-            <div className="text-lg font-medium">
-              {data.temperature}°{parameters.units === "fahrenheit" ? "F" : "C"}
+          <div className="my-3 overflow-hidden rounded-2xl border border-sky-100 bg-linear-to-br from-[#e8f4ff] via-white to-[#f0f9ff] p-4 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[12px] font-medium tracking-wide text-sky-700/80">实时天气</p>
+                <h3 className="mt-0.5 truncate text-[17px] font-semibold text-slate-800">
+                  {weather.city}
+                  {weather.country ? (
+                    <span className="ml-1.5 text-[12px] font-normal text-slate-400">{weather.country}</span>
+                  ) : null}
+                </h3>
+              </div>
+              <WeatherGlyph icon={weather.icon} />
             </div>
-            <div className="text-sm">{data.conditions}</div>
+
+            <div className="mt-3 flex items-end gap-2">
+              <span className="text-[40px] font-semibold leading-none tracking-tight text-slate-900">
+                {Math.round(weather.temperature)}
+                <span className="text-[22px] font-medium">°</span>
+              </span>
+              <div className="mb-1 space-y-0.5">
+                <p className="text-[14px] font-medium text-slate-700">{weather.condition}</p>
+                <p className="text-[12px] text-slate-500">
+                  体感 {Math.round(weather.apparentTemperature)}° · 今日 {Math.round(weather.low)}° /{" "}
+                  {Math.round(weather.high)}°
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              <Metric label="湿度" value={`${Math.round(weather.humidity)}%`} />
+              <Metric label="风速" value={`${Math.round(weather.windSpeed)} km/h`} />
+              <Metric label="时区" value={shortTimezone(weather.timezone)} />
+            </div>
           </div>
         );
       }
@@ -512,6 +548,10 @@ useRenderTool(
   [],
 );
 ```
+
+渲染效果：
+
+![](./assets/copilotkit-get-weather.png)
 
 未单独注册 renderer 的工具，可用 `name: "*"` 通配，或使用 `useDefaultRenderTool` 做兜底。
 
@@ -561,17 +601,154 @@ useHumanInTheLoop({
 });
 ```
 
-实践里建议在 system prompt 里约定：需要用户在多个方案之间做选择时，必须用这类交互工具，不要只在文本里列选项。
+![](./assets/copilotkit-usehumanintheloop.png)
 
-## Example
+## Runtime
 
+Runtime 是挂在**你自己应用服务器**上的请求处理程序。常见挂载点是 Next.js 的 `/api/copilotkit`，也可以是 Express、Hono、Bun、Deno、Cloudflare Workers。
 
+可以把它想成：**前端和 Agent 之间的接线盒**。
+
+前端不直接连 LangGraph / BuiltInAgent；消息先打到 Runtime，再由 Runtime 转给 Agent，并把 Agent 吐出的 AG-UI 事件流回浏览器。API Key、鉴权、前端工具转发，也通常在这一层做。
+
+### 职责
+
+| 职责 | 说明 |
+| --- | --- |
+| 接请求 | 接收前端的 `POST`（消息、`agentId`、`threadId`、状态等） |
+| 选 Agent | 按配置找到对应的 Agent（比如 `default`），打开一次 AG-UI run |
+| 转事件流 | 把 Agent 的文本、工具调用、状态更新等事件流式回前端 |
+| 中转前端工具 | Agent 要调浏览器里的工具时，Runtime 把调用转给前端，再把结果送回 Agent |
+| 可选鉴权 / 持久化 | 校验身份；需要会话历史时，再接到 Intelligence 等平台 |
+
+### 核心代码
+
+核心就两样：
+
+- `CopilotRuntime` - 加载 Agent
+
+- `createCopilotRuntimeHandler` - 把它挂成 HTTP handler
+
+```ts
+import {
+  BuiltInAgent,
+  CopilotRuntime,
+  createCopilotRuntimeHandler,
+} from "@copilotkit/runtime/v2";
+
+const runtime = new CopilotRuntime({
+  agents: {
+    default: new BuiltInAgent({ model: "openai:gpt-5.4-mini" }),
+  },
+});
+
+const handler = createCopilotRuntimeHandler({
+  runtime,
+  basePath: "/api/copilotkit",
+});
+
+export const GET = handler;
+export const POST = handler;
+```
+
+## Agent
+
+Agent 是真正「思考和行动」的那一层：跑 prompt、决定调哪些工具、发出状态，再通过 AG-UI 把事件流回 Runtime。
+
+在 CopilotKit 里，Agent **不绑死某一种框架**，只要支持 AG-UI。
+
+一句话：**Agent 决定「会什么」；Runtime 决定「怎么接到你的 App」；Frontend 决定「用户看见什么」。**
+
+### 常见选择
+
+| 类型 | 是什么 | 适合谁 |
+| --- | --- | --- |
+| **BuiltInAgent** | CopilotKit 内置，进程内跑，底层常用 Vercel AI SDK | 想最快跑通、逻辑不复杂 |
+| **LangGraph / Mastra / CrewAI 等** | 外部 Agent 框架，经 AG-UI adapter 接入 | 已有编排、多步工作流、团队栈已定 |
+| **自研 AG-UI Agent** | 自己实现协议事件流 | 要完全掌控后端 |
+
+前面「手动集成」用的就是 `BuiltInAgent`，和 Runtime 同进程，不用再起一个独立 Agent 服务。
+
+CLI 里选 LangGraph (JavaScript) 等，则是脚手架出外部 Agent + adapter。
+
+### 核心代码
+
+```ts
+const agent = new BuiltInAgent({
+  model: "openai:gpt-5.4-mini", // 或传入自定义 LanguageModel（如千问）
+  prompt: "You are a helpful assistant...",
+  tools: agentTools,            // 服务端工具
+  maxSteps: 8,
+});
+```
+
+## AG-UI
+
+[AG-UI](https://docs.ag-ui.com/introduction) 全称 **Agent–User Interaction Protocol**，是一套开放的、基于事件的协议，用来标准化「Agent 后端」和「应用」怎么对话。可以把它想成：**Agent 和前端之间的 USB-C**。
+
+没有它时，每个 Agent 框架（LangGraph、Mastra、CrewAI……）输出格式都不一样，前端要为每种后端单独写对接。有了 AG-UI，后端只要按约定往外发送事件流，前端（比如 CopilotKit）统一监听这些事件：流式文字、工具调用、状态同步、等人审批，都能用同一套语义处理。
+
+所以 CopilotKit 宣传的「Any Agent」——后端只要支持 AG-UI 就能接入——靠的就是这层协议。
+
+### 和 MCP、A2A 的关系
+
+它们不是互相替代，而是各管一段连接：
+
+| 协议 | 连谁 | 一句话 |
+| --- | --- | --- |
+| **AG-UI** | Agent ↔ 用户 / 应用 | 怎么把 Agent 接到界面上：流式回复、工具 UI、共享状态、人工审批 |
+| **MCP** | Agent ↔ 工具 / 数据 | 怎么让 Agent 调用外部能力：文件、数据库、搜索、API |
+| **A2A** | Agent ↔ Agent | 怎么让多个 Agent 互相发现、分工、协作 |
+
+一个完整的 Agent 产品里，常见组合是：对内用 MCP 干活，对外用 AG-UI 对人，需要多 Agent 协作时再上 A2A。
+
+另外别和 **A2UI** 搞混：A2UI 更偏向「Agent 怎么描述要渲染的 UI」；AG-UI 是「Agent 和前端怎么通信」。两者可以一起用。
+
+### 怎么工作
+
+核心很简单：**Agent 跑一次 run，就持续发出一串类型化事件**；前端订阅这些事件，按事件类型更新 UI。
+
+传输方式不绑死某一种：常见是 HTTP + SSE，也可以是 WebSocket 等。CopilotKit Runtime 这边，通常就是把 AG-UI 事件流转成前端能消费的 SSE。
+
+一次典型的 run 大致是：
+
+```mermaid
+sequenceDiagram
+  participant App as 前端 / CopilotKit
+  participant Agent as AG-UI Agent
+
+  App->>Agent: RunAgentInput<br/>messages · tools · context · threadId
+  Agent-->>App: RUN_STARTED
+  Agent-->>App: TEXT_MESSAGE_START / CONTENT / END
+  opt 调用工具
+    Agent-->>App: TOOL_CALL_START / ARGS / END
+    App->>Agent: 工具结果（前端或服务端）
+  end
+  opt 同步状态
+    Agent-->>App: STATE_SNAPSHOT / STATE_DELTA
+  end
+  Agent-->>App: RUN_FINISHED<br/>或 RUN_ERROR / interrupt
+```
+
+### 常见事件类型
+
+事件都带一个 `type`，前端靠它判断该怎么渲染。主要几类：
+
+| 类别 | 代表事件 | 作用 |
+| --- | --- | --- |
+| 生命周期 | `RUN_STARTED`、`RUN_FINISHED`、`RUN_ERROR` | 一次对话 run 的开始、正常结束、出错 |
+| 文本消息 | `TEXT_MESSAGE_START` / `CONTENT` / `END` | 流式打字效果的回复 |
+| 工具调用 | `TOOL_CALL_START` / `ARGS` / `END` | Agent 要调工具；前端可据此渲染工具 UI 或执行前端工具 |
+| 状态同步 | `STATE_SNAPSHOT`、`STATE_DELTA`、`MESSAGES_SNAPSHOT` | 整份状态、增量补丁、消息历史快照 |
+| 其它 | `STEP_*`、`CUSTOM`、`RAW` | 步骤进度、自定义扩展 |
+
+前端工具、Human-in-the-Loop，本质上也是这条事件流上的约定：Agent 发出工具调用并暂停，人在 UI 里操作完，结果再送回 Agent，run 继续。
 
 ## CopilotKit VS Assistant-ui
 
 [CopilotKit](https://www.copilotkit.ai/) 和 [Assistant-ui](https://www.assistant-ui.com/) 都能构建 AI 对话界面，但关注层次不同：
 
-- **CopilotKit** 更关注 Agent 如何接入应用、读取上下文、调用前端工具和暂停等待用户。
+- **CopilotKit** 更关注 Agent 如何接入应用、读取上下文、调用前端工具、执行等待用户响应。
 - **Assistant-ui** 更关注如何构建精细、可组合的聊天界面。
 
 简单来说，CopilotKit 更像「Agent 应用前端栈」；Assistant-ui 更像「聊天 UI 工具包」。
@@ -609,7 +786,11 @@ useHumanInTheLoop({
 | 有自己的后台服务，只需要完善聊天 UI | **Assistant-ui** |
 | 既需要复杂 Agent 能力，也需要高度定制聊天界面 | 可以组合，但需要自行实现 CopilotKit / AG-UI 与 Assistant-ui Runtime 之间的适配 |
 
-如果项目里 Agent 要操作页面状态、调用前端工具、做审批流程，CopilotKit 会更省心；如果核心只是做一套体验完整的聊天界面，Assistant-ui 会更直接。
+**总结：**
+
+如果项目里 Agent 要操作页面状态、调用前端工具、做审批流程，CopilotKit 会更省心；
+
+如果核心只是做一套体验完整的聊天界面，Assistant-ui 会更直接。
 
 ## References
 
@@ -619,9 +800,13 @@ useHumanInTheLoop({
 - [Architecture](https://docs.copilotkit.ai/ag2/concepts/architecture)
 - [Connect AG-UI agents](https://docs.copilotkit.ai/backend/ag-ui)
 - [Which Hook for Which Job](https://docs.copilotkit.ai/concepts/which-hook)
+- [CopilotKit Slots](https://docs.copilotkit.ai/custom-look-and-feel/slots)
+- [CopilotKit Integrations](https://showcase.copilotkit.ai/integrations)
+- [CopilotKit Interactive Dojo](https://dojo.showcase.copilotkit.ai/?integration=built-in-agent&demo=beautiful-chat)
+- [AG-UI Interactive Dojo](https://feature-viewer.copilotkit.ai/langgraph-typescript/feature/agentic_chat)
+- [CopilotKit Examples](https://www.copilotkit.ai/examples)
 - [AG-UI 协议](https://docs.ag-ui.com/introduction) · [Events](https://docs.ag-ui.com/concepts/events) · [Architecture](https://docs.ag-ui.com/concepts/architecture)
 - [AG-UI GitHub](https://github.com/ag-ui-protocol/ag-ui)
 - [assistant-ui](https://www.assistant-ui.com/docs/) · [GitHub](https://github.com/assistant-ui/assistant-ui)
-- [CopilotKit Examples](https://www.copilotkit.ai/examples)
 - [CopilotKit vs assistant-ui vs AI SDK](https://dreaming.press/posts/copilotkit-vs-assistant-ui-vs-vercel-ai-sdk.html)
 - [Codeables 对比](https://codeables.dev/article/assistant-ui-vs-copilotkit-which-is-better-for-a-chatgpt-style-in-app)
