@@ -808,5 +808,8 @@ sequenceDiagram
 - [AG-UI 协议](https://docs.ag-ui.com/introduction) · [Events](https://docs.ag-ui.com/concepts/events) · [Architecture](https://docs.ag-ui.com/concepts/architecture)
 - [AG-UI GitHub](https://github.com/ag-ui-protocol/ag-ui)
 - [assistant-ui](https://www.assistant-ui.com/docs/) · [GitHub](https://github.com/assistant-ui/assistant-ui)
+- [A2UI](https://a2ui.org/)
+- [Get started with A2UI](https://docs.copilotkit.ai/a2a/generative-ui/declarative-a2ui)
+- [OpenUI](https://www.openui.com/)
 - [CopilotKit vs assistant-ui vs AI SDK](https://dreaming.press/posts/copilotkit-vs-assistant-ui-vs-vercel-ai-sdk.html)
 - [Codeables 对比](https://codeables.dev/article/assistant-ui-vs-copilotkit-which-is-better-for-a-chatgpt-style-in-app)

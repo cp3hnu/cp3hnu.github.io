@@ -103,13 +103,16 @@ Tailwind CSS 有一套 [默认的 Breakpoints](https://tailwindcss.com/docs/them
 --breakpoint-2xl: 1536px;
 ```
 
-功能类可以使用这些 breakpoints
+Tailwind 默认断点，采用 **mobile-first**：不写前缀的是手机的样式
 
-```css
-<div class="grid xs:grid-cols-2 2xl:grid-cols-6">
-  <!-- ... -->
-</div>
-```
+| 前缀       | 最小宽度 | 常见适配场景         |
+| ---------- | -------- | -------------------- |
+| （无前缀） | `0`      | 默认样式，手机竖屏   |
+| `sm:`      | `640px`  | 大屏手机横屏、小平板 |
+| `md:`      | `768px`  | 平板竖屏、小平板横屏 |
+| `lg:`      | `1024px` | 平板横屏、小笔记本   |
+| `xl:`      | `1280px` | 普通桌面显示器       |
+| `2xl:`     | `1536px` | 大屏桌面、外接显示器 |
 
 Tailwind CSS  这套 breakpoints 是为了适配手机端和 PC 端，如果我们的系统只运行在 PC 端，同时要求适配更大的屏幕时，这套 breakpoints 并不适用。我们可以像 [自定义主题 ](#自定义主题) 一样修改和新增 Tailwind CSS  的 breakpoints。
 
