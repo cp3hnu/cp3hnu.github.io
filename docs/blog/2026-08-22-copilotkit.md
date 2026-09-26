@@ -118,9 +118,11 @@ sequenceDiagram
 
 如果工具定义在浏览器里，Runtime 会把调用转发到前端，执行完再把结果送回 Agent。
 
-## 手动集成 CopilotKit
+## 集成 CopilotKit
 
-### 内置模型
+### 手动集成
+
+#### 内置模型
 
 CopilotKit 天然支持 OpenAI、Anthropic、Google Gemini、MiniMax。下面以 Next.js + `BuiltInAgent` 为例，更多详情，请参考 [Quickstart](https://docs.copilotkit.ai/quickstart)。
 
@@ -219,7 +221,7 @@ $ npm run dev
 
 到这里已经可以对话了。
 
-### 接入其他模型
+#### 接入其他模型
 
 任何 **OpenAI 兼容 API**，都可以用 `@ai-sdk/openai-compatible` 或 `@ai-sdk/openai` 的 `createOpenAI({ baseURL })` 包一层，再交给 `BuiltInAgent`。
 
@@ -298,7 +300,7 @@ export const POST = handler;
 export const OPTIONS = handler;
 ```
 
-## CopilotKit CLI
+### CopilotKit CLI
 
 上面是手动集成：自己装依赖、写 Runtime、配 Provider。如果想从零快速搭一个可跑的示例项目，也可以用官方 CLI：
 
