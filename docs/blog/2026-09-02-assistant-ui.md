@@ -15,20 +15,19 @@ summary: Assistant UI 是由聊天原语、Runtime 和后端适配层组成的 A
 
 上一篇 [CopilotKit - The frontend stack for Agent](/blog/2026-08-22-copilotkit.html) 介绍了如何把 Agent 接到产品里—读取页面上下文、调用前端工具、渲染 React 组件、暂停等待用户审批。CopilotKit 是产品的智能助手。
 
-当你的核心需求变成**构建精细、可组合的聊天界面** 时，[Assistant UI](https://www.assistant-ui.com/) 会更合适。它提供 Thread、Message、Composer 等聊天原语，以及连接 Vercel AI SDK、LangGraph、AG-UI 或自定义后端的 Runtime 层，让你像搭积木一样组装 ChatGPT 风格的对话体验。
+当你的核心需求变成**构建精细、可组合的聊天界面** 时，[Assistant UI](https://www.assistant-ui.com/) 会更合适。它提供 Thread、Message、Composer 等聊天 primitive，以及连接 Vercel AI SDK、LangGraph、AG-UI 或自定义后端的 Runtime 层，让你像搭积木一样组装 ChatGPT 风格的对话体验。
 
 Assistant UI 的核心能力如下：
 
-| 产品能力        | 说明                                                                                            |
-| --------------- | ----------------------------------------------------------------------------------------------- |
-| UI Primitives   | 无样式、可访问的 Thread、Message、Composer 等原语，交互细节（自动滚动、流式渲染、分支切换）内置 |
-| Elements        | 基于 shadcn/ui 的预置聊天组件，源码复制到项目，样式完全可控                                     |
-| Runtime         | 连接 UI 与后端的会话状态层，负责消息、Composer、运行生命周期与分支                              |
-| AI SDK v7 集成  | 通过 `@assistant-ui/ai-sdk` 的 `useChatRuntime` 对接 Vercel AI SDK v7 流式对话                  |
-| Tool UI         | 为工具调用注册自定义 React 渲染器，展示 loading、结果与交互状态                                 |
-| ThreadList      | 多会话列表：创建、切换、归档、重命名                                                            |
-| Assistant Cloud | 托管线程持久化、历史记录与用户授权                                                              |
-| CLI             | 脚手架创建项目、向现有项目添加组件、升级与 codemod                                              |
+| 产品能力      | 说明                                                                                                  |
+| ------------- | ----------------------------------------------------------------------------------------------------- |
+| UI Primitives | 无样式、可访问的 Thread、Message、Composer 等 Primitive，交互细节（自动滚动、流式渲染、分支切换）内置 |
+| Elements      | 基于 shadcn/ui 的预置聊天组件，源码复制到项目，样式完全可控                                           |
+| Runtime       | 连接 UI 与后端的会话状态层，负责消息、Composer、运行生命周期与分支                                    |
+| AI SDK 集成   | 通过 `@assistant-ui/ai-sdk` 的 `useChatRuntime` 对接 Vercel AI SDK 流式对话                           |
+| Tool UI       | 为工具调用注册自定义 React 渲染器，展示 loading、结果与交互状态                                       |
+| ThreadList    | 多会话列表：创建、切换、归档、重命名                                                                  |
+| CLI           | 脚手架创建项目、向现有项目添加组件、升级与 codemod                                                    |
 
 > Assistant UI 当前版本 0.15.x，AI SDK 集成面向 v7（`ai@^7`、`@ai-sdk/react@^4`）。
 
@@ -78,13 +77,13 @@ flowchart TB
 
 **UI 层（Primitives / Elements / Hooks）**
 
-渲染线程、消息、输入框、附件、建议等界面。原语层（`ThreadPrimitive`、`MessagePrimitive`、`ComposerPrimitive`）不带样式，行为类似 Radix UI；Elements 是在原语之上用 shadcn/ui 做好的完整组件（如 `Thread`），源码通过 CLI 复制到项目。
+渲染线程、消息、输入框、附件、建议等界面。Primitive 层（`ThreadPrimitive`、`MessagePrimitive`、`ComposerPrimitive`）不带样式，行为类似 Radix UI；Elements 是在 Primitive 之上用 shadcn/ui 做好的完整组件（如 `Thread`），源码通过 CLI 复制到项目。
 
 UI 通过 Runtime 上下文读写状态，不直接调用 LLM API。`useAui` 返回当前作用域的 `AssistantClient`；`useAuiState` 用选择器订阅线程、Composer、消息等切片状态；`useAuiEvent` 订阅 Runtime 事件。这些 Hooks 是 UI 层定制行为的入口。
 
 **Runtime 层**
 
-会话状态的边界。`AssistantRuntimeProvider` 注入 Runtime，其下所有原语和 Hooks 共享同一份线程状态。不同 Runtime 适配不同后端对消息、分支、工具调用的组织方式。
+会话状态的边界。`AssistantRuntimeProvider` 注入 Runtime，其下所有 Primitive 和 Hooks 共享同一份线程状态。不同 Runtime 适配不同后端对消息、分支、工具调用的组织方式。
 
 **Adapters / Backend**
 
@@ -130,13 +129,13 @@ sequenceDiagram
   end
 ```
 
-一句话概括：用户说话 → Runtime 组装请求 POST 到 API Route → `streamText` 流式生成 → Runtime 把 UI Message 部件写回 Thread → 原语渲染。
+一句话概括：用户说话 → Runtime 组装请求 POST 到 API Route → `streamText` 流式生成 → Runtime 把 UI Message 部件写回 Thread → Primitive 渲染。
 
 ## 集成 Assistant UI
 
 如果想快速搭脚手架，或向已有项目追加组件，可以用官方 CLI。更多详情，请参考 [CLI 文档](https://www.assistant-ui.com/docs/cli)。
 
-> CLI 当前版本 assistant-ui@0.0.117
+> CLI 当前版本 [assistant-ui@0.0.117](mailto:assistant-ui@0.0.117)
 
 ### 创建新项目
 
@@ -237,13 +236,15 @@ $ npx assistant-ui@latest upgrade
 
 CLI 添加的组件源码会直接写入项目，可以继续按需修改组件、样式与 Runtime 配置。
 
-## 原语与 Hooks
+## Primitives 与 Hooks
 
-完整 API 见 [Primitives 概览](https://www.assistant-ui.com/docs/primitives) 与 [Hooks API Reference](https://www.assistant-ui.com/docs/api-reference/hooks)。
+Assistant UI 是由多个 Primitives 组合而成的，下面是其基本组成示意图。
 
-### 核心原语一览
+![](./assets/assistant-ui-primitives.png)
 
-| 原语                      | 功能                                                   |
+### 核心 Primitives 一览
+
+| Primitive                 | 功能                                                   |
 | ------------------------- | ------------------------------------------------------ |
 | `ThreadPrimitive`         | 可滚动消息容器：自动滚动、空状态、建议、ViewportFooter |
 | `MessagePrimitive`        | 单条消息渲染：按 role 展示 parts、附件、元数据         |
@@ -255,9 +256,12 @@ CLI 添加的组件源码会直接写入项目，可以继续按需修改组件�
 | `AttachmentPrimitive`     | 附件渲染                                               |
 | `SuggestionPrimitive`     | 建议提示                                               |
 | `ChainOfThoughtPrimitive` | 折叠展示推理步骤与工具调用                             |
+| `ErrorPrimitive`          | 显示错误信息                                           |
 | `AuiIf`                   | 按 Runtime 状态条件渲染                                |
 
-### 原语详解
+> 更多详情请查看 [Assistant-UI Primitives](https://www.assistant-ui.com/docs/primitives)
+
+### Primitives 详解
 
 #### `ThreadPrimitive`
 
@@ -333,6 +337,8 @@ ActionBar 和 BranchPicker 必须放在 `MessagePrimitive.Root` 内部。
 | `useExternalStoreRuntime`    | 消息状态放在 Redux / Zustand 等外部 store                           |
 | `useRemoteThreadListRuntime` | 自定义数据库的多线程列表                                            |
 
+> 更多详情请参考 [Assistant-UI Hooks API Reference](https://www.assistant-ui.com/docs/api-reference/hooks)
+
 ### Hook 详解
 
 #### `useAui`
@@ -380,13 +386,13 @@ function RunningIndicator() {
 
 ## Runtime
 
-Runtime 是 UI 原语与 AI 后端之间的 **状态与行为边界**：负责消息、线程、分支、编辑 / 重新生成，以及一次 run 的生命周期。
+Runtime 是 UI Primitive 与 AI 后端之间的 **状态与行为边界**：负责消息、线程、分支、编辑 / 重新生成，以及一次 run 的生命周期。
 
-### Runtime architecture
+### Runtime Architecture
 
 assistant-ui 的 Runtime 集成分三层。上层都用下层实现；多数项目从 Framework adapters 起步，只有需要更细控制时才下沉到 Protocol 或 Core。
 
-更多详情请参考 [Runtime architecture](https://www.assistant-ui.com/docs/runtimes/concepts/architecture)。
+更多详情请参考 [Assistant-UI Runtime architecture](https://www.assistant-ui.com/docs/runtimes/concepts/architecture)。
 
 ![](./assets/assistant-ui-runtime-architecture.png)
 
@@ -425,19 +431,19 @@ assistant-ui 的 Runtime 集成分三层。上层都用下层实现；多数项�
 
 最快也是最简单的路径是使用 **Framework adapters**，下面介绍使用 AI SDK 和 Opencode。
 
-### 使用 AI SDK v7
+### 使用 AI SDK
 
 `@assistant-ui/ai-sdk` 的 `useChatRuntime` 叠在 `ExternalStoreRuntime` 上，封装 `useChat`、`AssistantChatTransport` 与消息格式转换。
 
 需要持久化历史会话和消息时再加上 `adapters.history` 或 Assistant Cloud。
 
-**安装依赖**
+#### 安装依赖
 
 ```sh
 $ npm install @assistant-ui/react @assistant-ui/ai-sdk ai@^7 @ai-sdk/react@^4 @ai-sdk/openai zod
 ```
 
-**前端**
+#### 前端
 
 前端使用 `useChatRuntime`
 
@@ -483,7 +489,7 @@ const runtime = useAISDKRuntime(chat);
 
 更多选项见 [AI SDK](https://www.assistant-ui.com/docs/runtimes/ai-sdk/v7)。
 
-**后端**
+#### 后端
 
 在 `app/api/chat/route.ts` 用 AI SDK 的 `streamText` 接住请求，再把 UI Message 流返回给 Runtime：
 
@@ -528,27 +534,25 @@ OpenAI 模型，添加环境变量 `OPENAI_API_KEY=...`。
 
 [OpenCode](https://opencode.ai/) 是开源 coding agent。`@assistant-ui/react-opencode` 把 OpenCode 的 session / event API 接到 assistant-ui：流式消息、工具权限、交互式提问、fork / revert 等。
 
-Adapter 叠在 `ExternalStoreRuntime` + `RemoteThreadList` 上；
-
-一个 OpenCode session 对应一个 thread。
-
-> 当前 adapter 仍是实验性（文档标注 v0.0.x），API 可能变更。详见 [OpenCode Runtime](https://www.assistant-ui.com/docs/runtimes/opencode/overview)。
-
-**安装**
+#### 安装依赖
 
 ```sh
 $ npm install @assistant-ui/react @assistant-ui/react-opencode @opencode-ai/sdk
 ```
 
-先在本机按 [opencode.ai](https://opencode.ai/) 启动 OpenCode 服务
+Adapter 叠在 `ExternalStoreRuntime` + `RemoteThreadList` 上；一个 OpenCode session 对应一个 thread。
+
+> 当前 adapter 仍是实验性（文档标注 v0.0.x），API 可能变更。详见 [OpenCode Runtime](https://www.assistant-ui.com/docs/runtimes/opencode/overview)。
+
+先在本机按 [opencode.ai](https://opencode.ai/) 启动 OpenCode 服务：
 
 ```sh
 $ opencode serve
 ```
 
-默认服务地址为 `http://localhost:4096`
+默认服务地址为 `http://localhost:4096`。
 
-**最小接入**
+#### 最小接入
 
 ```tsx
 "use client";
@@ -575,7 +579,7 @@ export default function Page() {
 
 Runtime 会对 OpenCode 打开 SSE，把 session 与 message 事件投影进 Thread；ThreadList 默认就是服务器上的 session 列表。
 
-**消息与会话历史持久化**
+#### 消息与会话历史持久化
 
 和 AI SDK 默认「只活在浏览器内存」不同，OpenCode Runtime **天然把会话存在 OpenCode 服务端**：
 
@@ -597,145 +601,164 @@ const runtime = useOpenCodeRuntime({
 
 权限审批、提问、fork / revert 等用 `useOpenCodePermissions`、`useOpenCodeQuestions`、`useOpenCodeRuntimeExtras`，更多详情请参考 [OpenCode Hooks](https://www.assistant-ui.com/docs/runtimes/opencode/hooks)。
 
-## Tools 与 Generative UI
+## 思考链
 
-Assistant UI 通过 **toolkit** 把工具定义、执行与 UI 渲染绑在一起。工具可在客户端执行（frontend tool）、仅渲染后端工具（backend render-only），或等待用户填表后再 `addResult`（human tool）。详见 [Tool UI 文档](https://www.assistant-ui.com/docs/tools/tool-ui)。
+推理模型往往会先产生一串 **reasoning**（思考）和 **tool-call**，最后才给出正式回复。assistant-ui 的 [Chain of Thought](https://www.assistant-ui.com/docs/guides/chain-of-thought) 把相邻的这类消息收进可折叠的「思考」区块，使界面整洁。
 
-### 后端工具 + 自定义 Tool UI
+整条链路分两头：
 
-服务端在 `streamText` 的 `tools` 里定义工具；客户端用 `defineToolkit` 注册 **仅 render** 的 backend entry：
+| 端   | 要做什么                                                                                     |
+| ---- | -------------------------------------------------------------------------------------------- |
+| 后端 | 选用会产出 reasoning tokens 的模型，并在流式响应里把思考内容带出来                           |
+| 前端 | 用 `MessagePrimitive.GroupedParts` 把 `reasoning` / `tool-call` 分组渲染，而不是平铺成一长串 |
 
-```tsx
-"use client";
-
-import { AssistantRuntimeProvider, AuiConfig, Tools, defineToolkit } from "@assistant-ui/react";
-import { useChatRuntime } from "@assistant-ui/ai-sdk";
-
-const toolkit = defineToolkit({
-  get_current_weather: {
-    type: "backend",
-    render: ({ args, result, status }) => {
-      if (status.type === "running") {
-        return <div>正在查询 {args.city} 的天气…</div>;
-      }
-      if (status.type === "incomplete" && status.reason === "error") {
-        return <div>查询失败</div>;
-      }
-      return (
-        <div className="rounded-lg border p-3">
-          <p className="font-medium">{args.city}</p>
-          <p>{result}</p>
-        </div>
-      );
-    }
-  }
-});
-
-export function ChatProvider({ children }: { children: React.ReactNode }) {
-  const runtime = useChatRuntime();
-  const config = AuiConfig({ tools: Tools({ toolkit }) });
-
-  return (
-    <AssistantRuntimeProvider runtime={runtime} config={config}>
-      {children}
-    </AssistantRuntimeProvider>
-  );
-}
-```
-
-`status.type` 常见值：`running`（执行中）、`complete`（成功）、`incomplete`（错误或未决）。AI SDK v7 还支持服务端 `toolApproval` 门控，assistant-ui 在 tool part 上暴露 `approval` 与 `respondToApproval`，用于生产环境部署等人审批场景。
-
-### 前端工具
-
-客户端定义并执行的工具，通过 toolkit 的 `execute` + `render` 注册，`AssistantChatTransport` 会把 schema 序列化给后端，后端用 `frontendTools(tools)` 合并：
-
-```tsx
-const toolkit = defineToolkit({
-  highlightText: {
-    description: "Highlight text on the page",
-    parameters: z.object({ text: z.string() }),
-    execute: async ({ text }) => {
-      "use client";
-      document.designMode = "on";
-      window.find(text);
-      return { found: true };
-    },
-    render: ({ args, status }) => {
-      if (status.type === "running") return <span>高亮「{args.text}」…</span>;
-      return <span>已高亮「{args.text}」</span>;
-    }
-  }
-});
-```
-
-若模型需要从 **组件 vocabulary** 组合 UI（而非一对一绑定 tool name），可进一步看 Generative UI 指南；本文不展开。
-
-## 会话与持久化
-
-默认情况下，消息只存在内存里，刷新即丢失。多会话与持久化有三条路径。
-
-### ThreadList
-
-`ThreadListPrimitive`（或 CLI 安装的 `Thread` + `ThreadList` Elements）提供会话列表 UI：新建、切换、归档、重命名。单线程应用只需 `Thread`；产品型聊天通常 `ThreadList` + `Thread` 并排。
+### 安装依赖
 
 ```sh
-$ npx assistant-ui@latest add thread-list
+$ npx assistant-ui@latest add reasoning tool-group tool-fallback
 ```
 
-### Assistant Cloud
+### 前端
 
-[Assistant Cloud](https://www.assistant-ui.com/docs/cloud) 是托管服务，提供线程持久化、自动标题、消息反馈与用户授权，无需自建数据库。
-
-- 与 assistant-ui 组件配合：按 [AI SDK + assistant-ui Cloud 指南](https://www.assistant-ui.com/docs/cloud/ai-sdk-assistant-ui) 配置 `useChatRuntime` 的 cloud 选项。
-- 已有 AI SDK 应用、只要 hook：可用 `useCloudChat` 最小改动接入。
-- LangGraph：见 [LangGraph + Cloud](https://www.assistant-ui.com/docs/cloud/langgraph)。
-
-Cloud 适合快速上线、多租户线程隔离、不想维护 history 存储的团队。
-
-### 自定义 Persistence Adapter
-
-合规、自建数据库或要把线程与应用数据存在同一张表时，实现 **RemoteThreadListAdapter**（线程元数据）和 **ThreadHistoryAdapter**（消息 history）。
-
-AI SDK v7 路径下，history adapter **必须实现 `withFormat`**，让 `useChatRuntime` 把 `UIMessage` 编码为固定行形状 `{ id, parent_id, format, content }`：
+在助手消息里，用 `groupPartByType` 给 `reasoning` 和 `tool-call` 挂上同一顶层组 `group-chainOfThought`，再分子组分别渲染思考与工具：
 
 ```tsx
-const historyAdapter: ThreadHistoryAdapter = {
-  async load() {
-    return { headId: null, messages: [] };
-  },
-  async append() {},
-  withFormat: fmt => ({
-    async load() {
-      const rows = await fetch("/api/history").then(r => r.json());
-      return { messages: rows.map(fmt.decode) };
-    },
-    async append(item) {
-      await fetch("/api/history", {
-        method: "POST",
-        body: JSON.stringify({
-          id: fmt.getId(item.message),
-          parent_id: item.parentId,
-          format: fmt.format,
-          content: fmt.encode(item)
-        })
-      });
-    }
-  })
-};
+import {
+  MessagePrimitive,
+  groupPartByType,
+} from "@assistant-ui/react";
+import { MarkdownText } from "@/components/assistant-ui/elements/markdown-text";
+import {
+  Reasoning,
+  ReasoningContent,
+  ReasoningRoot,
+  ReasoningText,
+  ReasoningTrigger,
+} from "@/components/assistant-ui/elements/reasoning.aui";
+import { ToolFallback } from "@/components/assistant-ui/elements/tool-fallback.aui";
+import {
+  ToolGroupContent,
+  ToolGroupRoot,
+  ToolGroupTrigger,
+} from "@/components/assistant-ui/elements/tool-group.aui";
+import type { FC } from "react";
 
-const runtime = useChatRuntime({ adapters: { history: historyAdapter } });
+const AssistantMessage: FC = () => {
+  return (
+    <MessagePrimitive.Root>
+      <MessagePrimitive.GroupedParts
+        groupBy={groupPartByType({
+          reasoning: ["group-chainOfThought", "group-reasoning"],
+          "tool-call": ["group-chainOfThought", "group-tool"],
+        })}
+      >
+        {({ part, children }) => {
+          switch (part.type) {
+            case "group-chainOfThought":
+              return <div className="my-2">{children}</div>;
+            case "group-reasoning": {
+              const running = part.status.type === "running";
+              return (
+                <ReasoningRoot streaming={running}>
+                  <ReasoningTrigger active={running} />
+                  <ReasoningContent aria-busy={running}>
+                    <ReasoningText>{children}</ReasoningText>
+                  </ReasoningContent>
+                </ReasoningRoot>
+              );
+            }
+            case "group-tool":
+              return (
+                <ToolGroupRoot>
+                  <ToolGroupTrigger
+                    count={part.indices.length}
+                    active={part.status.type === "running"}
+                  />
+                  <ToolGroupContent>{children}</ToolGroupContent>
+                </ToolGroupRoot>
+              );
+            case "text":
+              return <MarkdownText />;
+            case "reasoning":
+              return <Reasoning {...part} />;
+            case "tool-call":
+              return part.toolUI ?? <ToolFallback {...part} />;
+            case "indicator":
+              return <div>请稍等...</div>;
+            default:
+              return null;
+          }
+        }}
+      </MessagePrimitive.GroupedParts>
+    </MessagePrimitive.Root>
+  );
+};
 ```
 
-多线程场景用 `useRemoteThreadListRuntime` 把 thread list adapter 与 per-thread `useChatRuntime` 组合。完整 schema、路由与 Drizzle 示例见 [Custom thread persistence](https://www.assistant-ui.com/docs/integrations/persistence/custom-adapter)。
+`groupPartByType` 把消息部件的 `type` 映射为一条分组路径，路径从外层写到内层。
 
-**怎么决策：**
+上面的配置会让 `reasoning` 和 `tool-call` 共享外层 `group-chainOfThought`，再分别进入 `group-reasoning` 和 `group-tool`。`MessagePrimitive.GroupedParts` 会保持消息原有顺序，把相邻且共享同一层分组键的部件合并。
 
-| 需求                         | 方案                                           |
-| ---------------------------- | ---------------------------------------------- |
-| 单线程、原型                 | 默认内存态，无需 adapter                       |
-| 托管、快速上线               | Assistant Cloud                                |
-| 线程与用户数据同库、合规自控 | RemoteThreadListAdapter + ThreadHistoryAdapter |
-| 仅 AI SDK hook、自有 UI      | Cloud 的 `useCloudChat` 或自建 history         |
+没有配置的 `text` 等类型则不分组。
+
+假设一条消息依次包含思考、工具调用和正式回复，组合后的结构与页面中的上下顺序如下：
+
+```mermaid
+flowchart TB
+  subgraph Chain["group-chainOfThought<br/><br/>"]
+    direction TB
+    Reasoning["group-reasoning<br/>reasoning × N"]
+    Tool["group-tool<br/>tool-call × N"]
+    Reasoning --> Tool
+  end
+
+  Text["text · 正式回复"]
+  Tool --> Text
+```
+
+完整示例见官方 [with-chain-of-thought](https://github.com/assistant-ui/assistant-ui/tree/main/examples/with-chain-of-thought)。
+
+### 后端
+
+前端只是在有 `reasoning` 时把它折起来。若后端模型不产生思考内容，前端也不会展示思考链。
+
+OpenAI 官方模型用内置 provider 即可。但是使用 **千问模型** 时，需要安装 `@ai-sdk/openai-compatible`，并在请求体里打开非标准字段 `enable_thinking`（OpenAI 协议本身没有这个参数）。
+
+```ts
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
+
+// 创建带思考能力的 model
+const qwen = createOpenAICompatible({
+  name: "qwen",
+  apiKey: process.env.DASHSCOPE_API_KEY,
+  baseURL: process.env.DASHSCOPE_BASE_URL,
+  includeUsage: true,
+  transformRequestBody: body => ({
+    ...body,
+    enable_thinking: process.env.DASHSCOPE_ENABLE_THINKING !== "false",
+    incremental_output: true
+  })
+});
+
+// 或者使用 `streamText` 的 `providerOptions` 属性
+const qwen = createOpenAICompatible({
+  name: "qwen",
+  apiKey: process.env.DASHSCOPE_API_KEY,
+  baseURL: process.env.DASHSCOPE_BASE_URL
+});
+
+const result = streamText({
+  model: qwen(process.env.QWEN_MODEL),
+  providerOptions: {
+    qwen: {
+      enable_thinking: true
+    }
+  },
+  stopWhen: stepCountIs(10)
+});
+```
+
+也可以使用 [@ai-sdk/alibaba](https://github.com/vercel/ai/tree/main/packages/alibaba) 代替 [@ai-sdk/openai-compatible](https://github.com/vercel/ai/tree/main/packages/openai-compatible)，开启 [enableThinking](https://github.com/vercel/ai/tree/main/packages/alibaba#thinking-mode-example-qwen-reasoning-models) 属性。
 
 ## References
 
@@ -749,6 +772,7 @@ const runtime = useChatRuntime({ adapters: { history: historyAdapter } });
 - [Picking a Runtime](https://www.assistant-ui.com/docs/runtimes/pick-a-runtime)
 - [Primitives 概览](https://www.assistant-ui.com/docs/primitives)
 - [Tool UI](https://www.assistant-ui.com/docs/tools/tool-ui)
+- [Chain of Thought UI](https://www.assistant-ui.com/docs/guides/chain-of-thought)
 - [Cloud Persistence](https://www.assistant-ui.com/docs/cloud)
 - [Custom thread persistence](https://www.assistant-ui.com/docs/integrations/persistence/custom-adapter)
 - [Hooks API Reference](https://www.assistant-ui.com/docs/api-reference/hooks)

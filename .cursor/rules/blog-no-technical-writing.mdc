@@ -1,0 +1,21 @@
+---
+description: Blog writing conventions for docs/blog posts
+globs: docs/blog/**
+alwaysApply: false
+---
+
+# Blog writing
+
+- Do **not** use the `technical-writing` skill for blog posts under `docs/blog/`.
+- That skill targets Vercel eve docs, not this VuePress personal blog.
+- Follow nearby posts (e.g. `docs/blog/2026-08-22-copilotkit.md`) for tone, structure, and Markdown conventions instead.
+
+## Section order for how-to subsections
+
+When a subsection needs installs (npm / CLI):
+
+1. Short intro (1–3 sentences)
+2. **安装依赖** first (`npm install` / `npx … add …`)
+3. Then env, code, and explanation
+
+Do not bury install steps inside numbered lists after env or code samples.
