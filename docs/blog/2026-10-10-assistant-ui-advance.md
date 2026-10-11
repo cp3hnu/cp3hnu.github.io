@@ -8,14 +8,14 @@ tags:
 date: 2026-10-10
 author: cp3hnu
 location: ChangSha
-summary: 本文承接 Assistant UI 入门篇，进一步介绍 Mentions、Slash Commands、工具、Interactables，并实现消息和会话历史持久化，让聊天界面从基础对话走向可协作、可恢复的完整应用。
+summary: 本文承接 Assistant UI 入门篇，进一步介绍 Mentions、Slash Commands、工具、Generative UI 与 Interactables，让聊天界面从基础对话走向可协作的智能应用。
 ---
 
 # Assistant-UI 进阶
 
-上一篇 [Assistant UI - The composable AI chat UI toolkit](/blog/2026-09-02-assistant-ui.html) 介绍了 Assistant UI 的整体架构、Primitives、Runtime，以及如何接入 AI SDK 构建一个可以流式对话的聊天界面。不过，基础对话只是起点：当聊天界面真正进入应用，还需要更自然的上下文引用、更快捷的指令入口、可视化的工具调用、需要用户参与的人机协作，以及刷新页面后仍能继续的会话历史。
+上一篇 [Assistant UI - The composable AI chat UI toolkit](/2026/09/02/assistant-ui) 介绍了 Assistant UI 的整体架构、Primitives、Runtime，以及如何接入 AI SDK 构建一个可以流式对话的聊天界面。不过，基础对话只是起点：当聊天界面真正进入应用，还需要更自然的上下文引用、更快捷的指令入口、可视化的工具调用，以及需要用户参与的人机协作。
 
-本篇在上一篇的基础上继续向前，依次介绍 Mentions、Slash Commands、工具、Interactables，以及消息和会话历史持久化，让 Assistant UI 从一个「能聊天」的界面，逐步变成一个可以融入真实业务流程的智能助手。
+本篇在上一篇的基础上继续向前，依次介绍 Mentions、Slash Commands、工具、Generative UI 与 Interactables，让 Assistant UI 从一个「能聊天」的界面，逐步变成一个可以融入真实业务流程的智能助手。
 
 ## Mentions
 
@@ -1042,6 +1042,10 @@ export const workflowFilePersistence = {
 ### 实现效果
 
 ![](./assets/assistant-ui-mentions-interactable.gif)
+
+## Demo
+
+[GitHub - assistant-ui-demo](https://github.com/cp3hnu/assistant-ui-demo)
 
 ## References
 

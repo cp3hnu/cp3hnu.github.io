@@ -13,7 +13,7 @@ summary: Assistant UI 是由聊天原语、Runtime 和后端适配层组成的 A
 
 # Assistant UI - The composable AI chat UI toolkit
 
-上一篇 [CopilotKit - The frontend stack for Agent](/blog/2026-08-22-copilotkit.html) 介绍了如何把 Agent 接到产品里—读取页面上下文、调用前端工具、渲染 React 组件、暂停等待用户审批。CopilotKit 是产品的智能助手。
+上一篇 [CopilotKit - The frontend stack for Agent](/2026/08/22/copilotkit) 介绍了如何把 Agent 接到产品里—读取页面上下文、调用前端工具、渲染 React 组件、暂停等待用户审批。CopilotKit 是产品的智能助手。
 
 当你的核心需求变成**构建精细、可组合的聊天界面** 时，[Assistant UI](https://www.assistant-ui.com/) 会更合适。它提供 Thread、Message、Composer 等聊天 primitive，以及连接 Vercel AI SDK、LangGraph、AG-UI 或自定义后端的 Runtime 层，让你像搭积木一样组装 ChatGPT 风格的对话体验。
 
