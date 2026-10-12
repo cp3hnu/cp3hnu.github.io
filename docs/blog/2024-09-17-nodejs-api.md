@@ -581,25 +581,16 @@ process.on('SIGTERM', () => {
 - [**Fastify**](https://fastify.dev/)
   - **简介**: Fastify 是一个专注于性能的框架，与 Express 类似但更快，且在设计上提供更好的开发体验。
   - **特点**: 支持 JSON Schema 验证，插件系统强大，针对性能优化，适合需要高并发的场景。
-- [**Hapi**](https://hapi.dev/)
-  - **简介**: Hapi 是一个用于构建强大应用和 API 的企业级框架，广泛用于构建大型项目。
-  - **特点**: 提供一套丰富的插件系统，可以很方便地进行身份验证、输入验证、缓存等操作。Hapi 的配置性很强，非常适合需要严格控制的项目。
-
-- [**Sails.js**](https://sailsjs.com/)
-  - **简介**: Sails.js 是一个 MVC 框架，灵感来自 Ruby on Rails。它基于 Express 构建，但提供更丰富的功能，尤其适合实时应用。
-  - **特点**: 提供水手式蓝图（Blueprint），让 API 开发更加快捷。支持实时功能，内置与 WebSocket 集成。
-- [**Feathers.js**](https://feathersjs.com/)
-  - **简介**: Feathers.js 是一个轻量级框架，适合构建实时应用和 RESTful API，具有很强的可扩展性。
-  - **特点**: 提供服务的概念，可以轻松添加、删除服务，同时支持与数据库（MongoDB、MySQL 等）无缝集成。
+- [**Hono**](https://hapi.dev/)
+  - **简介**: Hono 是一个轻量、快速的 Web 框架，支持 Node.js、Bun、Deno、Cloudflare Workers 等多种 JavaScript 运行时，提供简洁的 API 设计和良好的 TypeScript 支持。
+  - **特点**: 轻量高性能，支持 TypeScript、路由管理、中间件和 JSON Schema 验证，具有跨运行时兼容性，适合构建 REST API、边缘计算服务和轻量级后端应用。
 
 **框架选择建议：**
 
 - 如果你需要一个简单、快速的应用，可以考虑 **Express**、 **Koa** 或 **Fastify**。
-- 对于大型项目或有企业级需求，**Hapi** 和 **NestJS** 是不错的选择。
-- 如果你习惯于 MVC 架构，**Sails.js** 是一个理想的选择。
-- **Feathers.js** 是构建实时应用和 RESTful API 的好选择。
+- 对于大型项目或有企业级需求，**Hono** 和 **NestJS** 是不错的选择。
 
-从 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails) 来看，下载量方面 **Express** 遥遥领先，多出一个数量级，然后依次是 **NestJS**、 **Koa** 和 **Fastify**。GitHub Star 方面 **NestJS** 最多，**Express** 紧随其后。根据 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)，推荐 **Express** 和 **NestJS**。
+从 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails) 来看，下载量方面 **Express** 遥遥领先，多出一个数量级，然后是 **Hono**。GitHub Star 方面 **NestJS** 最多，**Express** 紧随其后。
 
 ### 重构用户管理系统
 
@@ -689,5 +680,5 @@ GitHub: [`cp3hnu/node-server`](https://github.com/cp3hnu/node-server)
 -  [`TryGhost/sqlite3`](https://github.com/TryGhost/node-sqlite3)
 - [Express](https://expressjs.com/)
 - [Prisma vs Drizzle vs TypeORM vs Knex  vs Sequelize](https://npmtrends.com/drizzle-orm-vs-knex-vs-prisma-vs-sequelize-vs-typeorm)
-- [Express vs NestJS vs Koa vs Fastify vs Feathers vs Hapi vs Sails](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails)
+- [Express vs NestJS vs Koa vs Fastify vs Hono](https://npmtrends.com/@nestjs/core-vs-express-vs-fastify-vs-hono-vs-koa)
 - [Pg vs Postgres](https://npmtrends.com/pg-vs-postgres)
