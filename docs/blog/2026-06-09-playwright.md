@@ -239,32 +239,6 @@ $ npx playwright codegen https://playwright.dev
 
 更多详情，请参考 [Playwright - Test generator](https://playwright.dev/docs/codegen)。
 
-## 执行测试
-
-写好测试文件之后，运行 `npx playwright test` 进行测试
-
-```sh
-$ npx playwright test
-```
-
-还可以启动 UI 界面，进行交互式测试
-
-```sh
-$ npx playwright test --ui
-```
-
-查看测试报告
-
-```sh
-$ npx playwright show-report
-```
-
-调试测试
-
-```sh
-$ npx playwright test --debug
-```
-
 ## Test Agents
 
 如果觉得 Codegen 还不够智能，可以使用 Playwright 新推出的智能体 Test Agents：**planner**、**generator**、**healer**。
@@ -344,31 +318,190 @@ test.describe('Test group', () => {
 
 然后就可以在 Cursor 里使用 Playwright Test Agents 了
 
-### 使用 Agents
+### 流程
 
 使用 Playwright Test Agents  非常简单
 
 1. 首先使用 **planner** 生成测试计划，它将生成 markdown 文件
 
-
-
 2. 使用 **generator** 将 markdown 计划转换为 Playwright 测试文件
-
-
 
 3. 使用 **healer** 执行测试套件并自动修复失败的测试
 
+### Planner
 
+Planner agent 会探索您的应用程序，并为一个或多个场景和用户流程生成测试计划。
 
+**输入**
 
+- 向 planner agent 提出明确的要求
+- 一个 `seed.spec.ts` 文件，用于设置应用的环境信息
+- *（可选）* 产品需求文档，用于提供背景信息
 
-## 测试
+**输出**
 
+一个 `specs/basic-operations.md` Markdown 测试计划文件。
 
+比如为我的 [单词乐园应用](https://words.cp3hnu.com/) 的登录页面生成测试计划
 
+> 使用之前最好先确认 playwright-test MCP 服务可用
 
+![](./assets/playwright-planner-example.png)
 
+完成之后，生成 `specs/login.md`，文件内容大致如下：
 
+```markdown
+Test Scenarios
+1. Login page UI and navigation
+Seed: e2e/seed.spec.ts
+
+1.1. renders core login UI
+File: e2e/login/renders-core-login-ui.spec.ts
+
+Steps:
+Open the login page via the seed (http://localhost:2026/login).
+- expect: URL ends with /login
+- expect: Document title contains 登录
+- expect: Link 单词乐园 is visible and points to /
+- expect: Heading 欢迎回来 and text 登录后继续今天的学习 are visible
+- expect: Textboxes 邮箱, 密码, 验证码 are visible with placeholders 请输入邮箱 / 请输入密码 / 输入图中字符
+- expect: Button 显示密码 is present
+- expect: Captcha image (alt 验证码) and button 刷新验证码 are present
+- expect: Button 登录 is visible and enabled
+- expect: Text 还没有账号？ and link 去注册 (/register) are visible
+- expect: Footer ICP and MPS filing links are visible
+- expect: 忘记了密码？ / 去重置 are not shown on a fresh load
+```
+共 20 个场景
+
+| Suite                        | 场景数 |
+| :--------------------------- | :----- |
+| UI & navigation              | 5      |
+| Validation & captcha         | 5      |
+| Credential errors & reset    | 8      |
+| Successful login & redirects | 2      |
+
+### Generator
+
+制定测试计划之后，使用 Generator Agent 根据 Markdown 计划生成可执行的 Playwright 测试。它会在执行场景的同时实时验证选择器和断言。
+
+比如根据上面生成的 `specs/login.md` 计划文件，生成登录相关的测试
+
+![](./assets/playwright-generator-example.png)
+
+Generator Agent  最终生成
+
+```
+/Users/cp3hnu/Documents/mine/anki-words/e2e/login
+├── brand-link-navigates-home.spec.ts
+├── callback-url-keeps-login-ui.spec.ts
+├── captcha-can-be-refreshed.spec.ts
+├── empty-submit-html5-validation.spec.ts
+├── footer-filing-links.spec.ts
+├── invalid-reset-otp-shows-error.spec.ts
+├── password-visibility-toggle.spec.ts
+├── register-link-opens-register.spec.ts
+├── renders-core-login-ui.spec.ts
+├── reset-button-disabled-without-email.spec.ts
+├── reset-rejects-mismatched-passwords.spec.ts
+├── reset-rejects-weak-password.spec.ts
+├── reset-resend-cooldown.spec.ts
+├── return-to-login-from-reset.spec.ts
+├── start-password-reset.spec.ts
+├── submit-pending-state.spec.ts
+├── successful-login-honors-callback-url.spec.ts
+├── successful-login-redirects-home.spec.ts
+├── wrong-captcha-shows-error.spec.ts
+└── wrong-credentials-show-reset-hint.spec.ts
+```
+
+生成的文件内容大致如下：
+
+```ts
+// spec: specs/login.md
+// seed: e2e/seed.spec.ts
+
+import { test, expect } from "@playwright/test";
+
+test.describe("Login page UI and navigation", () => {
+  test("brand link navigates home", async ({ page }) => {
+    await page.goto("http://localhost:2026/login");
+
+    // 1. Click the 单词乐园 brand link.
+    await page.getByRole("link", { name: "单词乐园" }).click();
+    await expect(page).toHaveURL(/\/$/);
+    await expect(page.getByRole("heading", { name: "欢迎回来" })).toHaveCount(0);
+    await expect(page.getByRole("textbox", { name: "邮箱" })).toHaveCount(0);
+  });
+});
+```
+
+至此我们就可以进行测试了
+
+```sh
+$ npx playwright test e2e/login
+```
+
+如果需要提供用户/密码等账号信息，可以创建 `.env.test`（名称随意）
+
+```
+E2E_USER_EMAIL=
+E2E_USER_PASSWORD=
+```
+
+然后在 `playwright.config.ts` 加载 `.env.test` 文件即可
+
+```ts
+import dotenv from "dotenv";
+import path from "path";
+
+dotenv.config({ path: path.resolve(__dirname, ".env.test") });
+```
+
+**运行结果**
+
+![](./assets/playwright-test-result.png)
+
+### Healer
+
+当测试失败时，Healer Agent：
+
+- 重放失败的步骤
+- 检查当前用户界面，查找等效元素或流程。
+- 建议进行补丁修复（例如，定位器更新、等待时间调整、数据修复）
+- 重复运行测试，直到测试通过或触发保护机制阻止循环为止。
+
+操作上，告诉 Healer Agent 哪个测试文件失败，然后 Healer Agent 就会修复这个测试
+
+![](./assets/playwright-healer-example.png)
+
+也可以把测试错误信息直接发送给 Cursor Agent 等工具，让它修改。
+
+## 执行测试
+
+写好测试文件之后，运行 `npx playwright test` 进行测试
+
+```sh
+$ npx playwright test
+```
+
+还可以启动 UI 界面，进行交互式测试
+
+```sh
+$ npx playwright test --ui
+```
+
+调试测试
+
+```sh
+$ npx playwright test --debug
+```
+
+查看测试报告
+
+```sh
+$ npx playwright show-report
+```
 
 ## References
 

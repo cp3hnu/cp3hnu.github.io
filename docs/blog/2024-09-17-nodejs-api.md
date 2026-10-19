@@ -588,7 +588,8 @@ process.on('SIGTERM', () => {
 **框架选择建议：**
 
 - 如果你需要一个简单、快速的应用，可以考虑 **Express**、 **Koa** 或 **Fastify**。
-- 对于大型项目或有企业级需求，**Hono** 和 **NestJS** 是不错的选择。
+- 对于大型项目或有企业级需求，**NestJS** 是不错的选择。
+- 想快速开发轻量 API，兼顾 Cloudflare Workers 等部署环境，可以考虑 **Hono**。
 
 从 [npm trends](https://npmtrends.com/@feathersjs/feathers-vs-@nestjs/core-vs-express-vs-fastify-vs-hapi-vs-koa-vs-sails) 来看，下载量方面 **Express** 遥遥领先，多出一个数量级，然后是 **Hono**。GitHub Star 方面 **NestJS** 最多，**Express** 紧随其后。
 
@@ -668,7 +669,6 @@ GitHub: [`cp3hnu/node-server`](https://github.com/cp3hnu/node-server)
 - [【Node.js】如何调试你的 Node.js 代码？](https://juejin.cn/post/7035954397012033566)
 - [`ChromeDevTools/devtools-frontend`](https://github.com/ChromeDevTools/devtools-frontend)
 - [Chrome DevTools](https://developer.chrome.com/docs/devtools)
-
 - [Node入门](https://www.nodebeginner.org/index-zh-cn.html)
 -  [`ljharb/qs`](https://github.com/ljharb/qs) 
 - [`sindresorhus/query-string`](https://github.com/sindresorhus/query-string)
@@ -679,6 +679,4 @@ GitHub: [`cp3hnu/node-server`](https://github.com/cp3hnu/node-server)
 -  [Sequelize](https://sequelize.org/)
 -  [`TryGhost/sqlite3`](https://github.com/TryGhost/node-sqlite3)
 - [Express](https://expressjs.com/)
-- [Prisma vs Drizzle vs TypeORM vs Knex  vs Sequelize](https://npmtrends.com/drizzle-orm-vs-knex-vs-prisma-vs-sequelize-vs-typeorm)
-- [Express vs NestJS vs Koa vs Fastify vs Hono](https://npmtrends.com/@nestjs/core-vs-express-vs-fastify-vs-hono-vs-koa)
 - [Pg vs Postgres](https://npmtrends.com/pg-vs-postgres)

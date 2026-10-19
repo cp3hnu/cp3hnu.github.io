@@ -37,10 +37,10 @@ $ npx shadcn@latest add @assistant-ui/composer-trigger-popover @assistant-ui/dir
 
 命令会把 `composer-trigger-popover.aui.tsx`、`directive-text.aui.tsx` 复制到项目中，可以继续修改样式和交互。
 
-然后安装 `@assistant-ui/react-lexical` 包
+然后安装 `@assistant-ui/react-lexical` 以及相关依赖包
 
 ```sh
-$ npm install @assistant-ui/react-lexical
+$ npm install @assistant-ui/react-lexical lexical @lexical/react @lexical/utils @lexical/history @lexical/plain-text
 ```
 
 ### 在 IDE 中引用文件
